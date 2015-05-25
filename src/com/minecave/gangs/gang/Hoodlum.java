@@ -27,18 +27,63 @@ public class Hoodlum {
         return false;
     }
 
-    public Hoodlum getHoodlum(UUID playerUUID){
-        if(){
-
-        }
+    /**
+     * @return returns the hoodlum of that uuid, otherwise--
+     * it returns null if it cannot find the hoodlum
+     * for whateverthefuck reason
+     */
+    public static Hoodlum getHoodlum(UUID playerUUID){
+        if(hoodlums.containsKey(playerUUID))
+            return hoodlums.get(playerUUID);
+        return null;
     }
 
 
-
+    //-----------------------HOODLUM OBJECT---------------------------------------------------
     private final UUID playerUUID;
     private int power, maxPower;
 
     public Hoodlum(UUID playerUUID) {
         this.playerUUID = playerUUID;
     }
+
+    /**
+     * Loads things from the database
+     */
+    private void loadPlayerFromUuid(){
+
+    }
+
+    public int getPower(){
+        return this.power;
+    }
+
+    public void setPower(int amount){
+        power = amount;
+    }
+
+    public int getMaxPower(){
+        return this.maxPower;
+    }
+
+    public void addPower(int amount){
+        addPower(amount, false);
+    }
+
+    public void addPower(int amount, boolean force){
+        power = (power + amount > maxPower ? (force ? amount+power : maxPower) : amount+power);
+    }
+
+    public void removePower(int amount){
+        removePower(amount, false);
+    }
+
+    public void removePower(int amount, boolean force){
+        power = (power - amount < -maxPower ? (force ? power-amount : maxPower) : power-amount);
+    }
+
+    public Gang getGang(){
+
+    }
+
 }
