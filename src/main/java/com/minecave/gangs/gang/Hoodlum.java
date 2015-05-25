@@ -9,6 +9,7 @@ import java.util.UUID;
  */
 public class Hoodlum {
 
+    //NO just fucking NO. gtfo with ur static
     private static final Map<UUID, Hoodlum> hoodlums = new HashMap<>();
 
     public static boolean removeHoodlum(UUID playerUUID){
