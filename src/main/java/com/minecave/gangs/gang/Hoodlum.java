@@ -23,6 +23,9 @@ public class Hoodlum {
     @Getter
     @Setter
     private Gang gang;
+    @Getter
+    @Setter
+    private GangRole role;
 
     public Hoodlum(UUID playerUUID) {
         this.playerUUID = playerUUID;
