@@ -74,5 +74,13 @@ public class GangCoordinator {
         }
         return null;
     }
+
+    public boolean gangExists(String name){
+        return gangMap.containsKey(name.toLowerCase());
+    }
+
+    public Gang getGang(String name){
+        return gangMap.get(name.toLowerCase());
+    }
 }
 
