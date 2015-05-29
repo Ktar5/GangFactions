@@ -66,6 +66,14 @@ public class Hoodlum {
         return gang != null;
     }
 
+    public boolean hasRole(GangRole role){
+        if(this.role.rank >= role.rank){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public int getMinPower() {
         return -maxPower;
     }
