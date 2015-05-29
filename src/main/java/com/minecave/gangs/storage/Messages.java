@@ -21,8 +21,8 @@ public class Messages {
     }
 
     public static String get(String key){
-        if(!messages.containsKey(key)){
-        }
+        if(!messages.containsKey(key))
+            Gangs.getInstance().getMessages().set(key, "THIS IS THE DEFAULT VALUE PLEZ CHANGE EET", true);
         return messages.get(key);
     }
 
