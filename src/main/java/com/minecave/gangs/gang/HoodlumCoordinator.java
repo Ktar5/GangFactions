@@ -10,6 +10,7 @@ package com.minecave.gangs.gang;
 
 import com.minecave.gangs.Gangs;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -44,14 +45,19 @@ public class HoodlumCoordinator {
         return false;
     }
 
-    @Deprecated
-    public Hoodlum getHoodlum(String playerName){return null;}
-
     public Hoodlum getHoodlum(UUID playerUUID) {
         return hoodlumMap.get(playerUUID);
     }
 
     public Hoodlum getHoodlum(Player player) {
+        return hoodlumMap.get(player.getUniqueId());
+    }
+
+    public Hoodlum getHoodlum(String name) {
+        Player player = Bukkit.getPlayer(name);
+        if(player == null) {
+            return null;
+        }
         return hoodlumMap.get(player.getUniqueId());
     }
 }
