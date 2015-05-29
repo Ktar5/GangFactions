@@ -48,4 +48,12 @@ public class StringUtil {
     public static String limitString(String string, int limit) {
         return string.substring(0, Math.min(string.length(), limit));
     }
+
+    public static String replace(String input, String toReplace, String replaceWith) {
+        return input.replace(toReplace, replaceWith);
+    }
+
+    public static String replaceAndColor(String input, String toReplace, String replaceWith) {
+        return colorString(replace(input, toReplace, replaceWith));
+    }
 }

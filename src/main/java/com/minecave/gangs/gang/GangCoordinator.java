@@ -65,5 +65,14 @@ public class GangCoordinator {
             });
         }
     }
+
+    public Gang getGang(Chunk chunk) {
+        for(Gang gang : gangMap.values()) {
+            if(gang.getClaims().contains(chunk)) {
+                return gang;
+            }
+        }
+        return null;
+    }
 }
 

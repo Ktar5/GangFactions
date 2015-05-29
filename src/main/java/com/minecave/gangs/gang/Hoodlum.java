@@ -69,4 +69,11 @@ public class Hoodlum {
     public int getMinPower() {
         return -maxPower;
     }
+
+    public void sendMessage(String message) {
+        Player player = Bukkit.getPlayer(playerUUID);
+        if(player.isOnline()) {
+            player.sendMessage(message);
+        }
+    }
 }
