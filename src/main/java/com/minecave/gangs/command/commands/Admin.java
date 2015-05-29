@@ -1,5 +1,6 @@
 package com.minecave.gangs.command.commands;
 
+import com.minecave.gangs.Gangs;
 import org.bukkit.entity.Player;
 
 /**
@@ -8,7 +9,9 @@ import org.bukkit.entity.Player;
 public class Admin {
 
     public static void breakIn(Player player, String faction) {
-        
+        if(Gangs.){
+
+        }
     }
 
     public static void disband(Player player, String faction, boolean silent) {
