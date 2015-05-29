@@ -25,13 +25,27 @@ public class Misc {
      * @param gang The gang
      * @return true if the gang exists and the player has that role
      */
-    public boolean checks(Hoodlum sender, GangRole role, String gang){
+    public static boolean checks(Hoodlum sender, GangRole role, String gang){
         if(sender.hasRole(role))
-            if(Gangs.getInstance().getGangCoordinator().gangExists(gang))
+            if(checkGang(gang))
                 return true;
             else sender.sendMessage(Messages.get("gangNotExist", MsgVar.GANG.var(), gang));
         else sender.sendMessage(Messages.get("noPermission", MsgVar.ROLE.var()));
         return false;
+    }
+
+    public static boolean checkGang(String gang){
+        if(Gangs.getInstance().getGangCoordinator().gangExists(gang))
+            return true;
+        else
+            return false;
+    }
+
+    public static boolean checkRole(Hoodlum sender, GangRole role){
+        if(sender.hasRole(role))
+            return true;
+        else
+            return false;
     }
 
 }

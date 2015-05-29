@@ -49,4 +49,8 @@ public class Gangs extends JavaPlugin {
         instance = null;
     }
 
+
+    public GangCoordinator getGangCoordinator() {
+        return gangCoordinator;
+    }
 }
