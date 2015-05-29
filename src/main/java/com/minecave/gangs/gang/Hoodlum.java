@@ -17,7 +17,7 @@ public class Hoodlum {
     private final UUID playerUUID;
     @Getter
     @Setter
-    private int power;
+    private volatile int power;
     @Getter
     @Setter
     private int maxPower;
@@ -46,7 +46,7 @@ public class Hoodlum {
         addPower(amount, false);
     }
 
-    public void addPower(int amount, boolean force) {
+    public synchronized void addPower(int amount, boolean force) {
         power = (power + amount > maxPower ? (force ? amount + power : maxPower) : amount + power);
     }
 
@@ -54,7 +54,7 @@ public class Hoodlum {
         removePower(amount, false);
     }
 
-    public void removePower(int amount, boolean force) {
+    public synchronized void removePower(int amount, boolean force) {
         this.power = (power - amount < -maxPower ? (force ? power - amount : maxPower) : power - amount);
     }
 

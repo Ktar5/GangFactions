@@ -6,6 +6,11 @@ import com.minecave.gangs.storage.CustomConfig;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+
 public class Gangs extends JavaPlugin {
 
     @Getter
@@ -45,9 +50,23 @@ public class Gangs extends JavaPlugin {
 
 
     private void scheduleTimer() {
-        int minutes = configuration.get("power.time", int.class);
+        int onlineMinutes = configuration.get("power.onlineTime", int.class);
+        int offlineMinutes = configuration.get("power.offlineTime", int.class);
         this.getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
-
-        }, 0L, 20 * 60 * minutes);
+            //runs every second for offline time count
+            hoodlumCoordinator.getHoodlumMap().values().forEach(h -> {
+                Instant lastOnline = h.getLastOnline().atZone(ZoneId.systemDefault()).toInstant();
+                if(h.getPlayer().isOnline()) {
+                    if(ChronoUnit.MINUTES.between(lastOnline, Instant.now()) > onlineMinutes) {
+                        h.addPower(configuration.get("power.online", int.class));
+                        h.setLastOnline(LocalDateTime.now());
+                    }
+                    return;
+                }
+                if(ChronoUnit.MINUTES.between(lastOnline, Instant.now()) > offlineMinutes) {
+                    h.removePower(configuration.get("power.offline", int.class));
+                }
+            });
+        }, 0L, 20 * 60); //runs once a minute, should be plenty of time for computation power
     }
 }

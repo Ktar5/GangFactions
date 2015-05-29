@@ -1,5 +1,6 @@
 power:
-  time: 60 #this is in hours
+  onlineTime: 60 #this is in minutes
+  offlineTime: 60 #this is in minutes
   online: 2
   offline: 1
   deathLoss: 1

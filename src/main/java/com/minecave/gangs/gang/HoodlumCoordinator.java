@@ -18,6 +18,7 @@ import java.util.UUID;
 
 public class HoodlumCoordinator {
 
+    @Getter
     private final Map<UUID, Hoodlum> hoodlumMap;
     @Getter
     private final Gangs gangs;
