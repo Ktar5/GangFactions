@@ -9,7 +9,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Gangs extends JavaPlugin {
 
-    public static CustomConfig config, messages;
+    @Getter
+    private CustomConfig config;
+    @Getter
+    private CustomConfig messages;
 
     @Getter
     private HoodlumCoordinator hoodlumCoordinator;
@@ -17,7 +20,7 @@ public class Gangs extends JavaPlugin {
     private GangCoordinator gangCoordinator;
 
     @Getter
-    private Gangs instance = null;
+    private static Gangs instance = null;
 
     @Override
     public void onLoad() {
@@ -29,7 +32,6 @@ public class Gangs extends JavaPlugin {
         saveDefaultConfig();
         hoodlumCoordinator = new HoodlumCoordinator(this);
         gangCoordinator = new GangCoordinator(this);
-
 
         chests = new CustomConfig(getDataFolder(), "chests.yml");
         messages = new CustomConfig(getDataFolder(), "messages.yml");

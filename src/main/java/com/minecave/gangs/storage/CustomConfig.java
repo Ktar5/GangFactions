@@ -55,4 +55,15 @@ public class CustomConfig {
     public void set(String path, Object value) {
         set(path, value, false);
     }
+
+    public <T> T get(String path, Class<T> tClass) {
+        if(config.contains(path)) {
+            throw new IllegalArgumentException(path + " does not exist.");
+        }
+        Object object = config.get(path);
+        if(!tClass.isInstance(object)) {
+            throw new IllegalArgumentException(path + " is not of type " + tClass.getSimpleName());
+        }
+        return tClass.cast(object);
+    }
 }
