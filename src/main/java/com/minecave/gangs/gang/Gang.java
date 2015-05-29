@@ -54,4 +54,12 @@ public class Gang {
     public boolean isChunkClaimed(Block block) {
         return claims.stream().anyMatch(block.getChunk()::equals);
     }
+
+    public boolean isSpawnChunk(Chunk chunk) {
+        return chunk.equals(home.getChunk());
+    }
+
+    public boolean isSpawnChunk(Location location) {
+        return location.getChunk().equals(home.getChunk());
+    }
 }

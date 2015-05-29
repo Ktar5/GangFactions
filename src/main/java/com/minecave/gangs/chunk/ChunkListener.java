@@ -34,12 +34,12 @@ public class ChunkListener implements Listener {
         Chunk chunk = event.getTo().getChunk();
         Gang gang = plugin.getGangCoordinator().getGang(chunk);
         if (gang != null) {
-            player.sendMessage(StringUtil.replaceAndColor(plugin.getConfig().get("gang.territory.playerEnter", String.class), "{gang}", gang.getName()));
+            player.sendMessage(StringUtil.replaceAndColor(plugin.getMessages().get("gang.territory.playerEnter", String.class), "{gang}", gang.getName()));
         } else {
             Chunk prevChunk = event.getFrom().getChunk();
             gang = plugin.getGangCoordinator().getGang(prevChunk);
             if (gang != null) {
-                player.sendMessage(StringUtil.replaceAndColor(plugin.getConfig().get("gang.territory.playerLeave", String.class), "{gang}", gang.getName()));
+                player.sendMessage(StringUtil.replaceAndColor(plugin.getMessages().get("gang.territory.playerLeave", String.class), "{gang}", gang.getName()));
             }
         }
     }
