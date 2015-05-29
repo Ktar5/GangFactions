@@ -1,34 +1,29 @@
 package com.minecave.gangs.command.commands;
 
 import com.minecave.gangs.gang.Hoodlum;
-import com.minecave.gangs.storage.Messages;
 
 /**
  * Created by Carter on 5/27/2015.
  */
 public class Admin {
 
-    public static void breakIn(Hoodlum player, String faction) {
-        if(player.getRole().rank >= 5){
+    public static void breakIn(Hoodlum player, String gang) {
 
-        }else{
-            player.sendMessage(Messages.get("noPermission"));
-        }
     }
 
-    public static void disband(Hoodlum player, String faction, boolean silent) {
+    public static void disband(Hoodlum player, String gang, boolean silent) {
     }
 
     public static void power(Hoodlum player, String hoodlum) {
     }
 
-    public static void info(Hoodlum player, String faction) {
+    public static void info(Hoodlum player, String gang) {
     }
 
-    public static void join(Hoodlum player, String faction) {
+    public static void join(Hoodlum player, String gang) {
     }
 
-    public static void kick(Hoodlum player, String faction) {
+    public static void kick(Hoodlum player, String gang) {
     }
 
     public static void setMaxPower(Hoodlum player, String para, boolean hoodlum) {

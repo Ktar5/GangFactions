@@ -67,11 +67,7 @@ public class Hoodlum {
     }
 
     public boolean hasRole(GangRole role){
-        if(this.role.rank >= role.rank){
-            return true;
-        }else{
-            return false;
-        }
+        return this.role.ordinal() >= role.ordinal();
     }
 
     public int getMinPower() {
@@ -80,8 +76,7 @@ public class Hoodlum {
 
     public void sendMessage(String message) {
         Player player = Bukkit.getPlayer(playerUUID);
-        if(player.isOnline()) {
+        if(player.isOnline())
             player.sendMessage(message);
-        }
     }
 }
