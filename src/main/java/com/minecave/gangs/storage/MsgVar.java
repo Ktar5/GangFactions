@@ -6,7 +6,8 @@ package com.minecave.gangs.storage;
 public enum MsgVar {
     ROLE,
     GANG,
-    PLAYER;
+    PLAYER,
+    POWER, MAX_POWER;
 
     public String var(){
         return "{" + this.toString() + "}";

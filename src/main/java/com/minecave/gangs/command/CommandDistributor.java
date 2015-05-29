@@ -17,6 +17,15 @@ import org.bukkit.entity.Player;
  */
 public class CommandDistributor implements CommandExecutor{
 
+
+    /**
+     * notes:
+     * 1). Do not pass Player objects, only hoodlums
+     * 2). Do not pass String objects only gangs
+     * 3). EVERY command has a player role checker in this method, roles are checked here and only here
+     * 4). All, with few exceptions, if statements, need to have an else counterpart that send an error message
+     *
+     */
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String something, String[] args) {
         if(sender instanceof Player){
@@ -85,11 +94,11 @@ public class CommandDistributor implements CommandExecutor{
                     switch (args[0].toLowerCase()){
                         case "disband": //ADMIN
                             if(!Misc.checks(player, GangRole.SERVER_ADMIN, args[1].toLowerCase())) break;
-                            Admin.disband(player, args[1].toLowerCase(), false);
+                            Admin.disband(player, Misc.getGang(args[1].toLowerCase()), false);
                             break;
                         case "silentdisband": //ADMIN
                             if(!Misc.checks(player, GangRole.SERVER_ADMIN, args[1].toLowerCase())) break;
-                            Admin.disband(player, args[1].toLowerCase(), true);
+                            Admin.disband(player, Misc.getGang(args[1].toLowerCase()), true);
                             break;
                         case "mod":
                             if(!Misc.checksAndPlayer(player, GangRole.SUPER_MODERATOR, args[1].toLowerCase())) break;

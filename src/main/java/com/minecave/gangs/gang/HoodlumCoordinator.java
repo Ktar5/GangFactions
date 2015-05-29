@@ -44,14 +44,9 @@ public class HoodlumCoordinator {
         return false;
     }
 
-    /**
-     * @return returns the hoodlum of that uuid, otherwise--
-     * it returns null if it cannot find the hoodlum
-     * for whateverthefuck reason
-     * <p/>
-     * ktar: there's no reason for a containsKey check, get returns null if the map doesn't have said key
-     * its a basic hashmap so its not gonna NPE as its not restricted
-     */
+    @Deprecated
+    public Hoodlum getHoodlum(String playerName){return null;}
+
     public Hoodlum getHoodlum(UUID playerUUID) {
         return hoodlumMap.get(playerUUID);
     }

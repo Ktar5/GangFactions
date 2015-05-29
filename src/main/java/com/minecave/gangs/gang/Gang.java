@@ -1,5 +1,7 @@
 package com.minecave.gangs.gang;
 
+import com.minecave.gangs.command.commands.Management;
+import com.minecave.gangs.command.commands.Misc;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Chunk;
@@ -82,5 +84,25 @@ public class Gang {
             }
         }
         return false;
+    }
+
+
+    /*
+    needs to modify the player value to include the gang aswell
+     */
+    //TODO
+    public void addPlayer(Hoodlum player) {
+        if(!hasPlayer(player.getPlayer()))
+            player.setRole(GangRole.MEMBER);
+    }
+
+    //todo
+    public void removePlayer(Hoodlum player){
+        if(hasPlayer(player.getPlayer())){
+            player.setRole(GangRole.GANGLESS);
+            if(Misc.checkRole(player, GangRole.LEADER)){
+                Management.disband(player);
+            }
+        }
     }
 }

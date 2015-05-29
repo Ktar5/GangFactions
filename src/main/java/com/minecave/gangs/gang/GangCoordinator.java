@@ -9,7 +9,10 @@
 package com.minecave.gangs.gang;
 
 import com.minecave.gangs.Gangs;
+import com.minecave.gangs.storage.Messages;
+import com.minecave.gangs.storage.MsgVar;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -50,7 +53,7 @@ public class GangCoordinator {
         }
     }
 
-    public void disbandGang(String name) {
+    public void disbandGang(String name, boolean silent) {
         String keyName = name.toLowerCase();
         if (gangMap.containsKey(keyName)) {
             Gang gang = gangMap.remove(keyName);
@@ -58,6 +61,10 @@ public class GangCoordinator {
                 h.setGang(null);
                 h.setRole(GangRole.GANGLESS);
             });
+            if(!silent){
+                Bukkit.getServer().broadcastMessage(Messages.get("disbandFaction",
+                        MsgVar.GANG.var(), gang.getName()));
+            }
         }
     }
 
