@@ -1,0 +1,3 @@
+gang:
+  territory:
+    playerEnterChunk: "You entered {gang}'s territory"
