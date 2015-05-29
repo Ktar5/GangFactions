@@ -1,9 +1,11 @@
 package com.minecave.gangs.command;
 
+import com.minecave.gangs.Gangs;
 import com.minecave.gangs.command.commands.Admin;
 import com.minecave.gangs.command.commands.Management;
 import com.minecave.gangs.command.commands.Misc;
 import com.minecave.gangs.command.commands.User;
+import com.minecave.gangs.gang.Hoodlum;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +27,8 @@ public class CommandDistributor implements CommandExecutor{
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String something, String[] args) {
         if(sender instanceof Player){
-            Player player = (Player) sender;
+            Player p = (Player) sender;
+            Hoodlum player = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(p);
             switch(args.length){
                 case 0:
                     Misc.showHelp(player);

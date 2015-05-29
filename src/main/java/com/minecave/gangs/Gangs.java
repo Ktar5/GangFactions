@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Gangs extends JavaPlugin {
 
     @Getter
-    private CustomConfig config;
+    private CustomConfig configuration;
     @Getter
     private CustomConfig messages;
 
@@ -32,7 +32,7 @@ public class Gangs extends JavaPlugin {
         hoodlumCoordinator = new HoodlumCoordinator(this);
         gangCoordinator = new GangCoordinator(this);
 
-        config = new CustomConfig(getDataFolder(), "config.yml");
+        configuration = new CustomConfig(getDataFolder(), "config.yml");
         messages = new CustomConfig(getDataFolder(), "messages.yml");
 
     }

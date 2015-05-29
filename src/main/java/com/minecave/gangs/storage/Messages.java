@@ -15,12 +15,14 @@ public class Messages {
     private static Map<String, String> messages = new HashMap<>();
 
     public static void loadMessages(){
-        for(String key : Gangs.messages.getConfig().getKeys(false)) {
-            messages.put(key, StringUtil.colorString(Gangs.messages.getConfig().getString(key)));
+        for(String key : Gangs.getInstance().getMessages().getConfig().getKeys(false)) {
+            messages.put(key, StringUtil.colorString(Gangs.getInstance().getMessages().getConfig().getString(key)));
         }
     }
 
     public static String get(String key){
+        if(!messages.containsKey(key)){
+        }
         return messages.get(key);
     }
 

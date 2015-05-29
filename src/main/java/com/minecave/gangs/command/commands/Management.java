@@ -1,44 +1,44 @@
 package com.minecave.gangs.command.commands;
 
-import org.bukkit.entity.Player;
+import com.minecave.gangs.gang.Hoodlum;
 
 /**
  * Created by Carter on 5/27/2015.
  */
 public class Management {
-    public static void disband(Player player) {
+    public static void disband(Hoodlum player) {
 
     }
 
-    public static void claim(Player player) {
+    public static void claim(Hoodlum player) {
 
     }
 
-    public static void unclaim(Player player) {
+    public static void unclaim(Hoodlum player) {
 
     }
 
-    public static void unclaimAll(Player player) {
+    public static void unclaimAll(Hoodlum player) {
 
     }
 
 
-    public static void setHome(Player player) {
+    public static void setHome(Hoodlum player) {
 
     }
 
-    public static void kick(Player player, String para) {
+    public static void kick(Hoodlum player, String para) {
     }
 
-    public static void invite(Player player, String para) {
+    public static void invite(Hoodlum player, String para) {
     }
 
-    public static void supermod(Player player, String para) {
+    public static void supermod(Hoodlum player, String para) {
     }
 
-    public static void mod(Player player, String para) {
+    public static void mod(Hoodlum player, String para) {
     }
 
-    public static void leader(Player player, String para) {
+    public static void leader(Hoodlum player, String para) {
     }
 }
