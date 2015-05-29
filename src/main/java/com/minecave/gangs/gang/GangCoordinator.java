@@ -31,6 +31,14 @@ public class GangCoordinator {
 
     //probably should fix the logic here, its kinda backwards lol
 
+    public boolean isChunkClaimed(Chunk chunk) {
+        return gangMap.values().stream().anyMatch(g -> g.isChunkClaimed(chunk));
+    }
+
+    public boolean isChunkClaimed(Block block) {
+        return gangMap.values().stream().anyMatch(g -> g.isChunkClaimed(block));
+    }
+
     public boolean isChunkAvailable(Chunk chunk) {
         return gangMap.values().stream().noneMatch(g -> g.isChunkClaimed(chunk));
     }

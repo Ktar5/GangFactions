@@ -8,6 +8,7 @@
  */
 package com.minecave.gangs.chunk;
 
+import com.minecave.gangs.Gangs;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +17,12 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class ChunkListener implements Listener {
 
+    private final Gangs plugin;
+
+    public ChunkListener(Gangs plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onChunkMove(PlayerMoveEvent event) {
         if(event.getFrom().getChunk().equals(event.getTo().getChunk())) {
@@ -23,6 +30,9 @@ public class ChunkListener implements Listener {
         }
         Player player = event.getPlayer();
         Chunk chunk = event.getTo().getChunk();
-
+        if(plugin.getGangCoordinator().isChunkClaimed(chunk)) {
+            player.sendMessage();
+            return;
+        }
     }
 }
