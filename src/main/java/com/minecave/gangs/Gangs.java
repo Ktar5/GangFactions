@@ -11,7 +11,9 @@ public class Gangs extends JavaPlugin {
 
     public static CustomConfig config, messages;
 
+    @Getter
     private HoodlumCoordinator hoodlumCoordinator;
+    @Getter
     private GangCoordinator gangCoordinator;
 
     @Getter
