@@ -8,6 +8,8 @@
  */
 package com.minecave.gangs.gang;
 
+import com.minecave.gangs.Gangs;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -17,9 +19,12 @@ import java.util.UUID;
 public class HoodlumCoordinator {
 
     private final Map<UUID, Hoodlum> hoodlumMap;
+    @Getter
+    private final Gangs gangs;
 
-    public HoodlumCoordinator() {
+    public HoodlumCoordinator(Gangs gangs) {
         this.hoodlumMap = new HashMap<>();
+        this.gangs = gangs;
     }
 
     public boolean removeHoodlum(UUID playerUUID) {

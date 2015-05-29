@@ -2,7 +2,6 @@ package com.minecave.gangs.gang;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -54,14 +53,5 @@ public class Gang {
 
     public boolean isChunkClaimed(Block block) {
         return claims.stream().anyMatch(block.getChunk()::equals);
-    }
-
-    public boolean isOnline() {
-        for (Hoodlum h : members) {
-            if (Bukkit.getPlayer(h.getPlayerUUID()).isOnline()) {
-                return true;
-            }
-        }
-        return false;
     }
 }

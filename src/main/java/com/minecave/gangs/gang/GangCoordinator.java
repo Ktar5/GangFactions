@@ -8,9 +8,11 @@
  */
 package com.minecave.gangs.gang;
 
+import com.minecave.gangs.Gangs;
 import lombok.Getter;
 import org.bukkit.Chunk;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,9 +21,12 @@ public class GangCoordinator {
 
     @Getter
     private final Map<String, Gang> gangMap;
+    @Getter
+    private final Gangs gangs;
 
-    public GangCoordinator() {
+    public GangCoordinator(Gangs gangs) {
         gangMap = new HashMap<>();
+        this.gangs = gangs;
     }
 
     //probably should fix the logic here, its kinda backwards lol
@@ -32,6 +37,25 @@ public class GangCoordinator {
 
     public boolean isChunkAvailable(Block block) {
         return gangMap.values().stream().noneMatch(g -> g.isChunkClaimed(block));
+    }
+
+    public void createGang(String name, Player owner) {
+        String keyName = name.toLowerCase();
+        if (!gangMap.containsKey(keyName)) {
+            Gang gang = new Gang(name, owner);
+            gangMap.put(keyName, gang);
+        }
+    }
+
+    public void disbandGang(String name) {
+        String keyName = name.toLowerCase();
+        if (gangMap.containsKey(keyName)) {
+            Gang gang = gangMap.remove(keyName);
+            gang.getMembers().forEach(h -> {
+                h.setGang(null);
+                h.setRole(GangRole.GANGLESS);
+            });
+        }
     }
 }
 

@@ -1,5 +1,7 @@
 package com.minecave.gangs;
 
+import com.minecave.gangs.gang.GangCoordinator;
+import com.minecave.gangs.gang.HoodlumCoordinator;
 import com.minecave.gangs.storage.CustomConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -7,19 +9,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Gangs extends JavaPlugin {
 
     public static CustomConfig config, messages;
-    private static Gangs instance = null;
 
-    public static Gangs getInstance() {
-        return instance;
-    }
-
-    @Override
-    public void onLoad() {
-        instance = this;
-    }
+    private HoodlumCoordinator hoodlumCoordinator;
+    private GangCoordinator gangCoordinator;
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
+        hoodlumCoordinator = new HoodlumCoordinator(this);
+        gangCoordinator = new GangCoordinator(this);
+
+
         chests = new CustomConfig(getDataFolder(), "chests.yml");
         messages = new CustomConfig(getDataFolder(), "messages.yml");
 
