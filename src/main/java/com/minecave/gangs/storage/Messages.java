@@ -21,8 +21,11 @@ public class Messages {
     }
 
     public static String get(String key){
-        if(!messages.containsKey(key))
-            Gangs.getInstance().getMessages().set(key, "THIS IS THE DEFAULT VALUE PLEZ CHANGE EET", true);
+        if(!messages.containsKey(key)) {
+            String s ="This_value_doesn't_exist,_and_doesn't_have_any_arguments";
+            Gangs.getInstance().getMessages().set(key, s, true);
+            return s;
+        }
         return messages.get(key);
     }
 
@@ -32,13 +35,24 @@ public class Messages {
         if(values.length % 2 != 0){
             return "Error while trying to get string " + key + "//n A variable doesn't have a pair";
         }else{
-            String string = get(key);
-            int n = 1;
-            while(n <= values.length){
-                string.replaceAll(values[n-1], values[n]);
-                n += 2;
+            if(!messages.containsKey(key)) {
+                String s = "This_value_doesn't_exist,_and_has_the_following_arguments:";
+                int n = 1;
+                while(n <= values.length){
+                    s += "_" + values[n-1];
+                    n += 2;
+                }
+                Gangs.getInstance().getMessages().set(key, s, true);
+                return "Generated default!";
+            }else {
+                String s = messages.get(key);
+                int n = 1;
+                while (n <= values.length) {
+                    s.replaceAll(values[n - 1], values[n]);
+                    n += 2;
+                }
+                return s;
             }
-            return string;
         }
     }
 
