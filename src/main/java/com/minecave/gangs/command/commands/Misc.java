@@ -1,7 +1,6 @@
 package com.minecave.gangs.command.commands;
 
 import com.minecave.gangs.Gangs;
-import com.minecave.gangs.gang.Gang;
 import com.minecave.gangs.gang.GangRole;
 import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.storage.Messages;
@@ -30,38 +29,11 @@ public class Misc {
      */
     public static boolean checks(Hoodlum sender, GangRole role, String gang){
         if(sender.hasRole(role))
-            if(checkGang(gang))
+            if(Gangs.getInstance().getGangCoordinator().gangExists(gang))
                 return true;
             else sender.sendMessage(Messages.get("gangNotExist", MsgVar.GANG.var(), gang));
         else sender.sendMessage(Messages.get("noPermission", MsgVar.ROLE.var()));
         return false;
-    }
-
-    public static Gang getGang(String name){
-        if(checkGang(name))
-            return Gangs.getInstance().getGangCoordinator().getGang(name);
-        return null;
-    }
-
-    public static boolean checkGang(String gang){
-        if(Gangs.getInstance().getGangCoordinator().gangExists(gang))
-            return true;
-        else
-            return false;
-    }
-
-    public static boolean checkRole(Hoodlum sender, GangRole role){
-        if(sender.hasRole(role))
-            return true;
-        else
-            return false;
-    }
-
-    public static Hoodlum getHoodlum(String playerName){
-        if(Bukkit.getPlayer(playerName) != null)
-            return Gangs.getInstance().getHoodlumCoordinator().getHoodlum(Bukkit.getPlayer(playerName));
-        else
-            return Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName);
     }
 
     @Deprecated

@@ -1,16 +1,18 @@
 package com.minecave.gangs.command.commands;
 
+import com.minecave.gangs.Gangs;
 import com.minecave.gangs.gang.GangRole;
 import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
+import org.bukkit.Bukkit;
 
 /**
  * Created by Carter on 5/27/2015.
  */
 public class User {
     public static void leave(Hoodlum player) {
-        if(Misc.checkRole(player, GangRole.LEADER)){
+        if(player.hasRole(GangRole.LEADER)){
             Management.disband(player);
         }else{
             player.sendMessage(Messages.get("leaveGang", MsgVar.GANG.var(), player.getGang().getName()));
@@ -29,14 +31,26 @@ public class User {
     }
 
     public static void power(Hoodlum player) {
-
+        player.sendMessage(Messages.get("powerSelf",
+                MsgVar.POWER.var(), String.valueOf(player.getPower()),
+                MsgVar.MAX_POWER.var(), String.valueOf(player.getMaxPower())));
     }
 
     public static void info(Hoodlum player) {
 
     }
 
-    public static void create(Hoodlum player, String arg) {
+    public static void create(Hoodlum player, String gangname) {
+        if(!player.hasRole(GangRole.MEMBER)){
+            if(!Gangs.getInstance().getGangCoordinator().gangExists(gangname)){
+                Gangs.getInstance().getGangCoordinator().createGang(gangname, player.getPlayer());
+                Bukkit.getServer().broadcastMessage(Messages.get("gangCreated",
+                        MsgVar.GANG.var(), gangname,
+                        MsgVar.PLAYER.var(), player.getPlayer().getName()));
+            }else player.sendMessage(Messages.get("gangExists", MsgVar.GANG.var(), gangname));
+        }else player.sendMessage(Messages.get("alreadyInGang",
+                MsgVar.GANG.var(), player.getGang().getName(),
+                MsgVar.ROLE.var(), player.getRole().toString()));
     }
 
     public static void acceptInvite(Hoodlum player, String para) {

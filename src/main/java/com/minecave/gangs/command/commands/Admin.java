@@ -1,5 +1,6 @@
 package com.minecave.gangs.command.commands;
 
+import com.minecave.gangs.Gangs;
 import com.minecave.gangs.gang.Gang;
 import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.storage.Messages;
@@ -21,7 +22,7 @@ public class Admin {
     }
 
     public static void disband(Hoodlum player, Gang gang, boolean silent) {
-        gang.disband(silent);
+        Gangs.getInstance().getGangCoordinator().disbandGang(gang.getName(), silent);
     }
 
     public static void power(Hoodlum player, String hoodlum) {
