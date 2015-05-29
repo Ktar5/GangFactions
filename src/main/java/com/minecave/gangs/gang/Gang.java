@@ -7,7 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -35,7 +35,7 @@ public class Gang {
     private Player owner;
     @Getter
     @Setter
-    private Date lastOnline;
+    private LocalDateTime lastOnline;
 
     public Gang(String name, Player owner) {
         //not sure but we might decide to use map later if we need key->value pairing
