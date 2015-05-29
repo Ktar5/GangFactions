@@ -43,6 +43,7 @@ public class Gangs extends JavaPlugin {
         instance = null;
     }
 
+
     private void scheduleTimer() {
         int minutes = configuration.get("power.time", int.class);
         this.getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
