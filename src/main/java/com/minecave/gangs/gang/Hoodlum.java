@@ -61,4 +61,8 @@ public class Hoodlum {
     public boolean isInGang() {
         return gang != null;
     }
+
+    public int getMinPower() {
+        return -maxPower;
+    }
 }

@@ -2,10 +2,13 @@ package com.minecave.gangs.gang;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -27,7 +30,13 @@ public class Gang {
     private String name;
     @Getter
     @Setter
+    private Location home;
+    @Getter
+    @Setter
     private Player owner;
+    @Getter
+    @Setter
+    private Date lastOnline;
 
     public Gang(String name, Player owner) {
         //not sure but we might decide to use map later if we need key->value pairing
@@ -45,5 +54,14 @@ public class Gang {
 
     public boolean isChunkClaimed(Block block) {
         return claims.stream().anyMatch(block.getChunk()::equals);
+    }
+
+    public boolean isOnline() {
+        for (Hoodlum h : members) {
+            if (Bukkit.getPlayer(h.getPlayerUUID()).isOnline()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
