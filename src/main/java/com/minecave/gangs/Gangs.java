@@ -18,15 +18,8 @@ public class Gangs extends JavaPlugin {
     @Getter
     private GangCoordinator gangCoordinator;
 
-    //@Getter
-    /*
-    Sorry rich, that fucker was causing too many troubles for me.
-     */
+    @Getter
     private static Gangs instance = null;
-
-    public static Gangs getInstance() {
-        return instance;
-    }
 
     @Override
     public void onLoad() {

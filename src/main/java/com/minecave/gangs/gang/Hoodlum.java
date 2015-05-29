@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -29,7 +29,7 @@ public class Hoodlum {
     private GangRole role;
     @Getter
     @Setter
-    private Date lastOnline;
+    private LocalDateTime lastOnline;
 
     public Hoodlum(UUID playerUUID) {
         this.playerUUID = playerUUID;
