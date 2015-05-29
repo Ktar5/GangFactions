@@ -35,6 +35,7 @@ public class Gangs extends JavaPlugin {
         configuration = new CustomConfig(getDataFolder(), "config.yml");
         messages = new CustomConfig(getDataFolder(), "messages.yml");
 
+        scheduleTimer();
     }
 
     @Override
@@ -42,4 +43,10 @@ public class Gangs extends JavaPlugin {
         instance = null;
     }
 
+    private void scheduleTimer() {
+        int minutes = configuration.get("power.time", int.class);
+        this.getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
+
+        }, 0L, 20 * 60 * minutes);
+    }
 }

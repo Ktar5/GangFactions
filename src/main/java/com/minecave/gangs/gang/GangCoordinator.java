@@ -36,16 +36,11 @@ public class GangCoordinator {
     }
 
     public boolean isChunkClaimed(Block block) {
-        return gangMap.values().stream().anyMatch(g -> g.isChunkClaimed(block));
+        return isChunkClaimed(block.getChunk());
     }
 
-    public boolean isChunkAvailable(Chunk chunk) {
-        return gangMap.values().stream().noneMatch(g -> g.isChunkClaimed(chunk));
-    }
-
-    public boolean isChunkAvailable(Block block) {
-        return gangMap.values().stream().noneMatch(g -> g.isChunkClaimed(block));
-    }
+    //NOTE: farmable and spawn chunks should be found via the Gang object
+    // which can be referenced from the Hoodlum object
 
     public void createGang(String name, Player owner) {
         String keyName = name.toLowerCase();

@@ -60,6 +60,27 @@ public class Gang {
     }
 
     public boolean isSpawnChunk(Location location) {
-        return location.getChunk().equals(home.getChunk());
+        return isSpawnChunk(location.getChunk());
+    }
+
+    public boolean isFarmable(Chunk chunk) {
+        return !isSpawnChunk(chunk);
+    }
+
+    public boolean isFarmable(Location location) {
+        return isFarmable(location.getChunk());
+    }
+
+    public boolean isFarmable(Block block) {
+        return isFarmable(block.getLocation());
+    }
+
+    public boolean hasPlayer(Player player) {
+        for(Hoodlum h : members) {
+            if(h.getPlayerUUID().equals(player.getUniqueId())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

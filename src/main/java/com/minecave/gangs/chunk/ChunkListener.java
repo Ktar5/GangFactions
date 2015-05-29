@@ -41,6 +41,8 @@ public class ChunkListener implements Listener {
             if (gang != null) {
                 player.sendMessage(StringUtil.replaceAndColor(plugin.getMessages().get("gang.territory.playerLeave", String.class), "{gang}", gang.getName()));
             }
+            //gang is null therefore chunk is unclaimed
+            //here is where i put auto claim stuff
         }
     }
 }
