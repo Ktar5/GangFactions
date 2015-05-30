@@ -51,7 +51,6 @@ public class Gangs extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        saveDefaultConfig();
         hoodlumCoordinator = new HoodlumCoordinator(this);
         gangCoordinator = new GangCoordinator(this);
         signCoordinator = new SignCoordinator(this);

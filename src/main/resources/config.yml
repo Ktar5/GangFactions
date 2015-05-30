@@ -14,8 +14,10 @@ farm:
   #out of 100
   percentFarmablePerChunk: 50
 sign:
+  signCreationKey: "[gang]"
   #this is in seconds
   rotationTime: 5
+  noAlerts: "No alerts active"
   #all these lines get the same replace calls
   firstLine: "{gang} Coordinates"
   secondLine: "X: {x}"

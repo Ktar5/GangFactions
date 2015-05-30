@@ -12,8 +12,13 @@ import com.minecave.gangs.Gangs;
 import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.util.TimeUtil;
 import lombok.Getter;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -63,5 +68,31 @@ public class PlayerListener implements Listener {
             return;
         }
         h.removePower(plugin.getConfiguration().get("power.deathLoss", int.class));
+    }
+
+    @EventHandler
+    public void signEdit(SignChangeEvent event) {
+        String[] lines = event.getLines();
+        boolean isDisplaySign = false;
+        for(String s : lines) {
+            if(s.equalsIgnoreCase(plugin.getConfiguration().get("sign.signCreationKey", String.class))) {
+                isDisplaySign = true;
+                break;
+            }
+        }
+        if(isDisplaySign) {
+            plugin.getSignCoordinator().addSign((Sign) event.getBlock().getState());
+        }
+    }
+
+    @EventHandler
+    public void signBreak(BlockBreakEvent event) {
+        Block block = event.getBlock();
+        if(block.getType() == Material.SIGN ||
+                block.getType() == Material.SIGN_POST ||
+                block.getType() == Material.WALL_SIGN ||
+                block.getState() instanceof Sign) {
+            plugin.getSignCoordinator().removeSign((Sign) block.getState());
+        }
     }
 }

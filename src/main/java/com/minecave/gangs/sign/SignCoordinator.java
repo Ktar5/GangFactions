@@ -65,26 +65,42 @@ public class SignCoordinator {
         CustomConfig config = plugin.getSignConfig();
         int index = currentAlert == null ? 0 : alerts.indexOf(currentAlert) + 1;
         currentAlert = alerts.get(index);
-        String firstLine = config.get("sign.firstLine", String.class)
-                .replace("{gang}", currentAlert.getGang().getName())
-                .replace("{x}", String.valueOf(currentAlert.getLocation().getBlockX()))
-                .replace("{y}", String.valueOf(currentAlert.getLocation().getBlockY()))
-                .replace("{z}", String.valueOf(currentAlert.getLocation().getBlockZ()));
-        String secondLine = config.get("sign.secondLine", String.class)
-                .replace("{gang}", currentAlert.getGang().getName())
-                .replace("{x}", String.valueOf(currentAlert.getLocation().getBlockX()))
-                .replace("{y}", String.valueOf(currentAlert.getLocation().getBlockY()))
-                .replace("{z}", String.valueOf(currentAlert.getLocation().getBlockZ()));
-        String thirdLine = config.get("sign.thirdLine", String.class)
-                .replace("{gang}", currentAlert.getGang().getName())
-                .replace("{x}", String.valueOf(currentAlert.getLocation().getBlockX()))
-                .replace("{y}", String.valueOf(currentAlert.getLocation().getBlockY()))
-                .replace("{z}", String.valueOf(currentAlert.getLocation().getBlockZ()));
-        String fourthLine = config.get("sign.fourthLine", String.class)
-                .replace("{gang}", currentAlert.getGang().getName())
-                .replace("{x}", String.valueOf(currentAlert.getLocation().getBlockX()))
-                .replace("{y}", String.valueOf(currentAlert.getLocation().getBlockY()))
-                .replace("{z}", String.valueOf(currentAlert.getLocation().getBlockZ()));
+        setUpdateSign(config);
+    }
+
+    private void setUpdateSign(CustomConfig config) {
+        String firstLine;
+        String secondLine;
+        String thirdLine;
+        String fourthLine;
+        if(currentAlert == null) {
+            firstLine = config.get("sign.noAlerts", String.class);
+            secondLine = "";
+            thirdLine = "";
+            fourthLine = "";
+        }
+        else {
+            firstLine = config.get("sign.firstLine", String.class)
+                    .replace("{gang}", currentAlert.getGang().getName())
+                    .replace("{x}", String.valueOf(currentAlert.getLocation().getBlockX()))
+                    .replace("{y}", String.valueOf(currentAlert.getLocation().getBlockY()))
+                    .replace("{z}", String.valueOf(currentAlert.getLocation().getBlockZ()));
+            secondLine = config.get("sign.secondLine", String.class)
+                    .replace("{gang}", currentAlert.getGang().getName())
+                    .replace("{x}", String.valueOf(currentAlert.getLocation().getBlockX()))
+                    .replace("{y}", String.valueOf(currentAlert.getLocation().getBlockY()))
+                    .replace("{z}", String.valueOf(currentAlert.getLocation().getBlockZ()));
+            thirdLine = config.get("sign.thirdLine", String.class)
+                    .replace("{gang}", currentAlert.getGang().getName())
+                    .replace("{x}", String.valueOf(currentAlert.getLocation().getBlockX()))
+                    .replace("{y}", String.valueOf(currentAlert.getLocation().getBlockY()))
+                    .replace("{z}", String.valueOf(currentAlert.getLocation().getBlockZ()));
+            fourthLine = config.get("sign.fourthLine", String.class)
+                    .replace("{gang}", currentAlert.getGang().getName())
+                    .replace("{x}", String.valueOf(currentAlert.getLocation().getBlockX()))
+                    .replace("{y}", String.valueOf(currentAlert.getLocation().getBlockY()))
+                    .replace("{z}", String.valueOf(currentAlert.getLocation().getBlockZ()));
+        }
         for (int i = 0; i < signs.size(); i++) {
             Sign sign = signs.get(i);
             sign.setLine(0, StringUtil.colorString(firstLine));
@@ -132,6 +148,7 @@ public class SignCoordinator {
     public boolean addSign(Sign sign) {
         if (!signs.contains(sign)) {
             signs.add(sign);
+            setUpdateSign(plugin.getSignConfig());
             return true;
         }
         return false;
