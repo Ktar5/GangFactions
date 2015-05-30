@@ -48,7 +48,7 @@ public class Messages {
                 String s = messages.get(key);
                 int n = 1;
                 while (n <= values.length) {
-                    s.replaceAll(values[n - 1], values[n]);
+                    s.replace(values[n - 1], values[n]);
                     n += 2;
                 }
                 return s;
