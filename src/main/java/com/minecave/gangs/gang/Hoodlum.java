@@ -33,6 +33,9 @@ public class Hoodlum {
     private GangRole role;
     @Getter
     @Setter
+    private String gangStandingIn;
+    @Getter
+    @Setter
     private LocalDateTime lastOnline;
     @Getter
     @Setter
@@ -48,6 +51,7 @@ public class Hoodlum {
         this.power = 10;
         this.maxPower = 10;
         updateLastTimes();
+        gangStandingIn = "";
         this.autoClaim = false;
         this.invites = new ArrayList<>();
         this.role = GangRole.GANGLESS;

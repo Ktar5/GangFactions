@@ -104,8 +104,7 @@ public class SignCoordinator {
                     .replace("{y}", String.valueOf(currentAlert.getLocation().getBlockY()))
                     .replace("{z}", String.valueOf(currentAlert.getLocation().getBlockZ()));
         }
-        for (int i = 0; i < signs.size(); i++) {
-            Sign sign = signs.get(i);
+        for (Sign sign : signs) {
             sign.setLine(0, StringUtil.colorString(firstLine));
             sign.setLine(1, StringUtil.colorString(secondLine));
             sign.setLine(2, StringUtil.colorString(thirdLine));
@@ -158,8 +157,7 @@ public class SignCoordinator {
     }
 
     public void addAlert(Location location, Gang gang) {
-        for (int i = 0; i < alerts.size(); i++) {
-            Alert alert = alerts.get(i);
+        for (Alert alert : alerts) {
             if (alert.getLocation().equals(location)) {
                 return;
             }

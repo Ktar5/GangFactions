@@ -16,6 +16,7 @@ import com.minecave.gangs.util.ConfigUtil;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
 import java.time.LocalDateTime;
@@ -170,6 +171,14 @@ public class GangCoordinator {
             }
         }
         return false;
+    }
+
+    public String getGangName(Location location){
+        Gang gang = getGang(location.getChunk());
+        if(gang == null)
+            return "Wilderness";
+        else
+            return gang.getName();
     }
 
     public Gang getGang(String name){

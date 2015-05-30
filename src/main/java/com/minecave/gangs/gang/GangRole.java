@@ -9,5 +9,5 @@ public enum GangRole {
     MODERATOR,
     SUPER_MODERATOR,
     LEADER,
-    SERVER_ADMIN;
+    SERVER_ADMIN
 }
