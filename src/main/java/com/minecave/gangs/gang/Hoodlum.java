@@ -38,6 +38,9 @@ public class Hoodlum {
     private LocalDateTime lastOffline;
     @Getter
     private List<String> invites;
+    @Getter
+    @Setter
+    private boolean autoClaim;
 
     public Hoodlum(UUID playerUUID) {
         this.playerUUID = playerUUID;

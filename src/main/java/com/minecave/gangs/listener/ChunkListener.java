@@ -10,6 +10,7 @@ package com.minecave.gangs.listener;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.gang.Gang;
+import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.util.StringUtil;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -40,13 +41,16 @@ public class ChunkListener implements Listener {
         if (gang != null) {
             player.sendMessage(StringUtil.replaceAndColor(plugin.getMessages().get("gang.territory.playerEnter", String.class), "{gang}", gang.getName()));
         } else {
+            //gang was null for the getTo() chunk, therefore is not claimed
+            Hoodlum hoodlum = plugin.getHoodlumCoordinator().getHoodlum(player);
+            if(hoodlum != null && hoodlum.isAutoClaim()) {
+                hoodlum.getGang().claimChunk(chunk);
+            }
             Chunk prevChunk = event.getFrom().getChunk();
             gang = plugin.getGangCoordinator().getGang(prevChunk);
             if (gang != null) {
                 player.sendMessage(StringUtil.replaceAndColor(plugin.getMessages().get("gang.territory.playerLeave", String.class), "{gang}", gang.getName()));
             }
-            //gang is null therefore chunk is unclaimed
-            //here is where i put auto claim stuff
         }
     }
 
@@ -64,7 +68,7 @@ public class ChunkListener implements Listener {
         Chunk chunk = event.getBlock().getChunk();
         Gang gang = plugin.getGangCoordinator().getGang(chunk);
         if (gang != null) {
-            if(gang.isSpawnChunk(chunk)) {
+            if (gang.isSpawnChunk(chunk)) {
                 return;
             }
             gang.subtractFromFarmTotal();
@@ -80,7 +84,7 @@ public class ChunkListener implements Listener {
         Chunk chunk = event.getBlock().getChunk();
         Gang gang = plugin.getGangCoordinator().getGang(chunk);
         if (gang != null) {
-            if(gang.isSpawnChunk(chunk)) {
+            if (gang.isSpawnChunk(chunk)) {
                 return;
             }
             gang.addToFarmTotal();
