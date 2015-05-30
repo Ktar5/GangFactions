@@ -115,7 +115,7 @@ public class Gang {
     }
 
     public boolean isRaidable() {
-        int powerToChunkRatio = Gangs.getInstance().getConfiguration().get("power.powerToChunkRatio", int.class);
+        int powerToChunkRatio = Gangs.getInstance().getConfiguration().get("power.powerToChunkRatio", Integer.class);
         return getPower() / claims.size() > powerToChunkRatio;
     }
 
@@ -145,7 +145,7 @@ public class Gang {
     }
 
     public void checkPercentage() {
-        int percent = Gangs.getInstance().getConfiguration().get("farm.percentFarmablePerChunk", int.class);
+        int percent = Gangs.getInstance().getConfiguration().get("farm.percentFarmablePerChunk", Integer.class);
         int totalFarmable = (percent / 100) * (claims.size() - 1);
         if (totalFarm >= totalFarmable) {
             Gangs.getInstance().getSignCoordinator().addAlert(home, this);

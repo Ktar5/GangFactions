@@ -61,8 +61,8 @@ public class HoodlumCoordinator {
         String uuidString = uuid.toString();
         Hoodlum hoodlum = new Hoodlum(uuid);
         if (config.getConfig().contains(uuidString)) {
-            hoodlum.setPower(config.get(uuidString + "." + HoodlumConfig.POWER, int.class));
-            hoodlum.setMaxPower(config.get(uuidString + "." + HoodlumConfig.MAX_POWER, int.class));
+            hoodlum.setPower(config.get(uuidString + "." + HoodlumConfig.POWER, Integer.class));
+            hoodlum.setMaxPower(config.get(uuidString + "." + HoodlumConfig.MAX_POWER, Integer.class));
             hoodlum.setGangUUID(UUID.fromString(config.get(uuidString + "." + HoodlumConfig.GANG_UUID, String.class)));
             hoodlum.setGang(gangs.getGangCoordinator().getGang(hoodlum.getGangUUID()));
             hoodlum.setRole(GangRole.valueOf(config.get(uuidString + "." + HoodlumConfig.GANG_ROLE, String.class)));

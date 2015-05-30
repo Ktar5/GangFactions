@@ -105,18 +105,18 @@ public class Gangs extends JavaPlugin {
         //runs once an hour for offline players
         offlineTimer = this.getServer().getScheduler().runTaskTimerAsynchronously(this,
                 this::checkOfflinePlayers, 0L, 20L * 60L * 60L *
-                        configuration.get("power.offlineTimer", int.class));
+                        configuration.get("power.offlineTimer", Integer.class));
     }
 
     private void checkOfflinePlayers() {
-        int offlineMinutes = configuration.get("power.offlineTime", int.class);
+        int offlineMinutes = configuration.get("power.offlineTime", Integer.class);
         hoodlumConfig.getConfig().getKeys(false).forEach(s -> {
             UUID uuid = UUID.fromString(s);
             hoodlumCoordinator.loadHoodlum(uuid);
             Hoodlum hoodlum = hoodlumCoordinator.getHoodlum(uuid);
             Instant lastOffline = TimeUtil.localDateTimeToInstant(hoodlum.getLastOffline());
             if (ChronoUnit.MINUTES.between(lastOffline, Instant.now()) > offlineMinutes) {
-                hoodlum.removePower(configuration.get("power.offline", int.class));
+                hoodlum.removePower(configuration.get("power.offline", Integer.class));
                 hoodlum.setLastOffline(LocalDateTime.now());
             }
             if (!hoodlum.isOnline()) {

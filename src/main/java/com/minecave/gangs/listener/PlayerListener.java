@@ -34,7 +34,7 @@ public class PlayerListener implements Listener {
 
     public PlayerListener(Gangs plugin) {
         this.plugin = plugin;
-        plugin.getConfiguration().get("power.onlineTime", int.class);
+        plugin.getConfiguration().get("power.onlineTime", Integer.class);
     }
 
     @EventHandler
@@ -55,7 +55,7 @@ public class PlayerListener implements Listener {
         }
         Instant lastOnline = TimeUtil.localDateTimeToInstant(h.getLastOnline());
         if (ChronoUnit.MINUTES.between(lastOnline, Instant.now()) > onlineMinutes) {
-            h.addPower(plugin.getConfiguration().get("power.online", int.class));
+            h.addPower(plugin.getConfiguration().get("power.online", Integer.class));
         }
         h.updateLastTimes();
         plugin.getHoodlumCoordinator().unloadHoodlum(event.getPlayer());
@@ -67,7 +67,7 @@ public class PlayerListener implements Listener {
         if(h == null) {
             return;
         }
-        h.removePower(plugin.getConfiguration().get("power.deathLoss", int.class));
+        h.removePower(plugin.getConfiguration().get("power.deathLoss", Integer.class));
     }
 
     @EventHandler
