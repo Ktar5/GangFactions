@@ -1,11 +1,22 @@
 package com.minecave.gangs;
 
 import com.minecave.gangs.gang.GangCoordinator;
+import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.gang.HoodlumCoordinator;
+import com.minecave.gangs.listener.ChunkListener;
+import com.minecave.gangs.listener.PlayerListener;
+import com.minecave.gangs.listener.RaidListener;
 import com.minecave.gangs.storage.CustomConfig;
+import com.minecave.gangs.util.TimeUtil;
 import lombok.Getter;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 public class Gangs extends JavaPlugin {
 
@@ -45,7 +56,15 @@ public class Gangs extends JavaPlugin {
         gangConfig = new CustomConfig(getDataFolder(), "gangs.yml");
 
         gangCoordinator.loadGangs();
+        registerListeners();
         scheduleTimer();
+    }
+
+    private void registerListeners() {
+        PluginManager pluginManager = this.getServer().getPluginManager();
+        pluginManager.registerEvents(new ChunkListener(this), this);
+        pluginManager.registerEvents(new PlayerListener(this), this);
+        pluginManager.registerEvents(new RaidListener(this), this);
     }
 
     @Override
@@ -65,6 +84,18 @@ public class Gangs extends JavaPlugin {
 
     private void checkOfflinePlayers() {
         int offlineMinutes = configuration.get("power.offlineTime", int.class);
-
+        hoodlumConfig.getConfig().getKeys(false).forEach(s -> {
+            UUID uuid = UUID.fromString(s);
+            hoodlumCoordinator.loadHoodlum(uuid);
+            Hoodlum hoodlum = hoodlumCoordinator.getHoodlum(uuid);
+            Instant lastOffline = TimeUtil.localDateTimeToInstant(hoodlum.getLastOffline());
+            if (ChronoUnit.MINUTES.between(lastOffline, Instant.now()) > offlineMinutes) {
+                hoodlum.removePower(configuration.get("power.offline", int.class));
+                hoodlum.setLastOffline(LocalDateTime.now());
+            }
+            if(!hoodlum.isOnline()) {
+                hoodlumCoordinator.unloadHoodlum(uuid);
+            }
+        });
     }
 }

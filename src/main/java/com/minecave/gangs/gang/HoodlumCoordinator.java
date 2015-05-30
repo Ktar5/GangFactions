@@ -45,11 +45,19 @@ public class HoodlumCoordinator {
         return false;
     }
 
+    public void loadHoodlum(UUID uuid) {
+
+    }
+
     public void loadHoodlum(Player player) {
 
     }
 
     public void unloadHoodlum(Player player) {
+
+    }
+
+    public void unloadHoodlum(UUID uuid) {
 
     }
 

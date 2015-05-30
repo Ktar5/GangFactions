@@ -93,4 +93,9 @@ public class Hoodlum {
         setLastOnline(LocalDateTime.now());
         setLastOffline(LocalDateTime.now());
     }
+
+    public boolean isOnline() {
+        Player player = getPlayer();
+        return player != null && player.isOnline();
+    }
 }
