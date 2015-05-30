@@ -148,7 +148,7 @@ public class Gang {
         int percent = Gangs.getInstance().getConfiguration().get("farm.percentFarmablePerChunk", int.class);
         int totalFarmable = (percent / 100) * (claims.size() - 1);
         if (totalFarm >= totalFarmable) {
-            Gangs.getInstance().getSignCoordinator().addAlert(home);
+            Gangs.getInstance().getSignCoordinator().addAlert(home, this);
         } else {
             Gangs.getInstance().getSignCoordinator().removeAlert(home);
         }
