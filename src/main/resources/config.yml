@@ -13,3 +13,11 @@ power:
 farm:
   #out of 100
   percentFarmablePerChunk: 50
+sign:
+  #this is in seconds
+  rotationTime: 5
+  #all these lines get the same replace calls
+  firstLine: "{gang} Coordinates"
+  secondLine: "X: {x}"
+  thirdLine: "Y: {y}"
+  fourthLine: "Z: {z}"

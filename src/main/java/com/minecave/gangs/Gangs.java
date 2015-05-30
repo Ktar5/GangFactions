@@ -6,6 +6,7 @@ import com.minecave.gangs.gang.HoodlumCoordinator;
 import com.minecave.gangs.listener.ChunkListener;
 import com.minecave.gangs.listener.PlayerListener;
 import com.minecave.gangs.listener.RaidListener;
+import com.minecave.gangs.sign.SignCoordinator;
 import com.minecave.gangs.storage.CustomConfig;
 import com.minecave.gangs.util.TimeUtil;
 import lombok.Getter;
@@ -28,11 +29,15 @@ public class Gangs extends JavaPlugin {
     private CustomConfig hoodlumConfig;
     @Getter
     private CustomConfig gangConfig;
+    @Getter
+    private CustomConfig signConfig;
 
     @Getter
     private HoodlumCoordinator hoodlumCoordinator;
     @Getter
     private GangCoordinator gangCoordinator;
+    @Getter
+    private SignCoordinator signCoordinator;
 
     @Getter
     private static Gangs instance = null;
@@ -49,13 +54,17 @@ public class Gangs extends JavaPlugin {
         saveDefaultConfig();
         hoodlumCoordinator = new HoodlumCoordinator(this);
         gangCoordinator = new GangCoordinator(this);
+        signCoordinator = new SignCoordinator(this);
 
         configuration = new CustomConfig(getDataFolder(), "config.yml");
         messages = new CustomConfig(getDataFolder(), "messages.yml");
         hoodlumConfig = new CustomConfig(getDataFolder(), "hoodlum.yml");
         gangConfig = new CustomConfig(getDataFolder(), "gangs.yml");
+        signConfig = new CustomConfig(getDataFolder(), "signs.yml");
 
         gangCoordinator.loadGangs();
+        signCoordinator.load();
+
         registerListeners();
         scheduleTimer();
     }
@@ -70,6 +79,8 @@ public class Gangs extends JavaPlugin {
     @Override
     public void onDisable() {
         gangCoordinator.unloadGangs();
+        signCoordinator.unload();
+
         offlineTimer.cancel();
         checkOfflinePlayers();
 
@@ -77,6 +88,7 @@ public class Gangs extends JavaPlugin {
         messages.saveConfig();
         hoodlumConfig.saveConfig();
         gangConfig.saveConfig();
+        signConfig.saveConfig();
 
         instance = null;
     }

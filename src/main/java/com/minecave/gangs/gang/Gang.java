@@ -25,7 +25,6 @@ public class Gang {
     @Getter
     private final Set<Chunk> claims;
     @Getter
-    @Setter
     private int totalFarm;
     //For stuffs, and also for signups?
     @Getter
@@ -149,9 +148,14 @@ public class Gang {
         int percent = Gangs.getInstance().getConfiguration().get("farm.percentFarmablePerChunk", int.class);
         int totalFarmable = (percent / 100) * (claims.size() - 1);
         if (totalFarm >= totalFarmable) {
-            //mark for signs later
+            Gangs.getInstance().getSignCoordinator().addAlert(home);
         } else {
-
+            Gangs.getInstance().getSignCoordinator().removeAlert(home);
         }
+    }
+
+    public void setTotalFarm(int totalFarm) {
+        this.totalFarm = totalFarm;
+        checkPercentage();
     }
 }
