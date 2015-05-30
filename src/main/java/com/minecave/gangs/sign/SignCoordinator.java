@@ -63,8 +63,12 @@ public class SignCoordinator {
 
     private void rotateAlerts() {
         CustomConfig config = plugin.getSignConfig();
-        int index = currentAlert == null ? 0 : alerts.indexOf(currentAlert) + 1;
-        currentAlert = alerts.get(index);
+        if (!alerts.isEmpty()) {
+            int index = currentAlert == null ? 0 : alerts.indexOf(currentAlert) + 1;
+            currentAlert = alerts.get(index);
+        } else {
+            currentAlert = null;
+        }
         setUpdateSign(config);
     }
 
@@ -73,13 +77,12 @@ public class SignCoordinator {
         String secondLine;
         String thirdLine;
         String fourthLine;
-        if(currentAlert == null) {
+        if (currentAlert == null) {
             firstLine = config.get("sign.noAlerts", String.class);
             secondLine = "";
             thirdLine = "";
             fourthLine = "";
-        }
-        else {
+        } else {
             firstLine = config.get("sign.firstLine", String.class)
                     .replace("{gang}", currentAlert.getGang().getName())
                     .replace("{x}", String.valueOf(currentAlert.getLocation().getBlockX()))
@@ -155,19 +158,19 @@ public class SignCoordinator {
     }
 
     public void addAlert(Location location, Gang gang) {
-        for(int i = 0; i < alerts.size(); i++) {
+        for (int i = 0; i < alerts.size(); i++) {
             Alert alert = alerts.get(i);
-            if(alert.getLocation().equals(location)) {
-               return;
+            if (alert.getLocation().equals(location)) {
+                return;
             }
         }
         alerts.add(new Alert(location, gang));
     }
 
     public void removeAlert(Location location) {
-        for(int i = 0; i < alerts.size(); i++) {
+        for (int i = 0; i < alerts.size(); i++) {
             Alert alert = alerts.get(i);
-            if(alert.getLocation().equals(location)) {
+            if (alert.getLocation().equals(location)) {
                 alerts.remove(alert);
             }
         }
