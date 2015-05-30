@@ -1,5 +1,6 @@
 package com.minecave.gangs.gang;
 
+import com.minecave.gangs.Gangs;
 import com.minecave.gangs.command.commands.Management;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,8 @@ public class Gang {
     private final Set<Chunk> claims;
     //For stuffs, and also for signups?
     @Getter
+    private final Set<Chunk> farmedChunks;
+    @Getter
     private final UUID uuid;
     @Getter
     @Setter
@@ -42,6 +45,7 @@ public class Gang {
         //not sure but we might decide to use map later if we need key->value pairing
         members = new HashSet<>();
         claims = new HashSet<>();
+        farmedChunks = new HashSet<>();
         //just using a random uuid for gang creation, will be used when adding the gang to GangCoordinator
         uuid = UUID.randomUUID();
         this.name = name;
@@ -101,5 +105,18 @@ public class Gang {
                 player.setGang(null);
             }
         }
+    }
+
+    public boolean canClaimChunks() {
+        int powerToChunkRatio = Gangs.getInstance().getConfiguration().get("power.powerToChunkRatio", int.class);
+        return getPower() / claims.size() > powerToChunkRatio;
+    }
+
+    public int getPower() {
+        int power = 0;
+        for(Hoodlum h : members) {
+            power += h.getPower();
+        }
+        return power;
     }
 }
