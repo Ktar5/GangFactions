@@ -1,3 +1,7 @@
 name: ${plugin.name}
 main: ${plugin.mainClass}
 version: turdballmicgeeeLAWWWWWWWWWWWWWWWWWWWWWWL
+commands:
+  gang:
+  gangs:
+  g:

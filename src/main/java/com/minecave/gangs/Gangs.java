@@ -1,5 +1,6 @@
 package com.minecave.gangs;
 
+import com.minecave.gangs.command.CommandDistributor;
 import com.minecave.gangs.gang.GangCoordinator;
 import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.gang.HoodlumCoordinator;
@@ -64,6 +65,12 @@ public class Gangs extends JavaPlugin {
 
         gangCoordinator.loadGangs();
         signCoordinator.load();
+
+        CommandDistributor distributor = new CommandDistributor();
+
+        this.getCommand("g").setExecutor(distributor);
+        this.getCommand("gang").setExecutor(distributor);
+        this.getCommand("gangs").setExecutor(distributor);
 
         registerListeners();
         scheduleTimer();

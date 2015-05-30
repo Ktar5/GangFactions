@@ -118,39 +118,39 @@ public class CommandDistributor implements CommandExecutor{
                             //This one will remain regular-case because of naming things outside storage
                             break;
                         case "kick": //Non-admin version
-                            if(player.hasRole(GangRole.MEMBER)) break;
+                            if(player.hasRole(GangRole.MODERATOR)) break;
                             Management.kick(player, args[1].toLowerCase());
                             break;
                         case "forcekick":
-                            if(player.hasRole(GangRole.MEMBER)) break;
+                            if(player.hasRole(GangRole.SERVER_ADMIN)) break;
                             Admin.kick(player, args[1].toLowerCase());
                             break;
                         case "join": //ADMIN
-                            if(player.hasRole(GangRole.MEMBER)) break;
+                            if(player.hasRole(GangRole.SERVER_ADMIN)) break;
                             Admin.join(player, Misc.getGang(args[1].toLowerCase()));
                             break;
                         case "invite":
-                            if(player.hasRole(GangRole.MEMBER)) break;
+                            if(player.hasRole(GangRole.MODERATOR)) break;
                             Management.invite(player, args[1].toLowerCase());
                             break;
                         case "accept":
-                            if(player.hasRole(GangRole.MEMBER)) break;
+                            if(player.hasRole(GangRole.GANGLESS)) break;
                             User.acceptInvite(player, args[1].toLowerCase());
                             break;
                         case "deny":
-                            if(player.hasRole(GangRole.MEMBER)) break;
+                            if(player.hasRole(GangRole.GANGLESS)) break;
                             User.denyInvite(player, args[1].toLowerCase());
                             break;
                         case "power": //ADMIN
-                            if(player.hasRole(GangRole.MEMBER)) break;
+                            if(player.hasRole(GangRole.SERVER_ADMIN)) break;
                             Admin.power(player, args[1].toLowerCase());
                             break;
                         case "info": //ADMIN
-                            if(player.hasRole(GangRole.MEMBER)) break;
+                            if(player.hasRole(GangRole.SERVER_ADMIN)) break;
                             Admin.info(player, Misc.getGang(args[1].toLowerCase()));
                             break;
                         case "home": //ADMIN
-                            if(player.hasRole(GangRole.MEMBER)) break;
+                            if(player.hasRole(GangRole.SERVER_ADMIN)) break;
                             Admin.breakIn(player, Misc.getGang(args[1].toLowerCase()));
                             break;
                         default:
@@ -161,15 +161,15 @@ public class CommandDistributor implements CommandExecutor{
                 case 3:
                     switch (args[0].toLowerCase()) {
                         case "addpower":
-                            if(player.hasRole(GangRole.MEMBER)) break;
+                            if(player.hasRole(GangRole.SERVER_ADMIN)) break;
                             Admin.addPower(player, args[1].toLowerCase(), Integer.valueOf(args[2]));
                             break;
                         case "takepower":
-                            if(player.hasRole(GangRole.MEMBER)) break;
+                            if(player.hasRole(GangRole.SERVER_ADMIN)) break;
                             Admin.takePower(player, args[1].toLowerCase(), Integer.valueOf(args[2]));
                             break;
                         case "setmaxpower":
-                            if(player.hasRole(GangRole.MEMBER)) break;
+                            if(player.hasRole(GangRole.SERVER_ADMIN)) break;
                             Admin.setMaxPower(player, args[1].toLowerCase(), Integer.valueOf(args[2]));
                     }
                 default:
