@@ -4,3 +4,4 @@ power:
   online: 2
   offline: 1
   deathLoss: 1
+  powerToChunkRatio: 5 #5 power per chunk
