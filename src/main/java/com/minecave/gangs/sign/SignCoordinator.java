@@ -38,7 +38,7 @@ public class SignCoordinator {
         this.signs = new ArrayList<>();
         this.alerts = new ArrayList<>();
         this.plugin.getServer().getScheduler().runTaskTimer(this.plugin, this::rotateAlerts,
-                0, 20 * plugin.getConfiguration().get("sign.rotationTime", int.class));
+                0, 20 * plugin.getConfiguration().get("sign.rotationTime", Integer.class));
     }
 
     @Value
