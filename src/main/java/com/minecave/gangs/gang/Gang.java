@@ -69,23 +69,11 @@ public class Gang {
 
     }
 
-    public void claimChunk(Block block) {
-
-    }
-
-    public void claimChunk(Location location) {
-
-    }
-
     public void unclaimChunk(Chunk chunk) {
 
     }
 
-    public void unclaimChunk(Block block) {
-
-    }
-
-    public void unclaimChunk(Location location) {
+    public void unclaimAllChunks(){
 
     }
 
