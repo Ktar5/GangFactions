@@ -2,6 +2,7 @@ package com.minecave.gangs.command.commands;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.gang.Gang;
+import com.minecave.gangs.gang.GangCoordinator;
 import com.minecave.gangs.gang.GangRole;
 import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.storage.Messages;
@@ -19,7 +20,7 @@ public class Management {
 
     public static void claim(Hoodlum player) {
         Chunk chunk = player.getPlayer().getLocation().getChunk();
-        if(Gangs.getInstance().getGangCoordinator().isChunkClaimed(chunk)){
+        if(GangCoordinator.isChunkClaimed(chunk)){
             Gang gang = Gangs.getInstance().getGangCoordinator().getGang(chunk);
             if(gang.equals(player.getGang())){
                 player.sendMessage(Messages.get("alreadyClaimed"));
@@ -37,7 +38,7 @@ public class Management {
 
     public static void unclaim(Hoodlum player) {
         Chunk chunk = player.getPlayer().getLocation().getChunk();
-        if(!Gangs.getInstance().getGangCoordinator().isChunkClaimed(chunk)){
+        if(!GangCoordinator.isChunkClaimed(chunk)){
             player.sendMessage(Messages.get("notClaimed"));
         }else{
             Gang gang = Gangs.getInstance().getGangCoordinator().getGang(chunk);

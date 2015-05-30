@@ -1,6 +1,5 @@
 package com.minecave.gangs.gang;
 
-import com.minecave.gangs.storage.JsonConfigurable;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -13,11 +12,11 @@ import java.util.UUID;
 /**
  * Created by Carter on 5/25/2015.
  */
-public class Hoodlum implements JsonConfigurable {
+public class Hoodlum {
 
     @Getter
     private final UUID playerUUID;
-    @Getter
+    @Setter
     private volatile int power;
     @Getter
     @Setter
@@ -25,6 +24,9 @@ public class Hoodlum implements JsonConfigurable {
     @Getter
     @Setter
     private Gang gang;
+    @Getter
+    @Setter
+    private UUID gangUUID;
     @Getter
     @Setter
     private GangRole role;
@@ -39,13 +41,6 @@ public class Hoodlum implements JsonConfigurable {
 
     public Hoodlum(UUID playerUUID) {
         this.playerUUID = playerUUID;
-    }
-
-    /**
-     * Loads things from the database
-     */
-    private void loadPlayerFromUuid() {
-
     }
 
     public void addPower(int amount) {
@@ -92,6 +87,9 @@ public class Hoodlum implements JsonConfigurable {
 
     public void updateLastTimes() {
         setLastOnline(LocalDateTime.now());
+        if(role != GangRole.GANGLESS && gang != null) {
+            gang.setLastOnline(LocalDateTime.now());
+        }
         setLastOffline(LocalDateTime.now());
     }
 

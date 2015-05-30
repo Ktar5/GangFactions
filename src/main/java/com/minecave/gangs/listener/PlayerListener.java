@@ -14,6 +14,7 @@ import com.minecave.gangs.util.TimeUtil;
 import lombok.Getter;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -34,6 +35,9 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Hoodlum h = plugin.getHoodlumCoordinator().getHoodlum(event.getPlayer());
+        if(h == null) {
+            h = plugin.getHoodlumCoordinator().loadHoodlum(event.getPlayer().getUniqueId());
+        }
         h.updateLastTimes();
         plugin.getHoodlumCoordinator().loadHoodlum(event.getPlayer());
     }
@@ -41,11 +45,23 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Hoodlum h = plugin.getHoodlumCoordinator().getHoodlum(event.getPlayer());
+        if(h == null) {
+            return;
+        }
         Instant lastOnline = TimeUtil.localDateTimeToInstant(h.getLastOnline());
         if (ChronoUnit.MINUTES.between(lastOnline, Instant.now()) > onlineMinutes) {
             h.addPower(plugin.getConfiguration().get("power.online", int.class));
         }
         h.updateLastTimes();
         plugin.getHoodlumCoordinator().unloadHoodlum(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        Hoodlum h = plugin.getHoodlumCoordinator().getHoodlum(event.getEntity());
+        if(h == null) {
+            return;
+        }
+        h.removePower(plugin.getConfiguration().get("power.deathLoss", int.class));
     }
 }

@@ -9,15 +9,19 @@
 package com.minecave.gangs.gang;
 
 import com.minecave.gangs.Gangs;
+import com.minecave.gangs.storage.CustomConfig;
 import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
+import com.minecave.gangs.util.ConfigUtil;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class GangCoordinator {
 
@@ -52,9 +56,13 @@ public class GangCoordinator {
         String keyName = name.toLowerCase();
         if (gangMap.containsKey(keyName)) {
             Gang gang = gangMap.remove(keyName);
-            gang.getMembers().forEach(h -> {
-                h.setGang(null);
-                h.setRole(GangRole.GANGLESS);
+            gang.getMembers().forEach(u -> {
+                Hoodlum h = gangs.getHoodlumCoordinator().getHoodlum(u);
+                if(h != null) {
+                    h.setGang(null);
+                    h.setGangUUID(null);
+                    h.setRole(GangRole.GANGLESS);
+                }
             });
             if(!silent){
                 Bukkit.getServer().broadcastMessage(Messages.get("disbandFaction",
@@ -63,12 +71,69 @@ public class GangCoordinator {
         }
     }
 
-    public void loadGangs() {
+    public enum GangConfig {
+        NAME,
+        OWNER,
+        MEMBERS,
+        CLAIMS,
+        TOTAL_FARM,
+        HOME,
+        LAST_ONLINE
+    }
 
+    public void loadGangs() {
+        gangs.getGangConfig().getConfig().getKeys(false).stream().forEach(this::loadGang);
+    }
+
+    private Gang loadGang(String uuidString) {
+        return loadGang(UUID.fromString(uuidString));
+    }
+
+    private Gang loadGang(UUID gangUUID) {
+        CustomConfig config = gangs.getGangConfig();
+        String uuidString = gangUUID.toString();
+        if (config.getConfig().contains(uuidString)) {
+            String name = config.get(uuidString + "." + GangConfig.NAME, String.class);
+            OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(config.get(uuidString + "." + GangConfig.OWNER, String.class)));
+            Gang gang = new Gang(name, owner);
+            gang.setTotalFarm(config.get(uuidString + "." + GangConfig.TOTAL_FARM, int.class));
+            gang.setHome(ConfigUtil.deserializeLocation(config.get(uuidString + "." + GangConfig.HOME, String.class)));
+            gang.setLastOnline(LocalDateTime.parse(config.get(uuidString + "." + GangConfig.LAST_ONLINE, String.class)));
+            List<String> membersList = config.getConfig().getStringList(uuidString + "." + GangConfig.MEMBERS);
+            for(String s : membersList) {
+                gang.addMember(UUID.fromString(s));
+            }
+            List<String> claimsList = config.getConfig().getStringList(uuidString + "." + GangConfig.CLAIMS);
+            for(String s : claimsList) {
+                gang.getClaims().add(ConfigUtil.deserializeChunk(s));
+            }
+
+            gangMap.put(name.toLowerCase(), gang);
+            return gang;
+        }
+        return null;
     }
 
     public void unloadGangs() {
+        gangMap.values().forEach(this::unloadGang);
+    }
 
+    private void unloadGang(Gang gang) {
+        CustomConfig config = gangs.getGangConfig();
+        String uuidString = gang.getUuid().toString();
+
+        config.set(uuidString + "." + GangConfig.NAME, gang.getName());
+        config.set(uuidString + "." + GangConfig.OWNER, gang.getOwner().getUniqueId().toString());
+        config.set(uuidString + "." + GangConfig.TOTAL_FARM, gang.getTotalFarm());
+        config.set(uuidString + "." + GangConfig.HOME, ConfigUtil.serializeLocation(gang.getHome()));
+        config.set(uuidString + "." + GangConfig.LAST_ONLINE, gang.getLastOnline().toString());
+
+        List<String> membersList = gang.getMembers().stream().map(UUID::toString).collect(Collectors.toList());
+        config.set(uuidString + "." + GangConfig.MEMBERS, membersList);
+        List<String> claimsList = gang.getClaims().stream().map(ConfigUtil::serializeChunk).collect(Collectors.toList());
+        config.set(uuidString + "." + GangConfig.CLAIMS, claimsList);
+
+        gangMap.remove(gang.getName().toLowerCase());
     }
 
     public Gang getGang(Chunk chunk) {
@@ -80,12 +145,40 @@ public class GangCoordinator {
         return null;
     }
 
+    public void updateGangName(String name, Gang gang) {
+        String keyName = name.toLowerCase();
+        if(!gangMap.containsKey(keyName)) {
+            gangMap.remove(gang.getName().toLowerCase());
+            gang.setName(name);
+            gangMap.put(keyName, gang);
+        }
+    }
+
     public boolean gangExists(String name){
         return gangMap.containsKey(name.toLowerCase());
     }
 
+
+    public boolean gangExists(UUID uuid) {
+        for(Gang gang : gangMap.values()) {
+            if(gang.getUuid().equals(uuid)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Gang getGang(String name){
         return gangMap.get(name.toLowerCase());
+    }
+
+    public Gang getGang(UUID gangUUID) {
+        for(Gang gang : gangMap.values()) {
+            if(gang.getUuid().equals(gangUUID)) {
+                return gang;
+            }
+        }
+        return null;
     }
 }
 

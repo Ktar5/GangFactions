@@ -2,62 +2,67 @@ package com.minecave.gangs.gang;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.command.commands.Management;
-import com.minecave.gangs.storage.JsonConfigurable;
 import com.minecave.gangs.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by Carter on 5/25/2015.
  */
-public class Gang implements JsonConfigurable {
+public class Gang {
 
     @Getter
-    private final Set<Hoodlum> members;
+    private final Set<UUID> members;
     @Getter
     private final Set<Chunk> claims;
     @Getter
+    @Setter
     private int totalFarm;
     //For stuffs, and also for signups?
     @Getter
-    private final UUID uuid;
+    private UUID uuid;
     @Getter
     @Setter
     private String name;
     @Getter
-    @Setter
     private Location home;
     @Getter
     @Setter
-    private Player owner;
+    private OfflinePlayer owner;
     @Getter
     @Setter
     private LocalDateTime lastOnline;
 
-    public Gang(String name, Player owner) {
+    public Gang(String name, OfflinePlayer owner) {
         //not sure but we might decide to use map later if we need key->value pairing
         members = new HashSet<>();
         claims = new HashSet<>();
         //just using a random uuid for gang creation, will be used when adding the gang to GangCoordinator
         uuid = UUID.randomUUID();
+        while (Gangs.getInstance().getGangCoordinator().gangExists(uuid)) {
+            uuid = UUID.randomUUID();
+        }
         this.name = name;
         this.owner = owner;
     }
 
     public void setHome(Location location) {
-        if(!claims.contains(location.getChunk())) {
+        if (!claims.contains(location.getChunk())) {
             home = location;
             String message = Gangs.getInstance().getMessages().get("gangs.setHome", String.class);
             message = StringUtil.replace(message, "{x}", String.valueOf(location.getBlockX()));
             message = StringUtil.replace(message, "{y}", String.valueOf(location.getBlockY()));
             final String finalMessage = StringUtil.replaceAndColor(message, "{z}", String.valueOf(location.getBlockZ()));
-            members.forEach(h -> h.sendMessage(finalMessage));
+            members.forEach(u -> Gangs.getInstance().getHoodlumCoordinator().getHoodlum(u).sendMessage(finalMessage));
         }
     }
 
@@ -82,19 +87,19 @@ public class Gang implements JsonConfigurable {
     }
 
     public boolean hasPlayer(Player player) {
-        for (Hoodlum h : members) {
-            if (h.getPlayerUUID().equals(player.getUniqueId())) {
-                return true;
-            }
-        }
-        return false;
+        return members.contains(player.getUniqueId());
     }
 
+    public void addMember(UUID uuid) {
+        members.add(uuid);
+    }
 
     public void addPlayer(Hoodlum player) {
         if (!hasPlayer(player.getPlayer())) {
             player.setRole(GangRole.MEMBER);
             player.setGang(this);
+            player.setGangUUID(null);
+            members.add(player.getPlayerUUID());
         }
     }
 
@@ -104,6 +109,8 @@ public class Gang implements JsonConfigurable {
             if (player.hasRole(GangRole.LEADER)) {
                 Management.disband(player);
                 player.setGang(null);
+                player.setGangUUID(null);
+                members.remove(player.getPlayerUUID());
             }
         }
     }
@@ -119,8 +126,11 @@ public class Gang implements JsonConfigurable {
 
     public int getPower() {
         int power = 0;
-        for (Hoodlum h : members) {
-            power += h.getPower();
+        for (UUID u : members) {
+            Hoodlum h = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(u);
+            if (h != null) {
+                power += h.getPower();
+            }
         }
         return power;
     }
@@ -138,8 +148,10 @@ public class Gang implements JsonConfigurable {
     public void checkPercentage() {
         int percent = Gangs.getInstance().getConfiguration().get("farm.percentFarmablePerChunk", int.class);
         int totalFarmable = (percent / 100) * (claims.size() - 1);
-        if(totalFarm >= totalFarmable) {
+        if (totalFarm >= totalFarmable) {
             //mark for signs later
+        } else {
+
         }
     }
 }
