@@ -17,10 +17,12 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class GangCoordinator {
@@ -44,10 +46,12 @@ public class GangCoordinator {
     //NOTE: farmable and spawn chunks should be found via the Gang object
     // which can be referenced from the Hoodlum object
 
-    public void createGang(String name, Player owner) {
+    public void createGang(String name, Hoodlum owner) {
         String keyName = name.toLowerCase();
         if (!gangMap.containsKey(keyName)) {
-            Gang gang = new Gang(name, owner);
+            Gang gang = new Gang(name, owner.getPlayer());
+            owner.setGang(gang);
+            owner.setRole(GangRole.LEADER);
             gangMap.put(keyName, gang);
         }
     }

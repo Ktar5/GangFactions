@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,6 +45,12 @@ public class Hoodlum {
 
     public Hoodlum(UUID playerUUID) {
         this.playerUUID = playerUUID;
+        this.power = 10;
+        this.maxPower = 10;
+        updateLastTimes();
+        this.autoClaim = false;
+        this.invites = new ArrayList<>();
+        this.role = GangRole.GANGLESS;
     }
 
     public void addPower(int amount) {

@@ -64,15 +64,17 @@ public class RaidListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if(event.getClickedBlock().getType() == Material.TNT) {
-            return;
-        }
-        Player player = event.getPlayer();
-        Chunk chunk = player.getLocation().getChunk();
-        Gang gang = plugin.getGangCoordinator().getGang(chunk);
-        if(gang != null) {
-            if(!gang.isRaidable() && !gang.hasPlayer(player)) {
-                event.setCancelled(true);
+        if (event.hasBlock()) {
+            if (event.getClickedBlock().getType() == Material.TNT) {
+                return;
+            }
+            Player player = event.getPlayer();
+            Chunk chunk = player.getLocation().getChunk();
+            Gang gang = plugin.getGangCoordinator().getGang(chunk);
+            if (gang != null) {
+                if (!gang.isRaidable() && !gang.hasPlayer(player)) {
+                    event.setCancelled(true);
+                }
             }
         }
     }

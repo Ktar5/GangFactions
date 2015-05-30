@@ -20,18 +20,20 @@ public class Management {
 
     public static void claim(Hoodlum player) {
         Chunk chunk = player.getPlayer().getLocation().getChunk();
-        if(GangCoordinator.isChunkClaimed(chunk)){
-            Gang gang = Gangs.getInstance().getGangCoordinator().getGang(chunk);
-            if(gang.equals(player.getGang())){
-                player.sendMessage(Messages.get("alreadyClaimed"));
-            }else
-                player.sendMessage(Messages.get("claimedByAnother", MsgVar.GANG.var(), gang.getName()));
-        }else{
-            if(player.getGang().canClaimChunks()){
-                player.getGang().claimChunk(chunk);
-                player.sendMessage(Messages.get("chunkClaimed"));
+        if(player.isInGang()){
+            if(GangCoordinator.isChunkClaimed(chunk)){
+                Gang gang = Gangs.getInstance().getGangCoordinator().getGang(chunk);
+                if(gang.equals(player.getGang())){
+                    player.sendMessage(Messages.get("alreadyClaimed"));
+                }else
+                    player.sendMessage(Messages.get("claimedByAnother", MsgVar.GANG.var(), gang.getName()));
             }else{
-                player.sendMessage(Messages.get("notEnoughPower", MsgVar.POWER.var(), String.valueOf(player.getGang().getPower())));
+                if(player.getGang().canClaimChunks()){
+                    player.getGang().claimChunk(chunk);
+                    player.sendMessage(Messages.get("chunkClaimed"));
+                }else{
+                    player.sendMessage(Messages.get("notEnoughPower", MsgVar.POWER.var(), String.valueOf(player.getGang().getPower())));
+                }
             }
         }
     }

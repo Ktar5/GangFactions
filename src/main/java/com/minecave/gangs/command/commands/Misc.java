@@ -12,7 +12,7 @@ import com.minecave.gangs.storage.MsgVar;
  */
 public class Misc {
     public static void showHelp(Hoodlum player) {
-
+        player.sendMessage("HELP! :O");
     }
 
     public static void confirm(Hoodlum player) {

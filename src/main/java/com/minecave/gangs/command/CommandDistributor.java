@@ -62,7 +62,6 @@ public class CommandDistributor implements CommandExecutor{
                             Management.unclaimAll(player);
                             break;
                         case "power": //THIS IS THE SINGLE ARGUMENT VERSION
-                            if(player.hasRole(GangRole.GANGLESS)) break;
                             User.power(player);//done
                             break;
                         case "info": //THIS IS THE SINGLE ARGUMENT VERSION
@@ -74,15 +73,12 @@ public class CommandDistributor implements CommandExecutor{
                             Management.setHome(player);
                             break;
                         case "help":
-                            if(player.hasRole(GangRole.GANGLESS)) break;
                             Misc.showHelp(player);
                             break;
                         case "invitations":
-                            if(player.hasRole(GangRole.GANGLESS)) break;
                             User.showInvitations(player);
                             break;
                         case "confirm":
-                            if(player.hasRole(GangRole.GANGLESS)) break;
                             Misc.confirm(player);
                             break;
                         default:
@@ -134,11 +130,9 @@ public class CommandDistributor implements CommandExecutor{
                             Management.invite(player, args[1].toLowerCase());
                             break;
                         case "accept":
-                            if(player.hasRole(GangRole.GANGLESS)) break;
                             User.acceptInvite(player, args[1].toLowerCase());
                             break;
                         case "deny":
-                            if(player.hasRole(GangRole.GANGLESS)) break;
                             User.denyInvite(player, args[1].toLowerCase());
                             break;
                         case "power": //ADMIN

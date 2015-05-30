@@ -43,7 +43,7 @@ public class User {
     public static void create(Hoodlum player, String gangname) {
         if(!player.hasRole(GangRole.MEMBER)){
             if(!Gangs.getInstance().getGangCoordinator().gangExists(gangname)){
-                Gangs.getInstance().getGangCoordinator().createGang(gangname, player.getPlayer());
+                Gangs.getInstance().getGangCoordinator().createGang(gangname, player);
                 Bukkit.getServer().broadcastMessage(Messages.get("gangCreated",
                         MsgVar.GANG.var(), gangname,
                         MsgVar.PLAYER.var(), player.getPlayer().getName()));

@@ -9,6 +9,7 @@ import com.minecave.gangs.listener.PlayerListener;
 import com.minecave.gangs.listener.RaidListener;
 import com.minecave.gangs.sign.SignCoordinator;
 import com.minecave.gangs.storage.CustomConfig;
+import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.util.TimeUtil;
 import lombok.Getter;
 import org.bukkit.plugin.PluginManager;
@@ -74,6 +75,8 @@ public class Gangs extends JavaPlugin {
 
         registerListeners();
         scheduleTimer();
+
+        Messages.loadMessages();
     }
 
     private void registerListeners() {

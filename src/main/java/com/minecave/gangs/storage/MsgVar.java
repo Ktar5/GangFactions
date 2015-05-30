@@ -10,7 +10,7 @@ public enum MsgVar {
     POWER, MAX_POWER;
 
     public String var(){
-        return "{" + this.toString() + "}";
+        return "{" + this.name() + "}";
     }
 
 

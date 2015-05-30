@@ -5,6 +5,7 @@ import com.minecave.gangs.util.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Created by Carter on 5/27/2015.
@@ -48,7 +49,7 @@ public class Messages {
                 String s = messages.get(key);
                 int n = 1;
                 while (n <= values.length) {
-                    s.replaceAll(values[n - 1], values[n]);
+                    s = s.replaceAll(Pattern.quote(values[n - 1]), values[n]);
                     n += 2;
                 }
                 return s;
