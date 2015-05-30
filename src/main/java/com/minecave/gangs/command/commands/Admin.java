@@ -25,17 +25,19 @@ public class Admin {
         Gangs.getInstance().getGangCoordinator().disbandGang(gang.getName(), silent);
     }
 
-    public static void power(Hoodlum player, String hoodlum) {
-        if(Misc.checkPlayer(hoodlum)){
+    public static void power(Hoodlum player, String playerName) {
+        Hoodlum hoodlum = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName);
+        if(hoodlum != null){
             player.sendMessage(Messages.get("power",
-                    MsgVar.PLAYER.var(), hoodlum,
-                    MsgVar.POWER.var(), String.valueOf(Misc.getHoodlum(hoodlum).getPower()),
-                    MsgVar.MAX_POWER.var(), String.valueOf(Misc.getHoodlum(hoodlum).getMaxPower())));
+                    MsgVar.PLAYER.var(), playerName,
+                    MsgVar.POWER.var(), String.valueOf(hoodlum.getPower()),
+                    MsgVar.MAX_POWER.var(), String.valueOf(hoodlum.getMaxPower())));
         }else{
-            player.sendMessage(Messages.get("playerDoesntExist", MsgVar.PLAYER.var(), hoodlum));
+            player.sendMessage(Messages.get("playerDoesntExist", MsgVar.PLAYER.var(), playerName));
         }
     }
 
+    @Deprecated
     public static void info(Hoodlum player, Gang gang) {
 
     }
@@ -45,24 +47,70 @@ public class Admin {
         player.sendMessage(Messages.get("joinedGang", MsgVar.GANG.var(), gang.getName()));
     }
 
-    public static void kick(Hoodlum player, Gang gang, String hooldum) {
-
+    public static void kick(Hoodlum player, String playerName) {
+        Hoodlum hoodlum = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName);
+        if(hoodlum != null){
+            if(hoodlum.getGang() != null) {
+                player.sendMessage(Messages.get("kickedPlayer_executor",
+                        MsgVar.GANG.var(), hoodlum.getGang().getName(),
+                        MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                hoodlum.sendMessage(Messages.get("kickedPlayer",
+                        MsgVar.GANG.var(), hoodlum.getGang().getName(),
+                        MsgVar.PLAYER.var(), player.getPlayer().getName()));
+                hoodlum.getGang().removePlayer(hoodlum);
+            }else{
+                player.sendMessage(Messages.get("playerNotInGang", MsgVar.PLAYER.var(), playerName));
+            }
+        }else{
+            player.sendMessage(Messages.get("playerDoesntExist", MsgVar.PLAYER.var(), playerName));
+        }
     }
 
-    public static void setMaxPower(Hoodlum player, String para) {
-
+    public static void setMaxPower(Hoodlum player, String playerName, int amount) {
+        Hoodlum hoodlum = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName);
+        if(hoodlum != null){
+            hoodlum.setMaxPower(amount);
+            hoodlum.sendMessage(Messages.get("maxPowerSet",
+                    MsgVar.POWER.var(), String.valueOf(hoodlum.getPower()),
+                    MsgVar.MAX_POWER.var(), String.valueOf(hoodlum.getMaxPower())));
+            player.sendMessage(Messages.get("setMaxPower",
+                    MsgVar.POWER.var(), String.valueOf(hoodlum.getPower()),
+                    MsgVar.MAX_POWER.var(), String.valueOf(hoodlum.getMaxPower()),
+                    MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+        }else{
+            player.sendMessage(Messages.get("playerDoesntExist", MsgVar.PLAYER.var(), playerName));
+        }
     }
 
-    public static void setPower(Hoodlum player, String para) {
-
-        
+    public static void takePower(Hoodlum player, String playerName, int amount) {
+        Hoodlum hoodlum = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName);
+        if(hoodlum != null){
+            hoodlum.removePower(amount, true);
+            hoodlum.sendMessage(Messages.get("powerTaken",
+                    MsgVar.POWER.var(), String.valueOf(hoodlum.getPower()),
+                    MsgVar.MAX_POWER.var(), String.valueOf(hoodlum.getMaxPower())));
+            player.sendMessage(Messages.get("takePower",
+                    MsgVar.POWER.var(), String.valueOf(hoodlum.getPower()),
+                    MsgVar.MAX_POWER.var(), String.valueOf(hoodlum.getMaxPower()),
+                    MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+        }else{
+            player.sendMessage(Messages.get("playerDoesntExist", MsgVar.PLAYER.var(), playerName));
+        }
     }
 
-    public static void takePower(Hoodlum player, String para) {
-
-    }
-
-    public static void addPower(Hoodlum player, String para) {
-
+    public static void addPower(Hoodlum player, String playerName, int amount) {
+        Hoodlum hoodlum = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName);
+        if(hoodlum != null){
+            hoodlum.addPower(amount, true);
+            hoodlum.sendMessage(Messages.get("powerAdded",
+                    MsgVar.POWER.var(), String.valueOf(hoodlum.getPower()),
+                    MsgVar.MAX_POWER.var(), String.valueOf(hoodlum.getMaxPower())));
+            player.sendMessage(Messages.get("addPower",
+                    MsgVar.POWER.var(), String.valueOf(hoodlum.getPower()),
+                    MsgVar.MAX_POWER.var(), String.valueOf(hoodlum.getMaxPower()),
+                    MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+        }else{
+            player.sendMessage(Messages.get("playerDoesntExist", MsgVar.PLAYER.var(), playerName));
+        }
     }
 }

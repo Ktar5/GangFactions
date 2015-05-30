@@ -5,8 +5,6 @@ import com.minecave.gangs.gang.GangRole;
 import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 /**
  * Created by Carter on 5/27/2015.
@@ -36,19 +34,9 @@ public class Misc {
         return false;
     }
 
-    @Deprecated
-    public static boolean checkPlayer(String playerName){
-        if(Bukkit.getPlayer(playerName) != null){
-            Player player = Bukkit.getPlayer(playerName);
-        }else{
-            //somehow get an offline hoodlum to kick them from a gang and stuff, idk.
-        }
-        return false;
-    }
-
     public static boolean checksAndPlayer(Hoodlum sender, GangRole role, String playerName) {
         if(sender.hasRole(role))
-            if(checkPlayer(playerName))
+            if(Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName) != null)
                 return true;
             else sender.sendMessage(Messages.get("playerDoesntExist", MsgVar.PLAYER.var(), playerName));
         else sender.sendMessage(Messages.get("noPermission", MsgVar.ROLE.var()));

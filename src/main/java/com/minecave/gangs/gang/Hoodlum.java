@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -29,6 +30,8 @@ public class Hoodlum {
     @Getter
     @Setter
     private LocalDateTime lastOnline;
+    @Getter
+    private List<String> invites;
 
     public Hoodlum(UUID playerUUID) {
         this.playerUUID = playerUUID;
