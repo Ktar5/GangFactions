@@ -52,15 +52,16 @@ public class Gangs extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        hoodlumCoordinator = new HoodlumCoordinator(this);
-        gangCoordinator = new GangCoordinator(this);
-        signCoordinator = new SignCoordinator(this);
-
         configuration = new CustomConfig(getDataFolder(), "config.yml");
         messages = new CustomConfig(getDataFolder(), "messages.yml");
         hoodlumConfig = new CustomConfig(getDataFolder(), "hoodlum.yml");
         gangConfig = new CustomConfig(getDataFolder(), "gangs.yml");
         signConfig = new CustomConfig(getDataFolder(), "signs.yml");
+
+
+        hoodlumCoordinator = new HoodlumCoordinator(this);
+        gangCoordinator = new GangCoordinator(this);
+        signCoordinator = new SignCoordinator(this);
 
         gangCoordinator.loadGangs();
         signCoordinator.load();
