@@ -2,6 +2,7 @@ package com.minecave.gangs.command.commands;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.gang.Gang;
+import com.minecave.gangs.gang.GangRole;
 import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
@@ -25,43 +26,82 @@ public class Management {
             }else
                 player.sendMessage(Messages.get("claimedByAnother", MsgVar.GANG.var(), gang.getName()));
         }else{
-            player.getGang().
-            player.sendMessage(Messages.get("chunkClaimed"));
+            if(player.getGang().canClaimChunks()){
+                player.getGang().claimChunk(chunk);
+                player.sendMessage(Messages.get("chunkClaimed"));
+            }else{
+                player.sendMessage(Messages.get("notEnoughPower", MsgVar.POWER.var(), String.valueOf(player.getGang().getPower())));
+            }
         }
     }
 
     public static void unclaim(Hoodlum player) {
         Chunk chunk = player.getPlayer().getLocation().getChunk();
-        if(Gangs.getInstance().getGangCoordinator().isChunkClaimed(chunk)){
+        if(!Gangs.getInstance().getGangCoordinator().isChunkClaimed(chunk)){
+            player.sendMessage(Messages.get("notClaimed"));
+        }else{
             Gang gang = Gangs.getInstance().getGangCoordinator().getGang(chunk);
             if(gang.equals(player.getGang())){
-                player.sendMessage(Messages.get("alreadyClaimed"));
+                player.getGang().unclaimChunk(chunk);
+                player.sendMessage(Messages.get("chunkUnclaimed"));
             }else
                 player.sendMessage(Messages.get("claimedByAnother", MsgVar.GANG.var(), gang.getName()));
-        }else player.sendMessage(Messages.get("chunkClaimed"));
+        }
     }
 
     public static void unclaimAll(Hoodlum player) {
-
+        player.getGang().unclaimAllChunks();
+        player.sendMessage(Messages.get("unclaimedAll"));
     }
 
 
     public static void setHome(Hoodlum player) {
-
+        player.getGang().setHome(player.getPlayer().getLocation());
+        player.sendMessage(Messages.get("homeSet"));
     }
 
-    public static void kick(Hoodlum player, String para) {
+    public static void kick(Hoodlum player, String playerName) {
+        Hoodlum hoodlum = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName);
+        if(hoodlum != null){
+            if(hoodlum.getGang() != null){
+                if(hoodlum.getGang().equals(player.getGang())){
+                player.sendMessage(Messages.get("kickedPlayer_executor",
+                        MsgVar.GANG.var(), hoodlum.getGang().getName(),
+                        MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                hoodlum.sendMessage(Messages.get("kickedPlayer",
+                        MsgVar.GANG.var(), hoodlum.getGang().getName(),
+                        MsgVar.PLAYER.var(), player.getPlayer().getName()));
+                hoodlum.getGang().removePlayer(hoodlum);
+                }else
+                    player.sendMessage(Messages.get("playerNotInGang", MsgVar.PLAYER.var(), playerName));
+            }else
+                player.sendMessage(Messages.get("playerNotInGang", MsgVar.PLAYER.var(), playerName));
+        }else
+            player.sendMessage(Messages.get("playerDoesntExist", MsgVar.PLAYER.var(), playerName));
     }
 
-    public static void invite(Hoodlum player, String para) {
+    public static void invite(Hoodlum player, String playerName) {
     }
 
-    public static void supermod(Hoodlum player, String para) {
-    }
-
-    public static void mod(Hoodlum player, String para) {
-    }
-
-    public static void leader(Hoodlum player, String para) {
+    public static void promote(Hoodlum player, String playerName, GangRole role){
+        Hoodlum hoodlum = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName);
+        if(hoodlum != null){
+            if(hoodlum.getGang() != null){
+                if(hoodlum.getGang().equals(player.getGang())){
+                    player.sendMessage(Messages.get("promoter",
+                            MsgVar.ROLE.var(), hoodlum.getGang().getName(),
+                            MsgVar.GANG.var(), hoodlum.getGang().getName(),
+                            MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                    hoodlum.sendMessage(Messages.get("promoted",
+                            MsgVar.GANG.var(), hoodlum.getGang().getName(),
+                            MsgVar.ROLE.var(), hoodlum.getGang().getName(),
+                            MsgVar.PLAYER.var(), player.getPlayer().getName()));
+                    hoodlum.setRole(role);
+                }else
+                    player.sendMessage(Messages.get("playerNotInGang", MsgVar.PLAYER.var(), playerName));
+            }else
+                player.sendMessage(Messages.get("playerNotInGang", MsgVar.PLAYER.var(), playerName));
+        }else
+            player.sendMessage(Messages.get("playerDoesntExist", MsgVar.PLAYER.var(), playerName));
     }
 }
