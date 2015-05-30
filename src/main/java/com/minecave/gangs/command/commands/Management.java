@@ -13,7 +13,7 @@ import org.bukkit.Chunk;
 public class Management {
 
     public static void disband(Hoodlum player) {
-
+        Gangs.getInstance().getGangCoordinator().disbandGang(player.getGang().getName(), false);
     }
 
     public static void claim(Hoodlum player) {
@@ -24,11 +24,21 @@ public class Management {
                 player.sendMessage(Messages.get("alreadyClaimed"));
             }else
                 player.sendMessage(Messages.get("claimedByAnother", MsgVar.GANG.var(), gang.getName()));
-        }else player.sendMessage(Messages.get("chunkClaimed"));
+        }else{
+            player.getGang().
+            player.sendMessage(Messages.get("chunkClaimed"));
+        }
     }
 
     public static void unclaim(Hoodlum player) {
-
+        Chunk chunk = player.getPlayer().getLocation().getChunk();
+        if(Gangs.getInstance().getGangCoordinator().isChunkClaimed(chunk)){
+            Gang gang = Gangs.getInstance().getGangCoordinator().getGang(chunk);
+            if(gang.equals(player.getGang())){
+                player.sendMessage(Messages.get("alreadyClaimed"));
+            }else
+                player.sendMessage(Messages.get("claimedByAnother", MsgVar.GANG.var(), gang.getName()));
+        }else player.sendMessage(Messages.get("chunkClaimed"));
     }
 
     public static void unclaimAll(Hoodlum player) {
