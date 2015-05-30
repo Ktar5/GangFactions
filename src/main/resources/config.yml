@@ -1,7 +1,13 @@
 power:
-  onlineTime: 60 #this is in minutes
-  offlineTime: 60 #this is in minutes
+  #this is in minutes
+  onlineTime: 60
+  #this is in minutes
+  offlineTime: 60
   online: 2
   offline: 1
   deathLoss: 1
-  powerToChunkRatio: 5 #5 power per chunk
+  #5 power per chunk
+  powerToChunkRatio: 5
+farm:
+  #out of 100
+  percentFarmablePerChunk: 50

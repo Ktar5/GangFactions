@@ -10,9 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Carter on 5/25/2015.
@@ -23,6 +21,8 @@ public class Gang {
     private final Set<Hoodlum> members;
     @Getter
     private final Set<Chunk> claims;
+    @Getter
+    private int totalFarm;
     //For stuffs, and also for signups?
     @Getter
     private final UUID uuid;
