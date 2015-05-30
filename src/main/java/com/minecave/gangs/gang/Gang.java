@@ -116,7 +116,7 @@ public class Gang {
         }
     }
 
-    public boolean canClaimChunks() {
+    public boolean isRaidable() {
         int powerToChunkRatio = Gangs.getInstance().getConfiguration().get("power.powerToChunkRatio", int.class);
         return getPower() / claims.size() > powerToChunkRatio;
     }
