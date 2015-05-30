@@ -1,5 +1,6 @@
 package com.minecave.gangs.gang;
 
+import com.minecave.gangs.storage.JsonConfigurable;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -12,7 +13,7 @@ import java.util.UUID;
 /**
  * Created by Carter on 5/25/2015.
  */
-public class Hoodlum {
+public class Hoodlum implements JsonConfigurable {
 
     @Getter
     private final UUID playerUUID;

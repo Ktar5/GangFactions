@@ -2,6 +2,7 @@ package com.minecave.gangs.gang;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.command.commands.Management;
+import com.minecave.gangs.storage.JsonConfigurable;
 import com.minecave.gangs.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,7 @@ import java.util.*;
 /**
  * Created by Carter on 5/25/2015.
  */
-public class Gang {
+public class Gang implements JsonConfigurable {
 
     @Getter
     private final Set<Hoodlum> members;
@@ -110,6 +111,10 @@ public class Gang {
     public boolean isRaidable() {
         int powerToChunkRatio = Gangs.getInstance().getConfiguration().get("power.powerToChunkRatio", int.class);
         return getPower() / claims.size() > powerToChunkRatio;
+    }
+
+    public boolean canClaimChunks() {
+        return isRaidable();
     }
 
     public int getPower() {

@@ -52,8 +52,8 @@ public class Gangs extends JavaPlugin {
 
         configuration = new CustomConfig(getDataFolder(), "config.yml");
         messages = new CustomConfig(getDataFolder(), "messages.yml");
-        hoodlumConfig = new CustomConfig(getDataFolder(), "hoodlum.yml");
-        gangConfig = new CustomConfig(getDataFolder(), "gangs.yml");
+        hoodlumConfig = new CustomConfig(getDataFolder(), "hoodlum.json");
+        gangConfig = new CustomConfig(getDataFolder(), "gangs.json");
 
         gangCoordinator.loadGangs();
         registerListeners();
