@@ -55,15 +55,15 @@ public class GangCoordinator {
 
     }
 
-    public void farmChunk(Chunk chunk) {
+    public void unclaimChunk(Chunk chunk) {
 
     }
 
-    public void farmChunk(Block block) {
+    public void unclaimChunk(Block block) {
 
     }
 
-    public void farmChunk(Location location) {
+    public void unclaimChunk(Location location) {
 
     }
 

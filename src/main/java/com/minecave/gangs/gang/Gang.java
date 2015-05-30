@@ -25,8 +25,6 @@ public class Gang {
     private final Set<Chunk> claims;
     //For stuffs, and also for signups?
     @Getter
-    private final Set<Chunk> farmedChunks;
-    @Getter
     private final UUID uuid;
     @Getter
     @Setter
@@ -45,7 +43,6 @@ public class Gang {
         //not sure but we might decide to use map later if we need key->value pairing
         members = new HashSet<>();
         claims = new HashSet<>();
-        farmedChunks = new HashSet<>();
         //just using a random uuid for gang creation, will be used when adding the gang to GangCoordinator
         uuid = UUID.randomUUID();
         this.name = name;
@@ -68,18 +65,6 @@ public class Gang {
         return isSpawnChunk(location.getChunk());
     }
 
-    public boolean isFarmable(Chunk chunk) {
-        return !isSpawnChunk(chunk);
-    }
-
-    public boolean isFarmable(Location location) {
-        return isFarmable(location.getChunk());
-    }
-
-    public boolean isFarmable(Block block) {
-        return isFarmable(block.getLocation());
-    }
-
     public void claimChunk(Chunk chunk) {
 
     }
@@ -92,15 +77,15 @@ public class Gang {
 
     }
 
-    public void farmChunk(Chunk chunk) {
+    public void unclaimChunk(Chunk chunk) {
 
     }
 
-    public void farmChunk(Block block) {
+    public void unclaimChunk(Block block) {
 
     }
 
-    public void farmChunk(Location location) {
+    public void unclaimChunk(Location location) {
 
     }
 

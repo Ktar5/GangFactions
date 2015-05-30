@@ -48,11 +48,24 @@ public class RaidListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-
+        if(event.getBlock().getType() == Material.TNT) {
+            return;
+        }
+        Player player = event.getPlayer();
+        Chunk chunk = event.getBlock().getChunk();
+        Gang gang = plugin.getGangCoordinator().getGang(chunk);
+        if(gang != null) {
+            if(!gang.hasPlayer(player)) {
+                event.setCancelled(true);
+            }
+        }
     }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if(event.getClickedBlock().getType() == Material.TNT) {
+            return;
+        }
         Player player = event.getPlayer();
         Chunk chunk = player.getLocation().getChunk();
         Gang gang = plugin.getGangCoordinator().getGang(chunk);
