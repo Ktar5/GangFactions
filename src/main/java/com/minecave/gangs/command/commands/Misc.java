@@ -1,6 +1,7 @@
 package com.minecave.gangs.command.commands;
 
 import com.minecave.gangs.Gangs;
+import com.minecave.gangs.gang.Gang;
 import com.minecave.gangs.gang.GangRole;
 import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.storage.Messages;
@@ -41,5 +42,13 @@ public class Misc {
             else sender.sendMessage(Messages.get("playerDoesntExist", MsgVar.PLAYER.var(), playerName));
         else sender.sendMessage(Messages.get("noPermission", MsgVar.ROLE.var()));
         return false;
+    }
+
+    public static boolean checkGang(String gangName) {
+        return Gangs.getInstance().getGangCoordinator().gangExists(gangName);
+    }
+
+    public static Gang getGang(String gangName) {
+        return Gangs.getInstance().getGangCoordinator().getGang(gangName);
     }
 }
