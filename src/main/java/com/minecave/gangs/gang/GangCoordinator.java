@@ -14,8 +14,6 @@ import com.minecave.gangs.storage.MsgVar;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -35,36 +33,8 @@ public class GangCoordinator {
 
     //probably should fix the logic here, its kinda backwards lol
 
-    public boolean isChunkClaimed(Chunk chunk) {
-        return gangMap.values().stream().anyMatch(g -> g.isChunkClaimed(chunk));
-    }
-
-    public boolean isChunkClaimed(Block block) {
-        return isChunkClaimed(block.getChunk());
-    }
-
-    public void claimChunk(Chunk chunk) {
-
-    }
-
-    public void claimChunk(Block block) {
-
-    }
-
-    public void claimChunk(Location location) {
-
-    }
-
-    public void unclaimChunk(Chunk chunk) {
-
-    }
-
-    public void unclaimChunk(Block block) {
-
-    }
-
-    public void unclaimChunk(Location location) {
-
+    public static boolean isChunkClaimed(Chunk chunk) {
+        return Gangs.getInstance().getGangCoordinator().getGangMap().values().stream().anyMatch(g -> g.isChunkClaimed(chunk));
     }
 
     //NOTE: farmable and spawn chunks should be found via the Gang object

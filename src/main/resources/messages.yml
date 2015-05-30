@@ -2,3 +2,5 @@ gang:
   territory:
     playerEnter: "You entered {gang}'s territory."
     playerLeave: "You left {gang}'s territory."
+  home: "Your gang home is at: X: {x}, Y: {y}, Z: {z}"
+  setHome: "Your gang home was set to: X: {x}, Y: {y}, Z: {z}"

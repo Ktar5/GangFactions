@@ -64,6 +64,9 @@ public class ChunkListener implements Listener {
         Chunk chunk = event.getBlock().getChunk();
         Gang gang = plugin.getGangCoordinator().getGang(chunk);
         if (gang != null) {
+            if(gang.isSpawnChunk(chunk)) {
+                return;
+            }
 
         }
     }
@@ -77,6 +80,9 @@ public class ChunkListener implements Listener {
         Chunk chunk = event.getBlock().getChunk();
         Gang gang = plugin.getGangCoordinator().getGang(chunk);
         if (gang != null) {
+            if(gang.isSpawnChunk(chunk)) {
+                return;
+            }
 
         }
     }

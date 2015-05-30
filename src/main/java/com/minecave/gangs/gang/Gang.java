@@ -2,11 +2,11 @@ package com.minecave.gangs.gang;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.command.commands.Management;
+import com.minecave.gangs.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
@@ -49,37 +49,40 @@ public class Gang {
         this.owner = owner;
     }
 
-    public boolean isChunkClaimed(Chunk chunk) {
-        return claims.contains(chunk);
+    public void setHome(Location location) {
+        if(!claims.contains(location.getChunk())) {
+            home = location;
+            String message = Gangs.getInstance().getMessages().get("gangs.setHome", String.class);
+            message = StringUtil.replace(message, "{x}", String.valueOf(location.getBlockX()));
+            message = StringUtil.replace(message, "{y}", String.valueOf(location.getBlockY()));
+            final String finalMessage = StringUtil.replaceAndColor(message, "{z}", String.valueOf(location.getBlockZ()));
+            members.forEach(h -> h.sendMessage(finalMessage));
+        }
     }
 
-    public boolean isChunkClaimed(Block block) {
-        return claims.stream().anyMatch(block.getChunk()::equals);
+    public boolean isChunkClaimed(Chunk chunk) {
+        return claims.contains(chunk);
     }
 
     public boolean isSpawnChunk(Chunk chunk) {
         return chunk.equals(home.getChunk());
     }
 
-    public boolean isSpawnChunk(Location location) {
-        return isSpawnChunk(location.getChunk());
+    public boolean claimChunk(Chunk chunk) {
+        return claims.add(chunk);
     }
 
-    public void claimChunk(Chunk chunk) {
-
+    public boolean unclaimChunk(Chunk chunk) {
+        return claims.remove(chunk);
     }
 
-    public void unclaimChunk(Chunk chunk) {
-
-    }
-
-    public void unclaimAllChunks(){
-
+    public void unclaimAllChunks() {
+        this.claims.clear();
     }
 
     public boolean hasPlayer(Player player) {
-        for(Hoodlum h : members) {
-            if(h.getPlayerUUID().equals(player.getUniqueId())) {
+        for (Hoodlum h : members) {
+            if (h.getPlayerUUID().equals(player.getUniqueId())) {
                 return true;
             }
         }
@@ -88,16 +91,16 @@ public class Gang {
 
 
     public void addPlayer(Hoodlum player) {
-        if(!hasPlayer(player.getPlayer())) {
+        if (!hasPlayer(player.getPlayer())) {
             player.setRole(GangRole.MEMBER);
             player.setGang(this);
         }
     }
 
-    public void removePlayer(Hoodlum player){
-        if(hasPlayer(player.getPlayer())){
+    public void removePlayer(Hoodlum player) {
+        if (hasPlayer(player.getPlayer())) {
             player.setRole(GangRole.GANGLESS);
-            if(player.hasRole(GangRole.LEADER)){
+            if (player.hasRole(GangRole.LEADER)) {
                 Management.disband(player);
                 player.setGang(null);
             }
@@ -111,7 +114,7 @@ public class Gang {
 
     public int getPower() {
         int power = 0;
-        for(Hoodlum h : members) {
+        for (Hoodlum h : members) {
             power += h.getPower();
         }
         return power;
