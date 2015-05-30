@@ -63,6 +63,14 @@ public class GangCoordinator {
         }
     }
 
+    public void loadGangs() {
+
+    }
+
+    public void unloadGangs() {
+
+    }
+
     public Gang getGang(Chunk chunk) {
         for(Gang gang : gangMap.values()) {
             if(gang.getClaims().contains(chunk)) {

@@ -45,6 +45,14 @@ public class HoodlumCoordinator {
         return false;
     }
 
+    public void loadHoodlum(Player player) {
+
+    }
+
+    public void unloadHoodlum(Player player) {
+
+    }
+
     public Hoodlum getHoodlum(UUID playerUUID) {
         return hoodlumMap.get(playerUUID);
     }

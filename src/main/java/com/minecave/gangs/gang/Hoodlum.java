@@ -31,6 +31,9 @@ public class Hoodlum {
     @Setter
     private LocalDateTime lastOnline;
     @Getter
+    @Setter
+    private LocalDateTime lastOffline;
+    @Getter
     private List<String> invites;
 
     public Hoodlum(UUID playerUUID) {
@@ -84,5 +87,10 @@ public class Hoodlum {
         Player player = Bukkit.getPlayer(playerUUID);
         if(player.isOnline())
             player.sendMessage(message);
+    }
+
+    public void updateLastTimes() {
+        setLastOnline(LocalDateTime.now());
+        setLastOffline(LocalDateTime.now());
     }
 }

@@ -6,7 +6,7 @@
  * gangs can not be copied and/or distributed without the express
  * permission of the aforementioned owner.
  */
-package com.minecave.gangs.chunk;
+package com.minecave.gangs.listener;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.gang.Gang;
