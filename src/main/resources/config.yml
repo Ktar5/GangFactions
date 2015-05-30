@@ -3,6 +3,8 @@ power:
   onlineTime: 60
   #this is in minutes
   offlineTime: 60
+  #this is in hours
+  offlineTimer: 1
   online: 2
   offline: 1
   deathLoss: 1

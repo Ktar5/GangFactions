@@ -79,7 +79,8 @@ public class Gangs extends JavaPlugin {
     private void scheduleTimer() {
         //runs once an hour for offline players
         offlineTimer = this.getServer().getScheduler().runTaskTimerAsynchronously(this,
-                this::checkOfflinePlayers, 0L, 20L * 60L * 60L);
+                this::checkOfflinePlayers, 0L, 20L * 60L * 60L *
+                        configuration.get("power.offlineTimer", int.class));
     }
 
     private void checkOfflinePlayers() {
@@ -93,7 +94,7 @@ public class Gangs extends JavaPlugin {
                 hoodlum.removePower(configuration.get("power.offline", int.class));
                 hoodlum.setLastOffline(LocalDateTime.now());
             }
-            if(!hoodlum.isOnline()) {
+            if (!hoodlum.isOnline()) {
                 hoodlumCoordinator.unloadHoodlum(uuid);
             }
         });
