@@ -117,7 +117,7 @@ public class SignCoordinator {
     public void load() {
         CustomConfig config = plugin.getSignConfig();
         for (String s : config.getConfig().getStringList(sign)) {
-            Location l = ConfigUtil.deserializeLocation(config.get(s, String.class));
+            Location l = ConfigUtil.deserializeLocation(s);
             if (l == null) {
                 continue;
             }
