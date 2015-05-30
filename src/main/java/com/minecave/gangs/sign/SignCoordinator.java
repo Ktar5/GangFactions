@@ -62,17 +62,17 @@ public class SignCoordinator {
     }
 
     private void rotateAlerts() {
-        CustomConfig config = plugin.getConfiguration();
         if (!alerts.isEmpty()) {
             int index = currentAlert == null ? 0 : alerts.indexOf(currentAlert) + 1;
             currentAlert = alerts.get(index);
         } else {
             currentAlert = null;
         }
-        setUpdateSign(config);
+        setUpdateSign();
     }
 
-    private void setUpdateSign(CustomConfig config) {
+    private void setUpdateSign() {
+        CustomConfig config = plugin.getConfiguration();
         String firstLine;
         String secondLine;
         String thirdLine;
@@ -151,7 +151,7 @@ public class SignCoordinator {
     public boolean addSign(Sign sign) {
         if (!signs.contains(sign)) {
             signs.add(sign);
-            setUpdateSign(plugin.getConfiguration());
+            setUpdateSign();
             return true;
         }
         return false;
