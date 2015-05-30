@@ -3,12 +3,12 @@ package com.minecave.gangs;
 import com.minecave.gangs.gang.GangCoordinator;
 import com.minecave.gangs.gang.HoodlumCoordinator;
 import com.minecave.gangs.storage.CustomConfig;
+import com.minecave.gangs.util.TimeUtil;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
 public class Gangs extends JavaPlugin {
@@ -55,16 +55,12 @@ public class Gangs extends JavaPlugin {
         this.getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
             //runs every second for offline time count
             hoodlumCoordinator.getHoodlumMap().values().forEach(h -> {
-                Instant lastOnline = h.getLastOnline().atZone(ZoneId.systemDefault()).toInstant();
+                Instant lastOnline = TimeUtil.localDateTimeToInstant(h.getLastOnline());
                 if(h.getPlayer().isOnline()) {
                     if(ChronoUnit.MINUTES.between(lastOnline, Instant.now()) > onlineMinutes) {
                         h.addPower(configuration.get("power.online", int.class));
                         h.setLastOnline(LocalDateTime.now());
                     }
-                    return;
-                }
-                if(ChronoUnit.MINUTES.between(lastOnline, Instant.now()) > offlineMinutes) {
-                    h.removePower(configuration.get("power.offline", int.class));
                 }
             });
         }, 0L, 20 * 60); //runs once a minute, should be plenty of time for computation power

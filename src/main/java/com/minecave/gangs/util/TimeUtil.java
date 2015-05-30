@@ -8,7 +8,9 @@
  */
 package com.minecave.gangs.util;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class TimeUtil {
@@ -21,5 +23,9 @@ public class TimeUtil {
 
     public static LocalDateTime deserializeDateTime(String input) {
         return LocalDateTime.from(dateTimeFormatter.parse(input));
+    }
+
+    public static Instant localDateTimeToInstant(LocalDateTime localDateTime) {
+        return localDateTime.atZone(ZoneId.systemDefault()).toInstant();
     }
 }

@@ -119,4 +119,22 @@ public class Gang {
         }
         return power;
     }
+
+    public void subtractFromFarmTotal() {
+        this.totalFarm += 1;
+        checkPercentage();
+    }
+
+    public void addToFarmTotal() {
+        this.totalFarm -= 1;
+        checkPercentage();
+    }
+
+    public void checkPercentage() {
+        int percent = Gangs.getInstance().getConfiguration().get("farm.percentFarmablePerChunk", int.class);
+        int totalFarmable = (percent / 100) * (claims.size() - 1);
+        if(totalFarm >= totalFarmable) {
+            //mark for signs later
+        }
+    }
 }

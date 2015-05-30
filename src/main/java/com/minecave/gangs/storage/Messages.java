@@ -33,7 +33,7 @@ public class Messages {
     // variable, replacer, variable, replacer, variable replacer, etc...
     public static String get(String key, String... values){
         if(values.length % 2 != 0){
-            return "Error while trying to get string " + key + "//n A variable doesn't have a pair";
+            return "Error while trying to get string " + key + "\n A variable doesn't have a pair";
         }else{
             if(!messages.containsKey(key)) {
                 String s = "This_value_doesn't_exist,_and_has_the_following_arguments:";

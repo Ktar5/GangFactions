@@ -20,8 +20,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.world.ChunkLoadEvent;
-import org.bukkit.event.world.ChunkUnloadEvent;
 
 public class ChunkListener implements Listener {
 
@@ -29,16 +27,6 @@ public class ChunkListener implements Listener {
 
     public ChunkListener(Gangs plugin) {
         this.plugin = plugin;
-    }
-
-    @EventHandler
-    public void onChunkLoad(ChunkLoadEvent event) {
-
-    }
-
-    @EventHandler
-    public void onChunkUnload(ChunkUnloadEvent event) {
-
     }
 
     @EventHandler
@@ -79,7 +67,7 @@ public class ChunkListener implements Listener {
             if(gang.isSpawnChunk(chunk)) {
                 return;
             }
-
+            gang.subtractFromFarmTotal();
         }
     }
 
@@ -95,7 +83,7 @@ public class ChunkListener implements Listener {
             if(gang.isSpawnChunk(chunk)) {
                 return;
             }
-
+            gang.addToFarmTotal();
         }
     }
 }
