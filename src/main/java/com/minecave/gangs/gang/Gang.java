@@ -81,6 +81,30 @@ public class Gang {
         return isFarmable(block.getLocation());
     }
 
+    public void claimChunk(Chunk chunk) {
+
+    }
+
+    public void claimChunk(Block block) {
+
+    }
+
+    public void claimChunk(Location location) {
+
+    }
+
+    public void farmChunk(Chunk chunk) {
+
+    }
+
+    public void farmChunk(Block block) {
+
+    }
+
+    public void farmChunk(Location location) {
+
+    }
+
     public boolean hasPlayer(Player player) {
         for(Hoodlum h : members) {
             if(h.getPlayerUUID().equals(player.getUniqueId())) {

@@ -14,6 +14,7 @@ import com.minecave.gangs.storage.MsgVar;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -40,6 +41,30 @@ public class GangCoordinator {
 
     public boolean isChunkClaimed(Block block) {
         return isChunkClaimed(block.getChunk());
+    }
+
+    public void claimChunk(Chunk chunk) {
+
+    }
+
+    public void claimChunk(Block block) {
+
+    }
+
+    public void claimChunk(Location location) {
+
+    }
+
+    public void farmChunk(Chunk chunk) {
+
+    }
+
+    public void farmChunk(Block block) {
+
+    }
+
+    public void farmChunk(Location location) {
+
     }
 
     //NOTE: farmable and spawn chunks should be found via the Gang object
