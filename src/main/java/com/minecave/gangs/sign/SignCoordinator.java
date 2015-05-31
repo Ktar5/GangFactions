@@ -130,13 +130,12 @@ public class SignCoordinator {
     }
 
     public void unload() {
-        CustomConfig config = plugin.getSignConfig();
         List<String> signList = new ArrayList<>();
         for (Sign sign : signs) {
             Location l = sign.getLocation();
             signList.add(ConfigUtil.serializeLocation(l));
         }
-        config.set(sign, signList);
+        Gangs.getInstance().getSignConfig().set(sign, signList);
     }
 
     public boolean removeSign(Sign sign) {

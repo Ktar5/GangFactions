@@ -103,6 +103,10 @@ public class Hoodlum {
         setLastOffline(LocalDateTime.now());
     }
 
+    public boolean hasInvite(String gangName){
+        return invites.contains(gangName.toLowerCase());
+    }
+
     public boolean isOnline() {
         Player player = getPlayer();
         return player != null && player.isOnline();

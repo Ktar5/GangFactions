@@ -10,11 +10,10 @@ package com.minecave.gangs.listener;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.gang.Gang;
-import com.minecave.gangs.gang.Hoodlum;
-import com.minecave.gangs.util.StringUtil;
+import com.minecave.gangs.storage.Messages;
+import com.minecave.gangs.storage.MsgVar;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -30,26 +29,12 @@ public class ChunkListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
-    public void onChunkMove(PlayerMoveEvent event) {
-        if (event.getFrom().getChunk().equals(event.getTo().getChunk())) {
-            return;
-        }
-        Player player = event.getPlayer();
-        Chunk chunk = event.getTo().getChunk();
-        Gang gang = plugin.getGangCoordinator().getGang(chunk);
-        if (gang != null) {
-            player.sendMessage(StringUtil.replaceAndColor(plugin.getMessages().get("gang.territory.playerEnter", String.class), "{gang}", gang.getName()));
-        } else {
-            //gang was null for the getTo() chunk, therefore is not claimed
-            Hoodlum hoodlum = plugin.getHoodlumCoordinator().getHoodlum(player);
-            if(hoodlum != null && hoodlum.isAutoClaim()) {
-                hoodlum.getGang().claimChunk(chunk);
-            }
-            Chunk prevChunk = event.getFrom().getChunk();
-            gang = plugin.getGangCoordinator().getGang(prevChunk);
-            if (gang != null) {
-                player.sendMessage(StringUtil.replaceAndColor(plugin.getMessages().get("gang.territory.playerLeave", String.class), "{gang}", gang.getName()));
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerMove(PlayerMoveEvent event) {
+        if (!event.getFrom().getChunk().equals(event.getTo().getChunk())) {
+            String to = plugin.getGangCoordinator().getGangName(event.getTo());
+            if (!to.equals(plugin.getGangCoordinator().getGangName(event.getFrom()))) {
+                event.getPlayer().sendMessage(Messages.get("enteredOther", MsgVar.GANG.var(), to));
             }
         }
     }

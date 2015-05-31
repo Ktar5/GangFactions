@@ -89,15 +89,11 @@ public class Gang {
         return members.contains(player.getUniqueId());
     }
 
-    public void addMember(UUID uuid) {
-        members.add(uuid);
-    }
-
     public void addPlayer(Hoodlum player) {
         if (!hasPlayer(player.getPlayer())) {
             player.setRole(GangRole.MEMBER);
             player.setGang(this);
-            player.setGangUUID(null);
+            player.setGangUUID(uuid);
             members.add(player.getPlayerUUID());
         }
     }

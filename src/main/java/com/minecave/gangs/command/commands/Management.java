@@ -36,7 +36,7 @@ public class Management {
                     player.sendMessage(Messages.get("notEnoughPower", MsgVar.POWER.var(), String.valueOf(player.getGang().getPower())));
                 }
             }
-        }player.sendMessage(Messages.get("notInGang"));
+        }else player.sendMessage(Messages.get("notInGang"));
     }
 
     public static void unclaim(Hoodlum player) {
@@ -85,6 +85,19 @@ public class Management {
     }
 
     public static void invite(Hoodlum player, String playerName) {
+        Hoodlum hoodlum = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName);
+        if(hoodlum != null){
+            if(!hoodlum.isInGang()){
+                if(!hoodlum.hasInvite(player.getGang().getName().toLowerCase())){
+                    hoodlum.getInvites().add(player.getGang().getName());
+                    hoodlum.sendMessage(Messages.get("invited", MsgVar.GANG.var(), player.getGang().getName(),
+                            MsgVar.PLAYER.var(), player.getPlayer().getName()));
+                }else
+                    player.sendMessage(Messages.get("playerAlreadyInvited"));
+            }else
+                player.sendMessage(Messages.get("playerAlreadyInGang", MsgVar.GANG.var(), hoodlum.getGang().getName()));
+        }else
+            player.sendMessage(Messages.get("playerDoesntExist", MsgVar.PLAYER.var(), playerName));
     }
 
     public static void promote(Hoodlum player, String playerName, GangRole role){

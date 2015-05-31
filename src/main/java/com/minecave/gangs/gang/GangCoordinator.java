@@ -53,6 +53,8 @@ public class GangCoordinator {
             Gang gang = new Gang(name, owner.getPlayer());
             owner.setGang(gang);
             owner.setRole(GangRole.LEADER);
+            gang.claimChunk(owner.getPlayer().getLocation().getChunk());
+            gang.setHome(owner.getPlayer().getLocation());
             gangMap.put(keyName, gang);
         }
     }
@@ -124,19 +126,18 @@ public class GangCoordinator {
     }
 
     private void unloadGang(Gang gang) {
-        CustomConfig config = gangs.getGangConfig();
         String uuidString = gang.getUuid().toString();
 
-        config.set(uuidString + "." + GangConfig.NAME, gang.getName());
-        config.set(uuidString + "." + GangConfig.OWNER, gang.getOwner().getUniqueId().toString());
-        config.set(uuidString + "." + GangConfig.TOTAL_FARM, gang.getTotalFarm());
-        config.set(uuidString + "." + GangConfig.HOME, ConfigUtil.serializeLocation(gang.getHome()));
-        config.set(uuidString + "." + GangConfig.LAST_ONLINE, gang.getLastOnline().toString());
+        Gangs.getInstance().getGangConfig().set(uuidString + "." + GangConfig.NAME, gang.getName());
+        Gangs.getInstance().getGangConfig().set(uuidString + "." + GangConfig.OWNER, gang.getOwner().getUniqueId().toString());
+        Gangs.getInstance().getGangConfig().set(uuidString + "." + GangConfig.TOTAL_FARM, gang.getTotalFarm());
+        Gangs.getInstance().getGangConfig().set(uuidString + "." + GangConfig.HOME, ConfigUtil.serializeLocation(gang.getHome()));
+        Gangs.getInstance().getGangConfig().set(uuidString + "." + GangConfig.LAST_ONLINE, gang.getLastOnline().toString());
 
         List<String> membersList = gang.getMembers().stream().map(UUID::toString).collect(Collectors.toList());
-        config.set(uuidString + "." + GangConfig.MEMBERS, membersList);
+        Gangs.getInstance().getGangConfig().set(uuidString + "." + GangConfig.MEMBERS, membersList);
         List<String> claimsList = gang.getClaims().stream().map(ConfigUtil::serializeChunk).collect(Collectors.toList());
-        config.set(uuidString + "." + GangConfig.CLAIMS, claimsList);
+        Gangs.getInstance().getGangConfig().set(uuidString + "." + GangConfig.CLAIMS, claimsList);
 
         gangMap.remove(gang.getName().toLowerCase());
     }

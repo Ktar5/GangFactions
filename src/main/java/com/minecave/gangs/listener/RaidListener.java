@@ -10,8 +10,6 @@ package com.minecave.gangs.listener;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.gang.Gang;
-import com.minecave.gangs.storage.Messages;
-import com.minecave.gangs.storage.MsgVar;
 import lombok.Getter;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -24,7 +22,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 
 public class RaidListener implements Listener {
 
@@ -96,10 +93,4 @@ public class RaidListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerMove(PlayerMoveEvent event){
-        String to = plugin.getGangCoordinator().getGangName(event.getTo());
-        if(!to.equals(plugin.getGangCoordinator().getGangName(event.getFrom())))
-            event.getPlayer().sendMessage(Messages.get("enteredOther", MsgVar.GANG.var(), to));
-    }
 }

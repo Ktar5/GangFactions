@@ -37,7 +37,7 @@ public class Messages {
             return "Error while trying to get string " + key + "\n A variable doesn't have a pair";
         }else{
             if(!messages.containsKey(key)) {
-                String s = "This_value_doesn't_exist,_and_has_the_following_arguments:";
+                String s = "This_value_doesnt_exist_and_has_the_following_arguments";
                 int n = 1;
                 while(n <= values.length){
                     s += "_" + values[n-1];

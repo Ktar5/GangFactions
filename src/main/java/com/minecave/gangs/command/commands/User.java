@@ -54,11 +54,23 @@ public class User {
     }
 
     public static void acceptInvite(Hoodlum player, String para) {
+        if(player.hasInvite(para)){
+            player.sendMessage(Messages.get("inviteAccepted", MsgVar.GANG.var(), para));
+            player.getInvites().remove(para);
+            Gangs.getInstance().getGangCoordinator().getGang(para.toLowerCase()).addPlayer(player);
+        }else player.sendMessage(Messages.get("haventBeenInvited", MsgVar.GANG.var(), para));
     }
 
     public static void denyInvite(Hoodlum player, String para) {
+        if(player.hasInvite(para)){
+            player.sendMessage(Messages.get("inviteDenied", MsgVar.GANG.var(), para));
+            player.getInvites().remove(para);
+        }else player.sendMessage(Messages.get("haventBeenInvited", MsgVar.GANG.var(), para));
     }
 
     public static void showInvitations(Hoodlum player) {
+        for(String string : player.getInvites()){
+            player.sendMessage(Messages.get("inviteList", MsgVar.GANG.var(), string));
+        }
     }
 }
