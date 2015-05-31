@@ -63,7 +63,7 @@ public class HoodlumCoordinator {
         if (config.getConfig().contains(uuidString)) {
             hoodlum.setPower(config.get(uuidString + "." + HoodlumConfig.POWER, Integer.class));
             hoodlum.setMaxPower(config.get(uuidString + "." + HoodlumConfig.MAX_POWER, Integer.class));
-            if(config.get(uuidString + "." + HoodlumConfig.GANG_UUID, String.class) != null){
+            if(config.has(uuidString + "." + HoodlumConfig.GANG_UUID)){
                 hoodlum.setGangUUID(UUID.fromString(config.get(uuidString + "." + HoodlumConfig.GANG_UUID, String.class)));
             }
             hoodlum.setGang(gangs.getGangCoordinator().getGang(hoodlum.getGangUUID()));
@@ -84,17 +84,16 @@ public class HoodlumCoordinator {
     }
 
     public void unloadHoodlum(UUID uuid) {
-        CustomConfig config = gangs.getHoodlumConfig();
         String uuidString = uuid.toString();
         Hoodlum hoodlum = hoodlumMap.get(uuid);
-        config.set(uuidString + "." + HoodlumConfig.POWER, hoodlum.getPower());
-        config.set(uuidString + "." + HoodlumConfig.MAX_POWER, hoodlum.getMaxPower());
+        gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.POWER, hoodlum.getPower());
+        gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.MAX_POWER, hoodlum.getMaxPower());
         if(hoodlum.isInGang()){
-            config.set(uuidString + "." + HoodlumConfig.GANG_UUID, hoodlum.getGangUUID().toString());
+            gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.GANG_UUID, hoodlum.getGangUUID().toString());
         }
-        config.set(uuidString + "." + HoodlumConfig.GANG_ROLE, hoodlum.getRole().toString());
-        config.set(uuidString + "." + HoodlumConfig.LAST_ONLINE, hoodlum.getLastOnline().toString());
-        config.set(uuidString + "." + HoodlumConfig.LAST_OFFLINE, hoodlum.getLastOffline().toString());
+        gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.GANG_ROLE, hoodlum.getRole().toString());
+        gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.LAST_ONLINE, hoodlum.getLastOnline().toString());
+        gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.LAST_OFFLINE, hoodlum.getLastOffline().toString());
         hoodlumMap.remove(uuid);
     }
 

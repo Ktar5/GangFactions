@@ -53,6 +53,7 @@ public class GangCoordinator {
             Gang gang = new Gang(name, owner.getPlayer());
             owner.setGang(gang);
             owner.setRole(GangRole.LEADER);
+            owner.setGangUUID(gang.getUuid());
             gang.claimChunk(owner.getPlayer().getLocation(), owner.getPlayer().getLocation().getChunk());
             gang.setHome(owner.getPlayer().getLocation());
             gangMap.put(keyName, gang);
@@ -99,13 +100,12 @@ public class GangCoordinator {
     private Gang loadGang(UUID gangUUID) {
         CustomConfig config = gangs.getGangConfig();
         String uuidString = gangUUID.toString();
-        if (config.getConfig().contains(uuidString)) {
+        if (config.has(uuidString)) {
             String name = config.get(uuidString + "." + GangConfig.NAME, String.class);
             OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(config.get(uuidString + "." + GangConfig.OWNER, String.class)));
-            Gang gang = new Gang(name, owner);
-            gang.u
+            Gang gang = new Gang(name, owner, gangUUID);
             gang.setTotalFarm(config.get(uuidString + "." + GangConfig.TOTAL_FARM, Integer.class));
-            if(config.get(uuidString + "." + GangConfig.HOME, String.class) != null){
+            if(config.has(uuidString + "." + GangConfig.HOME)){
                 gang.setHome(ConfigUtil.deserializeLocation(config.get(uuidString + "." + GangConfig.HOME, String.class)));
             }
             gang.setLastOnline(LocalDateTime.parse(config.get(uuidString + "." + GangConfig.LAST_ONLINE, String.class)));
@@ -115,9 +115,8 @@ public class GangCoordinator {
             }
             List<String> claimsList = config.getConfig().getStringList(uuidString + "." + GangConfig.CLAIMS);
             for(String s : claimsList) {
-                gang.getClaims().add(ConfigUtil.deserializeChunk(s));
+                gang.addChunk(ConfigUtil.deserializeChunk(s));
             }
-
             gangMap.put(name.toLowerCase(), gang);
             return gang;
         }
@@ -142,6 +141,7 @@ public class GangCoordinator {
 
         List<String> membersList = gang.getMembers().stream().map(UUID::toString).collect(Collectors.toList());
         Gangs.getInstance().getGangConfig().set(uuidString + "." + GangConfig.MEMBERS, membersList);
+
         List<String> claimsList = gang.getClaims().stream().map(ConfigUtil::serializeChunk).collect(Collectors.toList());
         Gangs.getInstance().getGangConfig().set(uuidString + "." + GangConfig.CLAIMS, claimsList);
     }

@@ -35,14 +35,14 @@ public class ConfigUtil {
     }
 
     public static Chunk deserializeChunk(String input) {
-        Location location = deserializeLocation(input);
-        if(location == null) {
+        String[] split = input.split(";");
+        if(split.length != 3) {
             return null;
         }
-        return location.getChunk();
+        return (Bukkit.getWorld(UUID.fromString(split[0])).getChunkAt(Integer.valueOf(split[1]), Integer.valueOf(split[2])));
     }
 
     public static String serializeChunk(Chunk chunk) {
-        return serializeLocation(new Location(chunk.getWorld(), chunk.getX(), 0, chunk.getZ()));
+        return chunk.getWorld().getUID().toString() + ";" + chunk.getX() + ";" + chunk.getZ();
     }
 }

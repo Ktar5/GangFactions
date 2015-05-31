@@ -56,6 +56,10 @@ public class CustomConfig {
         set(path, value, false);
     }
 
+    public boolean has(String path) {
+        return config.contains(path);
+    }
+
     public <T> T get(String path, Class<T> tClass) {
         if(!config.contains(path)) {
             throw new IllegalArgumentException(path + " does not exist.");

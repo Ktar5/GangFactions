@@ -47,8 +47,10 @@ public class Management {
         }else{
             Gang gang = Gangs.getInstance().getGangCoordinator().getGang(chunk);
             if(gang.equals(player.getGang())){
-                player.getGang().unclaimChunk(chunk);
-                player.sendMessage(Messages.get("chunkUnclaimed"));
+                if(player.getGang().unclaimChunk(chunk)){
+                    player.sendMessage(Messages.get("chunkUnclaimed"));
+                }else
+                    player.sendMessage(Messages.get("cantUnclaimHomeChunk"));
             }else
                 player.sendMessage(Messages.get("claimedByAnother", MsgVar.GANG.var(), gang.getName()));
         }

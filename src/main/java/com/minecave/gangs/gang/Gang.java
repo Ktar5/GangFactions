@@ -64,6 +64,10 @@ public class Gang {
         }
     }
 
+    public void addChunk(Chunk chunk){
+        this.claims.add(chunk);
+    }
+
     public boolean isChunkClaimed(Chunk chunk) {
         return claims.contains(chunk);
     }
@@ -80,17 +84,18 @@ public class Gang {
     }
 
     public boolean unclaimChunk(Chunk chunk) {
-        if(home.getChunk().equals(chunk) && claims.size() == 1){
-            if(claims.size() == 1){
-                home = null;
-            }//cannot unclaim home chunk before other chunk
+        if(home != null){
+            if(home.getChunk().equals(chunk)){
+                return false; //cannot unclaim home chunk
+            }
         }
         return claims.remove(chunk);
     }
 
     public void unclaimAllChunks() {
-        this.claims.clear();
-        this.home = null;
+        for(Chunk chunk : claims){
+            unclaimChunk(chunk);
+        }
     }
 
     public boolean hasPlayer(Player player) {
