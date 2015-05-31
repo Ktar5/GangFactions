@@ -93,9 +93,7 @@ public class Gang {
     }
 
     public void unclaimAllChunks() {
-        for(Chunk chunk : claims){
-            unclaimChunk(chunk);
-        }
+        claims.forEach(this::unclaimChunk);
     }
 
     public boolean hasPlayer(Player player) {

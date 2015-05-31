@@ -94,7 +94,6 @@ public class HoodlumCoordinator {
         gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.GANG_ROLE, hoodlum.getRole().toString());
         gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.LAST_ONLINE, hoodlum.getLastOnline().toString());
         gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.LAST_OFFLINE, hoodlum.getLastOffline().toString());
-        hoodlumMap.remove(uuid);
     }
 
     public Hoodlum getHoodlum(UUID playerUUID) {
