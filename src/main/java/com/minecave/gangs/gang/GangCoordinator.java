@@ -108,7 +108,7 @@ public class GangCoordinator {
             gang.setLastOnline(LocalDateTime.parse(config.get(uuidString + "." + GangConfig.LAST_ONLINE, String.class)));
             List<String> membersList = config.getConfig().getStringList(uuidString + "." + GangConfig.MEMBERS);
             for(String s : membersList) {
-                gang.addMember(UUID.fromString(s));
+                gang.addPlayer(Gangs.getInstance().getHoodlumCoordinator().getHoodlum(UUID.fromString(s)));
             }
             List<String> claimsList = config.getConfig().getStringList(uuidString + "." + GangConfig.CLAIMS);
             for(String s : claimsList) {
