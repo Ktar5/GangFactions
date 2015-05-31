@@ -25,8 +25,9 @@ public class Management {
                 Gang gang = Gangs.getInstance().getGangCoordinator().getGang(chunk);
                 if(gang.equals(player.getGang())){
                     player.sendMessage(Messages.get("alreadyClaimed"));
-                }else
+                }else {
                     player.sendMessage(Messages.get("claimedByAnother", MsgVar.GANG.var(), gang.getName()));
+                }
             }else{
                 if(player.getGang().canClaimChunks()){
                     player.getGang().claimChunk(chunk);
@@ -35,7 +36,7 @@ public class Management {
                     player.sendMessage(Messages.get("notEnoughPower", MsgVar.POWER.var(), String.valueOf(player.getGang().getPower())));
                 }
             }
-        }
+        }player.sendMessage(Messages.get("notInGang"));
     }
 
     public static void unclaim(Hoodlum player) {
