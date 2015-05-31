@@ -63,7 +63,9 @@ public class HoodlumCoordinator {
         if (config.getConfig().contains(uuidString)) {
             hoodlum.setPower(config.get(uuidString + "." + HoodlumConfig.POWER, Integer.class));
             hoodlum.setMaxPower(config.get(uuidString + "." + HoodlumConfig.MAX_POWER, Integer.class));
-            hoodlum.setGangUUID(UUID.fromString(config.get(uuidString + "." + HoodlumConfig.GANG_UUID, String.class)));
+            if(config.get(uuidString + "." + HoodlumConfig.GANG_UUID, String.class) != null){
+                hoodlum.setGangUUID(UUID.fromString(config.get(uuidString + "." + HoodlumConfig.GANG_UUID, String.class)));
+            }
             hoodlum.setGang(gangs.getGangCoordinator().getGang(hoodlum.getGangUUID()));
             hoodlum.setRole(GangRole.valueOf(config.get(uuidString + "." + HoodlumConfig.GANG_ROLE, String.class)));
             hoodlum.setLastOnline(LocalDateTime.parse(config.get(uuidString + "." + HoodlumConfig.LAST_ONLINE, String.class)));
@@ -87,7 +89,9 @@ public class HoodlumCoordinator {
         Hoodlum hoodlum = hoodlumMap.get(uuid);
         config.set(uuidString + "." + HoodlumConfig.POWER, hoodlum.getPower());
         config.set(uuidString + "." + HoodlumConfig.MAX_POWER, hoodlum.getMaxPower());
-        config.set(uuidString + "." + HoodlumConfig.GANG_UUID, hoodlum.getGangUUID().toString());
+        if(hoodlum.isInGang()){
+            config.set(uuidString + "." + HoodlumConfig.GANG_UUID, hoodlum.getGangUUID().toString());
+        }
         config.set(uuidString + "." + HoodlumConfig.GANG_ROLE, hoodlum.getRole().toString());
         config.set(uuidString + "." + HoodlumConfig.LAST_ONLINE, hoodlum.getLastOnline().toString());
         config.set(uuidString + "." + HoodlumConfig.LAST_OFFLINE, hoodlum.getLastOffline().toString());

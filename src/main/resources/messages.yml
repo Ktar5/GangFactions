@@ -1,6 +1,17 @@
-gang:
-  territory:
-    playerEnter: "You entered {gang}'s territory."
-    playerLeave: "You left {gang}'s territory."
-  home: "Your gang home is at: X: {x}, Y: {y}, Z: {z}"
-  setHome: "Your gang home was set to: X: {x}, Y: {y}, Z: {z}"
+gangCreated: Gang created{GANG}_{PLAYER}
+enteredOther: entered {GANG}
+invited: invited to{GANG} by {PLAYER}
+invitedPlayerToGang: youve invited{PLAYER} to your gang
+haventBeenInvited: you havent been invited to {GANG}
+disbandFaction: gang {GANG} has been disbanded
+inviteAccepted: youve accepted the invite to {GANG}
+noHome: isnt any home
+powerSelf: you have {POWER} power out of {MAX_POWER}
+homeSet: youve set your home
+welcomeHome: welcome home to {GANG}
+notEnoughPower: dont have enough power you have {POWER}
+notClaimed: this isnt claimed
+leaveGang: you have left {GANG}
+chunkClaimed: chunk claimed
+chunkUnclaimed: chunk unclaimed
+unclaimedAll: all chunks unclaimed

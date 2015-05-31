@@ -23,7 +23,7 @@ public class Messages {
 
     public static String get(String key){
         if(!messages.containsKey(key)) {
-            String s ="This_value_doesn't_exist,_and_doesn't_have_any_arguments";
+            String s ="This_value_doesnt_exist_and_doesnt_have_any_arguments";
             Gangs.getInstance().getMessages().set(key, s, true);
             return s;
         }

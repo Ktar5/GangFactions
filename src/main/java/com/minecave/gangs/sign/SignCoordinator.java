@@ -63,7 +63,7 @@ public class SignCoordinator {
 
     private void rotateAlerts() {
         if (!alerts.isEmpty()) {
-            int index = currentAlert == null ? 0 : alerts.indexOf(currentAlert) + 1;
+            int index = (currentAlert == null) ? 0 : alerts.indexOf(currentAlert) + 1;
             currentAlert = alerts.get(index);
         } else {
             currentAlert = null;

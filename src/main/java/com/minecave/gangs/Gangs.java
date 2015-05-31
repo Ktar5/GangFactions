@@ -12,6 +12,8 @@ import com.minecave.gangs.storage.CustomConfig;
 import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.util.TimeUtil;
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -77,6 +79,9 @@ public class Gangs extends JavaPlugin {
         scheduleTimer();
 
         Messages.loadMessages();
+        for(Player player : Bukkit.getOnlinePlayers()){
+            this.hoodlumCoordinator.loadHoodlum(player);
+        }
     }
 
     private void registerListeners() {
@@ -88,14 +93,19 @@ public class Gangs extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        for(Hoodlum player : this.hoodlumCoordinator.getHoodlumMap().values()){
+            player.updateLastTimes();
+        }
         gangCoordinator.unloadGangs();
         signCoordinator.unload();
+
+        for(Hoodlum player : this.hoodlumCoordinator.getHoodlumMap().values()){
+            this.hoodlumCoordinator.unloadHoodlum(player.getPlayerUUID());
+        }
 
         offlineTimer.cancel();
         checkOfflinePlayers();
 
-        configuration.saveConfig();
-        messages.saveConfig();
         hoodlumConfig.saveConfig();
         gangConfig.saveConfig();
         signConfig.saveConfig();

@@ -2,7 +2,6 @@ package com.minecave.gangs.gang;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.command.commands.Management;
-import com.minecave.gangs.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Chunk;
@@ -41,27 +40,27 @@ public class Gang {
     @Setter
     private LocalDateTime lastOnline;
 
-    public Gang(String name, OfflinePlayer owner) {
+    public Gang(String name, OfflinePlayer owner, UUID uuid) {
         //not sure but we might decide to use map later if we need key->value pairing
         members = new HashSet<>();
         claims = new HashSet<>();
         //just using a random uuid for gang creation, will be used when adding the gang to GangCoordinator
-        uuid = UUID.randomUUID();
+        this.uuid = uuid;
         while (Gangs.getInstance().getGangCoordinator().gangExists(uuid)) {
-            uuid = UUID.randomUUID();
+            System.out.println("Gang already existed, needing to generate new uuid");
+            this.uuid = UUID.randomUUID();
         }
         this.name = name;
         this.owner = owner;
     }
 
+    public Gang(String name, OfflinePlayer owner){
+        this(name, owner, UUID.randomUUID());
+    }
+
     public void setHome(Location location) {
-        if (!claims.contains(location.getChunk())) {
+        if (claims.contains(location.getChunk())) {
             home = location;
-            String message = Gangs.getInstance().getMessages().get("gangs.setHome", String.class);
-            message = StringUtil.replace(message, "{x}", String.valueOf(location.getBlockX()));
-            message = StringUtil.replace(message, "{y}", String.valueOf(location.getBlockY()));
-            final String finalMessage = StringUtil.replaceAndColor(message, "{z}", String.valueOf(location.getBlockZ()));
-            members.forEach(u -> Gangs.getInstance().getHoodlumCoordinator().getHoodlum(u).sendMessage(finalMessage));
         }
     }
 
@@ -73,16 +72,25 @@ public class Gang {
         return chunk.equals(home.getChunk());
     }
 
-    public boolean claimChunk(Chunk chunk) {
+    public boolean claimChunk(Location home, Chunk chunk) {
+        if(claims.isEmpty()){
+            this.home = home;
+        }
         return claims.add(chunk);
     }
 
     public boolean unclaimChunk(Chunk chunk) {
+        if(home.getChunk().equals(chunk) && claims.size() == 1){
+            if(claims.size() == 1){
+                home = null;
+            }//cannot unclaim home chunk before other chunk
+        }
         return claims.remove(chunk);
     }
 
     public void unclaimAllChunks() {
         this.claims.clear();
+        this.home = null;
     }
 
     public boolean hasPlayer(Player player) {
@@ -116,7 +124,7 @@ public class Gang {
     }
 
     public boolean canClaimChunks() {
-        return isRaidable();
+        return !isRaidable();
     }
 
     public int getPower() {
@@ -127,6 +135,7 @@ public class Gang {
                 power += h.getPower();
             }
         }
+        power += Gangs.getInstance().getHoodlumCoordinator().getHoodlum(owner.getUniqueId()).getPower();
         return power;
     }
 
@@ -143,7 +152,7 @@ public class Gang {
     public void checkPercentage() {
         int percent = Gangs.getInstance().getConfiguration().get("farm.percentFarmablePerChunk", Integer.class);
         int totalFarmable = (percent / 100) * (claims.size() - 1);
-        if (totalFarm >= totalFarmable) {
+        if (totalFarm >= totalFarmable && !getClaims().isEmpty()) {
             Gangs.getInstance().getSignCoordinator().addAlert(home, this);
         } else {
             Gangs.getInstance().getSignCoordinator().removeAlert(home);
