@@ -25,16 +25,11 @@ kickedPlayer: youve been kicked from {GANG} by {PLAYER}
 joinedGang: This_value_doesnt_exist_and_has_the_following_arguments_{GANG}
 gmap:
   title: _____________.[ ({X},{Y}) {GANG} ]._____________
-  one: &6\{N}/&7------------------------------------
-  two: &6{W}+{E}&7------------------------------------
-  three: &6/{S}\&7------------------------------------
-  four: &7---------------------------------------
-  five: &7---------------------------------------
-  six: &7---------------------------------------
-  seven: &7---------------------------------------
-  eight: &7---------------------------------------
-  nine: {GANGS}
-  gangsFormat: {SYMBOL}:{GANG}
+  compass:
+    - '&6\N/'
+    - '&6W+E'
+    - '&6/S\'
+  gangsFormat: '{SYMBOL}: {GANG}'
   #A through Z are included to follow after these
   symbols:
     - '\'

@@ -79,6 +79,9 @@ public class CommandDistributor implements CommandExecutor {
                         case "confirm":
                             Misc.confirm(player);
                             break;
+                        case "map":
+                            Gangs.getInstance().getGMap().generateSendClaimMap(player.getPlayer());
+                            break;
                         default:
                             Misc.showHelp(player, "default");
                             break;

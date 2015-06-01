@@ -10,6 +10,7 @@ import com.minecave.gangs.listener.RaidListener;
 import com.minecave.gangs.sign.SignCoordinator;
 import com.minecave.gangs.storage.CustomConfig;
 import com.minecave.gangs.storage.Messages;
+import com.minecave.gangs.gang.GMap;
 import com.minecave.gangs.util.TimeUtil;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -43,6 +44,8 @@ public class Gangs extends JavaPlugin {
     private GangCoordinator gangCoordinator;
     @Getter
     private SignCoordinator signCoordinator;
+    @Getter
+    private GMap GMap;
 
     @Getter
     private static Gangs instance = null;
@@ -67,6 +70,8 @@ public class Gangs extends JavaPlugin {
         hoodlumCoordinator = new HoodlumCoordinator(this);
         gangCoordinator = new GangCoordinator(this);
         signCoordinator = new SignCoordinator(this);
+
+        GMap = new GMap();
 
         gangCoordinator.loadGangs();
         signCoordinator.load();

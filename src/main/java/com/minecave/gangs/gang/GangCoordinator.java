@@ -187,6 +187,14 @@ public class GangCoordinator {
             return gang.getName();
     }
 
+    public String getGangName(Chunk chunk) {
+        Gang gang = getGang(chunk);
+        if(gang == null)
+            return "Wilderness";
+        else
+            return gang.getName();
+    }
+
     public Gang getGang(String name){
         return gangMap.get(name.toLowerCase());
     }
