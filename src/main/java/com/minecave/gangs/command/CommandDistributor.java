@@ -17,7 +17,6 @@ import org.bukkit.entity.Player;
  */
 public class CommandDistributor implements CommandExecutor {
 
-
     /**
      * notes:
      * 1). Do not pass Player objects, only hoodlums
