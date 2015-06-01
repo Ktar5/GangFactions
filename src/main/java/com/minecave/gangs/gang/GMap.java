@@ -51,6 +51,7 @@ public class GMap {
                 "{GANG}", gangCoordinator.getGangName(player.getLocation()));
         List<String> compass = messages.getConfig().getStringList(gmap + "compass");
         Map<Character, String> foundGangs = new HashMap<>();
+        Gang playerGang = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(player).getGang();
 
          /*
         N //neg Z
@@ -67,34 +68,47 @@ public class GMap {
                 if (h >= 3) {
                     Chunk chunk = player.getWorld().getChunkAt((int) Math.floor(x) + j * 16,
                             (int) Math.floor(y) + i * 16);
-                    String gangName = gangCoordinator.getGangName(chunk);
-                    if(gangName.equalsIgnoreCase("Wilderness")) {
-                        builder.append('-');
+                    if(player.getLocation().getChunk().equals(chunk)) {
+                        builder.append(ChatColor.AQUA).append("+");
                     } else {
-                        char c = chars[foundGangs.size()];
-                        builder.append(c);
-                        foundGangs.put(c, gangName);
+                        String gangName = gangCoordinator.getGangName(chunk);
+                        if (gangName.equalsIgnoreCase("Wilderness")) {
+                            builder.append(ChatColor.GRAY).append('-');
+                        } else {
+                            if (playerGang != null && playerGang.getName().equalsIgnoreCase(gangName)) {
+                                builder.append(ChatColor.GREEN).append("+");
+                                foundGangs.put('+', playerGang.getName());
+                            } else {
+                                char c = chars[foundGangs.size()];
+                                builder.append(ChatColor.RED).append(c);
+                                foundGangs.put(c, gangName);
+                            }
+                        }
                     }
                 } else {
                     builder.append(checkForCardinal(direction, String.valueOf(compass.get(h).charAt(g))));
                 }
             }
             g++;
-            if(h < 9) {
+            if (h < 9) {
                 display[++h] = builder.toString();
             }
         }
         StringBuilder builder = new StringBuilder("&7");
         int i = 0;
-        for(Map.Entry<Character, String> entry : foundGangs.entrySet()) {
-            if(i++ != 0) {
+        for (Map.Entry<Character, String> entry : foundGangs.entrySet()) {
+            if (i++ != 0) {
                 builder.append(", ");
             }
             //{SYMBOL}: {GANG}
             String append = StringUtil.replace(messages.get(gmap + "gangsFormat", String.class),
                     "{SYMBOL}", String.valueOf(entry.getKey()));
             append = StringUtil.replace(append, "{GANG}", entry.getValue());
-            builder.append(append);
+            if(playerGang != null && entry.getValue().equalsIgnoreCase(playerGang.getName())) {
+                builder.append(ChatColor.AQUA).append(append);
+            } else {
+                builder.append(ChatColor.RED).append(append);
+            }
         }
         display[9] = builder.toString();
 
