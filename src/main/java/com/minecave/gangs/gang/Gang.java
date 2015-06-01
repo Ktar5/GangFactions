@@ -93,7 +93,7 @@ public class Gang {
     }
 
     public void unclaimAllChunks() {
-        claims.forEach(this::unclaimChunk);
+        new HashSet<>(claims).forEach(this::unclaimChunk);
     }
 
     public boolean hasPlayer(Player player) {
