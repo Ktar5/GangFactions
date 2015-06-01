@@ -34,6 +34,8 @@ public class Gangs extends JavaPlugin {
     private CustomConfig gangConfig;
     @Getter
     private CustomConfig signConfig;
+    @Getter
+    private CustomConfig helpConfig;
 
     @Getter
     private HoodlumCoordinator hoodlumCoordinator;
@@ -58,6 +60,7 @@ public class Gangs extends JavaPlugin {
         messages = new CustomConfig(getDataFolder(), "messages.yml");
         hoodlumConfig = new CustomConfig(getDataFolder(), "hoodlum.yml");
         gangConfig = new CustomConfig(getDataFolder(), "gangs.yml");
+        helpConfig = new CustomConfig(getDataFolder(), "help.yml");
         signConfig = new CustomConfig(getDataFolder(), "signs.yml");
 
 

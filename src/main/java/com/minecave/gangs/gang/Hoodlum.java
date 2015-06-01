@@ -82,7 +82,11 @@ public class Hoodlum {
     }
 
     public boolean hasRole(GangRole role){
-        return this.role.ordinal() >= role.ordinal();
+        if(role.equals(GangRole.SERVER_ADMIN)){
+            return this.getPlayer().hasPermission("gangs.admin");
+        }else{
+            return this.role.ordinal() >= role.ordinal();
+        }
     }
 
     public int getMinPower() {

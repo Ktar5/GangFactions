@@ -7,7 +7,6 @@ import com.minecave.gangs.gang.GangRole;
 import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 
 /**
@@ -89,14 +88,9 @@ public class Management {
 
     public static void invite(Hoodlum player, String playerName) {
         Hoodlum hoodlum = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName);
-        Bukkit.getServer().broadcastMessage("1");
         if(hoodlum != null){
-            Bukkit.getServer().broadcastMessage("2");
             if(!hoodlum.isInGang()){
-                Bukkit.getServer().broadcastMessage("3");
                 if(!hoodlum.hasInvite(player.getGang().getName().toLowerCase())){
-                    Bukkit.getServer().broadcastMessage("4");
-                    Bukkit.getServer().broadcastMessage(hoodlum.getPlayer().getName());
                     hoodlum.sendMessage(Messages.get("invited",
                             MsgVar.GANG.var(), player.getGang().getName(),
                             MsgVar.PLAYER.var(), player.getPlayer().getName()));

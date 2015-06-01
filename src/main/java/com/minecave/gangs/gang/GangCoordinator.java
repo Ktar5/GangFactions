@@ -72,6 +72,7 @@ public class GangCoordinator {
                     h.setRole(GangRole.GANGLESS);
                 }
             });
+            Gangs.getInstance().getGangConfig().set(gang.getUuid().toString(), null, true);
             if(!silent){
                 Bukkit.getServer().broadcastMessage(Messages.get("disbandFaction",
                         MsgVar.GANG.var(), gang.getName()));

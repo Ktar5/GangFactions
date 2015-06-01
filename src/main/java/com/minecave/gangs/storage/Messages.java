@@ -4,6 +4,7 @@ import com.minecave.gangs.Gangs;
 import com.minecave.gangs.util.StringUtil;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -14,10 +15,22 @@ public class Messages {
 
     //Don't hurt me ;~~;
     private static Map<String, String> messages = new HashMap<>();
+    private static Map<String, List<String>> helps = new HashMap<>();
 
     public static void loadMessages(){
         for(String key : Gangs.getInstance().getMessages().getConfig().getKeys(false)) {
             messages.put(key, StringUtil.colorString(Gangs.getInstance().getMessages().getConfig().getString(key)));
+        }
+        for(String key : Gangs.getInstance().getHelpConfig().getConfig().getKeys(false)){
+            helps.put(key.toLowerCase(), StringUtil.colorList(Gangs.getInstance().getHelpConfig().getConfig().getStringList(key)));
+        }
+    }
+
+    public static List<String> getHelp(String key){
+        if(helps.containsKey(key.toLowerCase())){
+            return helps.get(key.toLowerCase());
+        }else{
+            return null;
         }
     }
 

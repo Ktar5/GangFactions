@@ -7,6 +7,7 @@ public enum MsgVar {
     ROLE,
     GANG,
     PLAYER,
+    SECTION,
     POWER, MAX_POWER;
 
     public String var(){

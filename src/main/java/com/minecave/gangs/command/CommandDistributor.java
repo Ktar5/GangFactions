@@ -32,7 +32,7 @@ public class CommandDistributor implements CommandExecutor {
             Hoodlum player = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(p);
             switch (args.length) {
                 case 0:
-                    Misc.showHelp(player);
+                    Misc.showHelp(player, "default");
                     break;
                 case 1:
                     switch (args[0].toLowerCase()) {
@@ -72,7 +72,7 @@ public class CommandDistributor implements CommandExecutor {
                                 Management.setHome(player);
                             break;
                         case "help":
-                            Misc.showHelp(player);
+                            Misc.showHelp(player, "default");
                             break;
                         case "invitations":
                             User.showInvitations(player);
@@ -81,7 +81,7 @@ public class CommandDistributor implements CommandExecutor {
                             Misc.confirm(player);
                             break;
                         default:
-                            Misc.showHelp(player);
+                            Misc.showHelp(player, "default");
                             break;
                     }
                     break;
@@ -94,6 +94,9 @@ public class CommandDistributor implements CommandExecutor {
                         case "silentdisband": //ADMIN
                             if (!Misc.checks(player, GangRole.SERVER_ADMIN, args[1].toLowerCase())) break;
                                 Admin.disband(player, Misc.getGang(args[1].toLowerCase()), true);
+                            break;
+                        case "help":
+                            Misc.showHelp(player, args[1]);
                             break;
                         case "mod":
                             if (!Misc.checksAndPlayer(player, GangRole.SUPER_MODERATOR, args[1].toLowerCase())) break;
@@ -147,7 +150,7 @@ public class CommandDistributor implements CommandExecutor {
                                 Admin.breakIn(player, Misc.getGang(args[1].toLowerCase()));
                             break;
                         default:
-                            Misc.showHelp(player);
+                            Misc.showHelp(player, "default");
                             break;
                     }
                     break;
@@ -166,7 +169,7 @@ public class CommandDistributor implements CommandExecutor {
                                 Admin.setMaxPower(player, args[1].toLowerCase(), Integer.valueOf(args[2]));
                     }
                 default:
-                    Misc.showHelp(player);
+                    Misc.showHelp(player, "default");
                     break;
             }
         }

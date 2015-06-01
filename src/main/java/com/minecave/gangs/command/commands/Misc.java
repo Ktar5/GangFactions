@@ -7,12 +7,19 @@ import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
 
+import java.util.List;
+
 /**
  * Created by Carter on 5/27/2015.
  */
 public class Misc {
-    public static void showHelp(Hoodlum player) {
-        player.sendMessage("HELP! :O");
+
+    public static void showHelp(Hoodlum player, String page) {
+        List<String> helps = Messages.getHelp(page);
+        if(helps != null){
+            player.getPlayer().sendMessage(helps.toArray(new String[helps.size()]));
+        }else
+            player.sendMessage(Messages.get("helpPageNoExist", MsgVar.SECTION.var(), page));
     }
 
     public static void confirm(Hoodlum player) {
