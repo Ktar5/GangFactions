@@ -14,8 +14,7 @@ public class Admin {
     public static void breakIn(Hoodlum player, Gang gang) {
         if(gang.getHome() != null){
             player.getPlayer().teleport(gang.getHome());
-            player.sendMessage(Messages.get("welcomeHome",
-                    MsgVar.GANG.var(), gang.getName()));
+            player.sendMessage(Messages.get("welcomeHome", MsgVar.GANG.var(), gang.getName()));
         }else{
             player.sendMessage(Messages.get("noHome"));
         }

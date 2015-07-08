@@ -17,13 +17,6 @@ import org.bukkit.entity.Player;
  */
 public class CommandDistributor implements CommandExecutor {
 
-    /**
-     * notes:
-     * 1). Do not pass Player objects, only hoodlums
-     * 2). Do not pass String objects only gangs
-     * 3). EVERY command has a player role checker in this method, roles are checked here and only here
-     * 4). All, with few exceptions, if statements, need to have an else counterpart that send an error message
-     */
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String something, String[] args) {
         if (sender instanceof Player) {
@@ -75,9 +68,6 @@ public class CommandDistributor implements CommandExecutor {
                             break;
                         case "invitations":
                             User.showInvitations(player);
-                            break;
-                        case "confirm":
-                            Misc.confirm(player);
                             break;
                         case "map":
                             Gangs.getInstance().getGMap().generateSendClaimMap(player.getPlayer());

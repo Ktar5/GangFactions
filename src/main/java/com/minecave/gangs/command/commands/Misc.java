@@ -22,10 +22,6 @@ public class Misc {
             player.sendMessage(Messages.get("helpPageNoExist", MsgVar.SECTION.var(), page));
     }
 
-    public static void confirm(Hoodlum player) {
-
-    }
-
     /**
      *
      * @param sender Person to check
