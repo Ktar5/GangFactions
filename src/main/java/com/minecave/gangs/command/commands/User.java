@@ -5,7 +5,12 @@ import com.minecave.gangs.gang.GangRole;
 import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
+import com.minecave.gangs.util.ChunkOutliner.ChunkOutliner;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Carter on 5/27/2015.
@@ -72,5 +77,11 @@ public class User {
         for(String string : player.getInvites()){
             player.sendMessage(Messages.get("inviteList", MsgVar.GANG.var(), string));
         }
+    }
+
+    public static void showLand(Hoodlum player) {
+        List<Chunk> chunks = new ArrayList<Chunk>();
+        player.getGang().getClaims().addAll(chunks);
+        new ChunkOutliner(chunks, 20*20, player.getPlayer());
     }
 }

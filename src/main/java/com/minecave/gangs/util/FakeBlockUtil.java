@@ -1,7 +1,7 @@
 package com.minecave.gangs.util;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -11,12 +11,12 @@ import java.util.Arrays;
  */
 public class FakeBlockUtil {
 
-    public void setBlock(Location location, Player[] players){
-        Arrays.stream(players).forEach(player -> player.sendBlockChange(location, Material.ENDER_PORTAL, (byte) 0));
+    public static void setBlock(Block block, Player[] players){
+        Arrays.stream(players).forEach(player -> player.sendBlockChange(block.getLocation(), Material.ENDER_PORTAL, (byte) 0));
     }
 
-    public void setBlock(Location location, Player player){
-        setBlock(location, new Player[]{player});
+    public static void setBlock(Block block, Player player){
+        setBlock(block, new Player[]{player});
     }
 
 }

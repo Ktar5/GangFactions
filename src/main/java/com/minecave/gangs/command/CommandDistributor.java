@@ -40,6 +40,9 @@ public class CommandDistributor implements CommandExecutor {
                             if (player.hasRole(GangRole.SUPER_MODERATOR))
                                 Management.claim(player);//done
                             break;
+                        case "show":
+                            if(player.hasRole(GangRole.MEMBER))
+                                User.showLand(player);
                         case "disband": //THIS IS THE SINGLE ARGUMENT VERSION
                             if (player.hasRole(GangRole.LEADER))
                                 Management.disband(player);
