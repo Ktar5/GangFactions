@@ -41,33 +41,30 @@ public class GMap {
         GangCoordinator gangCoordinator = Gangs.getInstance().getGangCoordinator();
         String[] display = new String[10];
         double x = player.getLocation().getX();
-        double y = player.getLocation().getY();
+        double z = player.getLocation().getZ();
         Direction direction = getDirection(player);
         display[0] = StringUtil.replace(messages.get(gmap + "title", String.class),
-                "{X}", String.valueOf(x));
+                "{X}", String.valueOf((int)x));
         display[0] = StringUtil.replace(display[0],
-                "{Y}", String.valueOf(y));
+                "{Y}", String.valueOf((int)z));
         display[0] = StringUtil.replace(display[0],
                 "{GANG}", gangCoordinator.getGangName(player.getLocation()));
         List<String> compass = messages.getConfig().getStringList(gmap + "compass");
         Map<Character, String> foundGangs = new HashMap<>();
         Gang playerGang = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(player).getGang();
 
-         /*
-        N //neg Z
-        E //pos X
-        S //pos Z
-        W //neg X
-         */
-
         int h = 0;
         int g = 0;
+        Gang gang = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(player).getGang();
+        if(gang != null) {
+            gang.getClaims().forEach(c -> System.out.println(c.getX() + " :: " + c.getZ()));
+        }
         for (int j = -4; j < 4; j++) {
             StringBuilder builder = new StringBuilder("&7");
             for (int i = -19; i < 20; i++) {
-                if (h >= 3) {
-                    Chunk chunk = player.getWorld().getChunkAt((int) Math.floor(x) + j * 16,
-                            (int) Math.floor(y) + i * 16);
+                if (h >= 3 || g >= 3) {
+                    Chunk chunk = player.getWorld().getChunkAt((int)Math.floor((x + j * 16) / 16D),
+                           (int)Math.floor((z + i * 16) / 16D));
                     if(player.getLocation().getChunk().equals(chunk)) {
                         builder.append(ChatColor.AQUA).append("+");
                     } else {
@@ -85,13 +82,16 @@ public class GMap {
                             }
                         }
                     }
-                } else {
-                    builder.append(checkForCardinal(direction, String.valueOf(compass.get(h).charAt(g))));
+                } else if(g < 3) {
+                    String compassLine = compass.get(g);
+                    builder.append(compassLine.substring(0, 2))
+                           .append(checkForCardinal(direction, String.valueOf(compassLine.charAt(h + 2))));
                 }
+                h++;
             }
-            g++;
-            if (h < 9) {
-                display[++h] = builder.toString();
+            h = 0;
+            if (g < 9) {
+                display[++g] = builder.toString();
             }
         }
         StringBuilder builder = new StringBuilder("&7");
@@ -100,7 +100,6 @@ public class GMap {
             if (i++ != 0) {
                 builder.append(", ");
             }
-            //{SYMBOL}: {GANG}
             String append = StringUtil.replace(messages.get(gmap + "gangsFormat", String.class),
                     "{SYMBOL}", String.valueOf(entry.getKey()));
             append = StringUtil.replace(append, "{GANG}", entry.getValue());
