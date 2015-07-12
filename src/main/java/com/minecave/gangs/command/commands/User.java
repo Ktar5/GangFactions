@@ -20,7 +20,7 @@ public class User {
         if(player.hasRole(GangRole.LEADER)){
             Management.disband(player);
         }else{
-            player.sendMessage(Messages.get("leaveGang", MsgVar.GANG.var(), player.getGang().getName()));
+            player.sendMessage(Messages.get("gang.leave", MsgVar.GANG.var(), player.getGang().getName()));
             player.getGang().removePlayer(player);
         }
     }
@@ -28,15 +28,15 @@ public class User {
     public static void goHome(Hoodlum player) {
         if(player.getGang().getHome() != null){
             player.getPlayer().teleport(player.getGang().getHome());
-            player.sendMessage(Messages.get("welcomeHome",
+            player.sendMessage(Messages.get("gang.home.welcome",
                     MsgVar.GANG.var(), player.getGang().getName()));
         }else{
-            player.sendMessage(Messages.get("noHome"));
+            player.sendMessage(Messages.get("gang.home.noHome"));
         }
     }
 
     public static void power(Hoodlum player) {
-        player.sendMessage(Messages.get("powerSelf",
+        player.sendMessage(Messages.get("power.self",
                 MsgVar.POWER.var(), String.valueOf(player.getPower()),
                 MsgVar.MAX_POWER.var(), String.valueOf(player.getMaxPower())));
     }
@@ -49,33 +49,33 @@ public class User {
         if(player.getGang() == null){
             if(!Gangs.getInstance().getGangCoordinator().gangExists(gangname)){
                 Gangs.getInstance().getGangCoordinator().createGang(gangname, player);
-                Bukkit.getServer().broadcastMessage(Messages.get("gangCreated",
+                Bukkit.getServer().broadcastMessage(Messages.get("gang.create.success",
                         MsgVar.GANG.var(), gangname,
                         MsgVar.PLAYER.var(), player.getPlayer().getName()));
-            }else player.sendMessage(Messages.get("gangExists", MsgVar.GANG.var(), gangname));
-        }else player.sendMessage(Messages.get("alreadyInGang",
+            }else player.sendMessage(Messages.get("gang.create.nameAlreadyExists", MsgVar.GANG.var(), gangname));
+        }else player.sendMessage(Messages.get("gang.create.alreadyInGang",
                 MsgVar.GANG.var(), player.getGang().getName(),
                 MsgVar.ROLE.var(), player.getRole().toString()));
     }
 
     public static void acceptInvite(Hoodlum player, String para) {
         if(player.hasInvite(para)){
-            player.sendMessage(Messages.get("inviteAccepted", MsgVar.GANG.var(), para));
+            player.sendMessage(Messages.get("gang.invite.accepted", MsgVar.GANG.var(), para));
             player.getInvites().remove(para);
             Gangs.getInstance().getGangCoordinator().getGang(para.toLowerCase()).addPlayer(player);
-        }else player.sendMessage(Messages.get("haventBeenInvited", MsgVar.GANG.var(), para));
+        }else player.sendMessage(Messages.get("gang.invite.noInvite", MsgVar.GANG.var(), para));
     }
 
     public static void denyInvite(Hoodlum player, String para) {
         if(player.hasInvite(para)){
-            player.sendMessage(Messages.get("inviteDenied", MsgVar.GANG.var(), para));
+            player.sendMessage(Messages.get("gang.invite.denied", MsgVar.GANG.var(), para));
             player.getInvites().remove(para);
-        }else player.sendMessage(Messages.get("haventBeenInvited", MsgVar.GANG.var(), para));
+        }else player.sendMessage(Messages.get("gang.invite.noInvite", MsgVar.GANG.var(), para));
     }
 
     public static void showInvitations(Hoodlum player) {
         for(String string : player.getInvites()){
-            player.sendMessage(Messages.get("inviteList", MsgVar.GANG.var(), string));
+            player.sendMessage(Messages.get("gang.invite.list", MsgVar.GANG.var(), string));
         }
     }
 

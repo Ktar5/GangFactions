@@ -110,7 +110,7 @@ public class CommandDistributor implements CommandExecutor {
                             break;
                         case "create":
                             if (Misc.checkGang(args[1].toLowerCase())){
-                                player.sendMessage(Messages.get("gangExists", MsgVar.GANG.var(), args[1]));
+                                player.sendMessage(Messages.get("gang.create.alreadyExists", MsgVar.GANG.var(), args[1]));
                                 break;
                             }
                                 User.create(player, args[1]);
