@@ -7,6 +7,8 @@ import com.minecave.gangs.command.commands.Misc;
 import com.minecave.gangs.command.commands.User;
 import com.minecave.gangs.gang.GangRole;
 import com.minecave.gangs.gang.Hoodlum;
+import com.minecave.gangs.storage.Messages;
+import com.minecave.gangs.storage.MsgVar;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -107,7 +109,10 @@ public class CommandDistributor implements CommandExecutor {
                                 Management.promote(player, args[1].toLowerCase(), GangRole.LEADER);
                             break;
                         case "create":
-                            if (Misc.checkGang(args[1].toLowerCase())) break;
+                            if (Misc.checkGang(args[1].toLowerCase())){
+                                player.sendMessage(Messages.get("gangExists", MsgVar.GANG.var(), args[1]));
+                                break;
+                            }
                                 User.create(player, args[1]);
                             //This one will remain regular-case because of naming things outside storage
                             break;
