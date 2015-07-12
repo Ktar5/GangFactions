@@ -31,7 +31,7 @@
   - "/g supermod {playerName} - same as above, just supermod"
   - "/g leader {playerName} = give up your totalitarian dictatorship"
   - "/g map - shows the map of the factions around you"
-  - "Thats all the commands for now! Props to you for reading."
+  - "/g show - outlines the chunks you have claimed"
 'admin':
   - "/g power {playerName} - Admin command"
   - "/g home {gangName} - Admin command"
