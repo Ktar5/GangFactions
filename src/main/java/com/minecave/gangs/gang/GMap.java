@@ -73,7 +73,7 @@ public class GMap {
                             builder.append(ChatColor.GRAY).append('-');
                         } else {
                             if (playerGang != null && playerGang.getName().equalsIgnoreCase(gangName)) {
-                                builder.append(ChatColor.GREEN).append("+");
+                                builder.append(ChatColor.AQUA).append("+");
                                 foundGangs.put('+', playerGang.getName());
                             } else {
                                 char c = chars[foundGangs.size()];
