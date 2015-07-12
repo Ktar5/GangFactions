@@ -1,30 +1,5 @@
-gangCreated: Gang created{GANG}_{PLAYER}
-enteredOther: entered {GANG}
-invited: invited to{GANG} by {PLAYER}
-invitedPlayerToGang: youve invited{PLAYER} to your gang
-haventBeenInvited: you havent been invited to {GANG}
-disbandFaction: gang {GANG} has been disbanded
-inviteAccepted: youve accepted the invite to {GANG}
-noHome: isnt any home
-powerSelf: you have {POWER} power out of {MAX_POWER}
-homeSet: youve set your home
-welcomeHome: welcome home to {GANG}
-notEnoughPower: dont have enough power you have {POWER}
-notClaimed: this isnt claimed
-leaveGang: you have left {GANG}
-chunkClaimed: chunk claimed
-chunkUnclaimed: chunk unclaimed
-unclaimedAll: all chunks unclaimed
-alreadyInGang: already in gang {GANG}_{ROLE}
-alreadyClaimed: already claimed chunk
-notInGang: not in a gang
-cantUnclaimHomeChunk: cant unclaim your home chunk
-playerNotInGang: player {PLAYER} isnt in a gang
-kickedPlayer_executor: youve kicked a palyer from the gang {GANG} him {PLAYER}
-kickedPlayer: youve been kicked from {GANG} by {PLAYER}
-joinedGang: This_value_doesnt_exist_and_has_the_following_arguments_{GANG}
 gmap:
-  title: _____________.[ ({X},{Y}) {GANG} ]._____________
+  title: _____________.[ ({X},{Z}) {GANG} ]._____________
   compass:
     - '&6\N/'
     - '&6W+E'

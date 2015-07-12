@@ -7,6 +7,8 @@ import com.minecave.gangs.command.commands.Misc;
 import com.minecave.gangs.command.commands.User;
 import com.minecave.gangs.gang.GangRole;
 import com.minecave.gangs.gang.Hoodlum;
+import com.minecave.gangs.storage.Messages;
+import com.minecave.gangs.storage.MsgVar;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,13 +19,6 @@ import org.bukkit.entity.Player;
  */
 public class CommandDistributor implements CommandExecutor {
 
-    /**
-     * notes:
-     * 1). Do not pass Player objects, only hoodlums
-     * 2). Do not pass String objects only gangs
-     * 3). EVERY command has a player role checker in this method, roles are checked here and only here
-     * 4). All, with few exceptions, if statements, need to have an else counterpart that send an error message
-     */
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String something, String[] args) {
         if (sender instanceof Player) {
@@ -46,6 +41,10 @@ public class CommandDistributor implements CommandExecutor {
                         case "claim":
                             if (player.hasRole(GangRole.SUPER_MODERATOR))
                                 Management.claim(player);//done
+                            break;
+                        case "show":
+                            if(player.hasRole(GangRole.MEMBER))
+                                User.showLand(player);
                             break;
                         case "disband": //THIS IS THE SINGLE ARGUMENT VERSION
                             if (player.hasRole(GangRole.LEADER))
@@ -75,9 +74,6 @@ public class CommandDistributor implements CommandExecutor {
                             break;
                         case "invitations":
                             User.showInvitations(player);
-                            break;
-                        case "confirm":
-                            Misc.confirm(player);
                             break;
                         case "map":
                             Gangs.getInstance().getGMap().generateSendClaimMap(player.getPlayer());
@@ -113,7 +109,10 @@ public class CommandDistributor implements CommandExecutor {
                                 Management.promote(player, args[1].toLowerCase(), GangRole.LEADER);
                             break;
                         case "create":
-                            if (Misc.checkGang(args[1].toLowerCase())) break;
+                            if (Misc.checkGang(args[1].toLowerCase())){
+                                player.sendMessage(Messages.get("gang.create.alreadyExists", MsgVar.GANG.var(), args[1]));
+                                break;
+                            }
                                 User.create(player, args[1]);
                             //This one will remain regular-case because of naming things outside storage
                             break;
