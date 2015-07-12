@@ -23,6 +23,7 @@ playerNotInGang: player {PLAYER} isnt in a gang
 kickedPlayer_executor: youve kicked a palyer from the gang {GANG} him {PLAYER}
 kickedPlayer: youve been kicked from {GANG} by {PLAYER}
 joinedGang: This_value_doesnt_exist_and_has_the_following_arguments_{GANG}
+helpPageNoExist: This_value_doesnt_exist_and_has_the_following_arguments_{SECTION}
 gmap:
   title: _____________.[ ({X},{Z}) {GANG} ]._____________
   compass:
