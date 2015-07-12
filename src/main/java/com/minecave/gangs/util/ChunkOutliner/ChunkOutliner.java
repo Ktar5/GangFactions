@@ -33,14 +33,15 @@ public class ChunkOutliner {
 ignore the terribly redundant code please >--<
  */
     private ArrayList<Block> getBlocks(Chunk chunk, int initY){
+        Bukkit.getServer().broadcastMessage("7");
         int xmin = chunk.getX() * 16;
         int xmax = xmin + 15;
         int y;
         int zmin = chunk.getZ() * 16;
         int zmax = zmin + 15;
 
-        int x = 0;
-        int z = 0;
+        int x = xmin;
+        int z = zmin;
 
         int lastY = -1;
         Block block;
@@ -49,21 +50,21 @@ ignore the terribly redundant code please >--<
 
         while (x <= xmax) {
             y = initY;
-            block = chunk.getBlock(x,y,z);
+            block = chunk.getBlock(x,y,zmax);
             while(block.getType() == Material.AIR){
-                block = chunk.getBlock(x, --y, z);
+                block = chunk.getBlock(x, --y, zmax);
             }
             blocksToSet.add(block);
             if(lastY != -1){
                 int amount = block.getY() - lastY;
                 if(amount < 0){
                     while(amount < 0){
-                        blocksToSet.add(chunk.getBlock(x-1,y++, z));
+                        blocksToSet.add(chunk.getBlock(x-1,y++, zmax));
                         amount++;
                     }
                 }else if(amount > 0){
                     while(amount > 0){
-                        blocksToSet.add(chunk.getBlock(x,--y, z));
+                        blocksToSet.add(chunk.getBlock(x,--y, zmax));
                         amount--;
                     }
                 }

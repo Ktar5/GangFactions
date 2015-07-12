@@ -40,13 +40,13 @@ public class GMap {
         CustomConfig messages = Gangs.getInstance().getMessages();
         GangCoordinator gangCoordinator = Gangs.getInstance().getGangCoordinator();
         String[] display = new String[10];
-        double x = player.getLocation().getX();
-        double y = player.getLocation().getY();
+        int x = player.getLocation().getChunk().getX();
+        int y = player.getLocation().getChunk().getZ();
         Direction direction = getDirection(player);
         display[0] = StringUtil.replace(messages.get(gmap + "title", String.class),
                 "{X}", String.valueOf(x));
         display[0] = StringUtil.replace(display[0],
-                "{Y}", String.valueOf(y));
+                "{Z}", String.valueOf(y));
         display[0] = StringUtil.replace(display[0],
                 "{GANG}", gangCoordinator.getGangName(player.getLocation()));
         List<String> compass = messages.getConfig().getStringList(gmap + "compass");

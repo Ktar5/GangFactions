@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class FakeBlockUtil {
 
     public static void setBlock(Block block, Player[] players){
-        Arrays.stream(players).forEach(player -> player.sendBlockChange(block.getLocation(), Material.ENDER_PORTAL, (byte) 0));
+        Arrays.stream(players).forEach(player -> player.sendBlockChange(block.getLocation(), Material.GLOWSTONE, (byte) 0));
     }
 
     public static void setBlock(Block block, Player player){

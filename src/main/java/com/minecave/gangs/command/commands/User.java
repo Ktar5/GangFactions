@@ -81,7 +81,7 @@ public class User {
 
     public static void showLand(Hoodlum player) {
         List<Chunk> chunks = new ArrayList<Chunk>();
-        player.getGang().getClaims().addAll(chunks);
+        chunks.addAll(player.getGang().getClaims());
         new ChunkOutliner(chunks, 20*20, player.getPlayer());
     }
 }
