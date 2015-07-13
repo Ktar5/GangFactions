@@ -7,6 +7,8 @@ import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -45,6 +47,25 @@ public class Misc {
             else sender.sendMessage(Messages.get("player.noExist", MsgVar.PLAYER.var(), playerName));
         else sender.sendMessage(Messages.get("noPermission", MsgVar.ROLE.var()));
         return false;
+    }
+
+    /*
+    is static classes bad? >-< donthurtme
+     */
+    static class GangComparator implements Comparator<Gang> {
+        @Override
+        public int compare(Gang g1, Gang g2){
+            return g1.onlinePlayers() > g2.onlinePlayers() ? 1 : 0;
+        }
+    }
+
+    public static void list(Hoodlum sender){
+        List<Gang> gangs = new ArrayList<>();
+        gangs.addAll(Gangs.getInstance().getGangCoordinator().getGangMap().values());
+        gangs.sort(new GangComparator());
+        for(Gang gang : gangs){
+            sender.sendMessage(gang.getName() + " (" + gang.onlinePlayers() + "/" + gang.getMembers().size() + ")");
+        }
     }
 
     public static boolean checkGang(String gangName) {

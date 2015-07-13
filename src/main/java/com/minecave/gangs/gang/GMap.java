@@ -46,7 +46,7 @@ public class GMap {
         display[0] = StringUtil.replace(messages.get(gmap + "title", String.class),
                 "{X}", String.valueOf((int)x));
         display[0] = StringUtil.replace(display[0],
-                "{Y}", String.valueOf((int)z));
+                "{Z}", String.valueOf((int)z));
         display[0] = StringUtil.replace(display[0],
                 "{GANG}", gangCoordinator.getGangName(player.getLocation()));
         List<String> compass = messages.getConfig().getStringList(gmap + "compass");

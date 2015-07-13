@@ -4,6 +4,7 @@ import com.minecave.gangs.Gangs;
 import com.minecave.gangs.command.commands.Management;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -90,6 +91,14 @@ public class Gang {
             }
         }
         return claims.remove(chunk);
+    }
+
+    public int onlinePlayers(){
+        int n = 0;
+        for(UUID uuid : members){
+            n += Bukkit.getOfflinePlayer(uuid).isOnline() ? 1 : 0;
+        }
+        return n;
     }
 
     public void unclaimAllChunks() {

@@ -33,8 +33,13 @@ public class ChunkListener implements Listener {
     public void onPlayerMove(PlayerMoveEvent event) {
         if (!event.getFrom().getChunk().equals(event.getTo().getChunk())) {
             String to = plugin.getGangCoordinator().getGangName(event.getTo());
-            if (!to.equals(plugin.getGangCoordinator().getGangName(event.getFrom()))) {
-                event.getPlayer().sendMessage(Messages.get("enteredOther", MsgVar.GANG.var(), to));
+            String from = plugin.getGangCoordinator().getGangName(event.getFrom());
+            if (!to.equals(from)) {
+                String gangName = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(event.getPlayer()).getGang().getName();
+                if(gangName.equalsIgnoreCase(from)){
+                    event.getPlayer().sendMessage(Messages.get("gang.enter.your", MsgVar.GANG.var(), to));
+                }
+                event.getPlayer().sendMessage(Messages.get("gang.enter.other", MsgVar.GANG.var(), to));
             }
         }
     }
