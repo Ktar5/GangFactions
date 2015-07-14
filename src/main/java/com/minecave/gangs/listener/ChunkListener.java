@@ -38,6 +38,7 @@ public class ChunkListener implements Listener {
                 String gangName = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(event.getPlayer()).getGang().getName();
                 if(gangName.equalsIgnoreCase(from)){
                     event.getPlayer().sendMessage(Messages.get("gang.enter.your", MsgVar.GANG.var(), to));
+                    return;
                 }
                 event.getPlayer().sendMessage(Messages.get("gang.enter.other", MsgVar.GANG.var(), to));
             }

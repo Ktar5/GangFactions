@@ -18,7 +18,10 @@ public class Messages {
     private static Map<String, List<String>> helps = new HashMap<>();
 
     public static void loadMessages(){
-        for(String key : Gangs.getInstance().getMessages().getConfig().getKeys(false)) {
+        for(String key : Gangs.getInstance().getMessages().getConfig().getKeys(true)) {
+            /*if(Gangs.getInstance().getMessages().getConfig().get){
+
+            }*/
             messages.put(key, StringUtil.colorString(Gangs.getInstance().getMessages().getConfig().getString(key)));
         }
         for(String key : Gangs.getInstance().getHelpConfig().getConfig().getKeys(false)){
