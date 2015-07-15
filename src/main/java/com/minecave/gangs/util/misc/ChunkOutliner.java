@@ -1,5 +1,6 @@
 package com.minecave.gangs.util.misc;
 
+import com.google.common.collect.Lists;
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.util.FakeBlockUtil;
 import org.bukkit.Bukkit;
@@ -48,10 +49,17 @@ ignore the terribly redundant code please >--<
 
         ArrayList<Block> blocksToSet = new ArrayList<>();
 
+        List<Material> mats = Lists.newArrayList(
+                Material.AIR, Material.LOG, Material.LOG_2,
+                Material.SUGAR_CANE_BLOCK, Material.ARMOR_STAND,
+                Material.LEAVES, Material.LEAVES_2, Material.BANNER,
+                Material.BED_BLOCK, Material.BARRIER, Material.BEACON,
+                Material.BEDROCK, Material.CACTUS, Material.CAKE_BLOCK);
+
         while (x <= xmax) {
             y = initY;
             block = chunk.getBlock(x,y,zmax);
-            while(block.getType() == Material.AIR){
+            while(mats.contains(block.getType())){
                 block = chunk.getBlock(x, --y, zmax);
             }
             blocksToSet.add(block);
@@ -78,7 +86,7 @@ ignore the terribly redundant code please >--<
         while (z  <= zmax){
             y = initY;
             block = chunk.getBlock(x,y,z);
-            while(block.getType() == Material.AIR){
+            while(mats.contains(block.getType())){
                 block = chunk.getBlock(x, --y, z);
             }
             blocksToSet.add(block);
@@ -105,7 +113,7 @@ ignore the terribly redundant code please >--<
         while (x  >= xmin) {
             y = initY;
             block = chunk.getBlock(x,y,z);
-            while(block.getType() == Material.AIR){
+            while(mats.contains(block.getType())){
                 block = chunk.getBlock(x, --y, z);
             }
             blocksToSet.add(block);
@@ -132,7 +140,7 @@ ignore the terribly redundant code please >--<
         while (z  >= zmin) {
             y = initY;
             block = chunk.getBlock(x,y,z);
-            while(block.getType() == Material.AIR){
+            while(mats.contains(block.getType())){
                 block = chunk.getBlock(x, --y, z);
             }
             blocksToSet.add(block);
