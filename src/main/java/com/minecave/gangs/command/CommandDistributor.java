@@ -7,8 +7,6 @@ import com.minecave.gangs.command.commands.Misc;
 import com.minecave.gangs.command.commands.User;
 import com.minecave.gangs.gang.GangRole;
 import com.minecave.gangs.gang.Hoodlum;
-import com.minecave.gangs.storage.Messages;
-import com.minecave.gangs.storage.MsgVar;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -78,6 +76,8 @@ public class CommandDistributor implements CommandExecutor {
                         case "map":
                             Gangs.getInstance().getGMap().generateSendClaimMap(player.getPlayer());
                             break;
+                        case "unpledge":
+                            Gangs.getInstance().getPledgeCoordinator().
                         default:
                             Misc.showHelp(player, "default");
                             break;
@@ -109,12 +109,10 @@ public class CommandDistributor implements CommandExecutor {
                                 Management.promote(player, args[1].toLowerCase(), GangRole.LEADER);
                             break;
                         case "create":
-                            if (Misc.checkGang(args[1].toLowerCase())){
-                                player.sendMessage(Messages.get("gang.create.alreadyExists", MsgVar.GANG.var(), args[1]));
-                                break;
-                            }
-                                User.create(player, args[1]);
-                            //This one will remain regular-case because of naming things outside storage
+                            Gangs.getInstance().getPledgeCoordinator().create(player, args[1]);
+                            break;
+                        case "pledge":
+                            Gangs.getInstance().getPledgeCoordinator().join(player, args[1]);
                             break;
                         case "kick": //Non-admin version
                             if (player.hasRole(GangRole.MODERATOR))

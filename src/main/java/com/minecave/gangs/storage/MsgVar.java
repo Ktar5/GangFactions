@@ -8,7 +8,8 @@ public enum MsgVar {
     GANG,
     PLAYER,
     SECTION,
-    POWER, MAX_POWER;
+    POWER, MAX_POWER,
+    PLEDGES, PLEDGES_NEEDED, PLEDGES_LEFT;
 
     public String var(){
         return "{" + this.name() + "}";
