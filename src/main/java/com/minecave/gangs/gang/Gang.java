@@ -151,6 +151,18 @@ public class Gang {
         return power;
     }
 
+    public int getMaxPower() {
+        int power = 0;
+        for (UUID u : members) {
+            Hoodlum h = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(u);
+            if (h != null) {
+                power += h.getMaxPower();
+            }
+        }
+        power += Gangs.getInstance().getHoodlumCoordinator().getHoodlum(owner.getUniqueId()).getPower();
+        return power;
+    }
+
     public void subtractFromFarmTotal() {
         this.totalFarm += 1;
         checkPercentage();
@@ -162,13 +174,17 @@ public class Gang {
     }
 
     public void checkPercentage() {
-        int percent = Gangs.getInstance().getConfiguration().get("farm.percentFarmablePerChunk", Integer.class);
-        int totalFarmable = (percent / 100) * (claims.size() - 1);
-        if (totalFarm >= totalFarmable && !getClaims().isEmpty()) {
+        if (totalFarm >= getPercentage() && !getClaims().isEmpty()) {
             Gangs.getInstance().getSignCoordinator().addAlert(home, this);
         } else {
             Gangs.getInstance().getSignCoordinator().removeAlert(home);
         }
+    }
+
+    public int getPercentage(){
+        int percent = Gangs.getInstance().getConfiguration().get("farm.percentFarmablePerChunk", Integer.class);
+        int totalFarmable = (percent / 100) * (claims.size() - 1);
+        return totalFarmable;
     }
 
     public void setTotalFarm(int totalFarm) {

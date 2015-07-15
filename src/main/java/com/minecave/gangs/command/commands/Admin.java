@@ -36,11 +36,6 @@ public class Admin {
         }
     }
 
-    @Deprecated
-    public static void info(Hoodlum player, Gang gang) {
-
-    }
-
     public static void join(Hoodlum player, Gang gang) {
         gang.addPlayer(player);
         player.sendMessage(Messages.get("gang.join", MsgVar.GANG.var(), gang.getName()));

@@ -61,7 +61,7 @@ public class CommandDistributor implements CommandExecutor {
                             break;
                         case "info": //THIS IS THE SINGLE ARGUMENT VERSION
                             if (player.hasRole(GangRole.MEMBER))
-                                User.info(player);//done
+                                User.info(player, player.getGang());//done
                             break;
                         case "sethome":
                             if (player.hasRole(GangRole.SUPER_MODERATOR))
@@ -145,7 +145,7 @@ public class CommandDistributor implements CommandExecutor {
                             break;
                         case "info": //ADMIN
                             if (player.hasRole(GangRole.SERVER_ADMIN))
-                                Admin.info(player, Misc.getGang(args[1].toLowerCase()));
+                                User.info(player, Misc.getGang(args[1].toLowerCase()));
                             break;
                         case "home": //ADMIN
                             if (player.hasRole(GangRole.SERVER_ADMIN))
