@@ -1,14 +1,18 @@
 package com.minecave.gangs.gang;
 
+import com.minecave.gangs.storage.Messages;
+import com.minecave.gangs.storage.MsgVar;
+import com.minecave.gangs.util.LimitedQueue;
+import com.minecave.gangs.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.time.format.TextStyle;
+import java.util.*;
 
 /**
  * Created by Carter on 5/25/2015.
@@ -45,6 +49,7 @@ public class Hoodlum {
     @Getter
     @Setter
     private boolean autoClaim;
+    private LimitedQueue<String> notices;
 
     public Hoodlum(UUID playerUUID) {
         this.playerUUID = playerUUID;
@@ -54,6 +59,7 @@ public class Hoodlum {
         this.autoClaim = false;
         this.invites = new ArrayList<>();
         this.role = GangRole.GANGLESS;
+        this.notices = new LimitedQueue<>(5);
     }
 
     public void addPower(int amount) {
@@ -117,5 +123,28 @@ public class Hoodlum {
     public boolean isOnline() {
         Player player = getPlayer();
         return player != null && player.isOnline();
+    }
+
+    public void addNotice(String string) {
+        LocalDate date = LocalDate.now();
+        String timestamp = date.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault()) + " " + date.getDayOfMonth();
+        this.notices.add(timestamp + ": " + StringUtil.colorString(string));
+    }
+
+    public List<String> getWelcomer(){
+        List<String> messages = new ArrayList<>();
+        messages.add(Messages.get("welcome.header", MsgVar.PLAYER.var(), getPlayer().getName()));
+        if(isInGang()){
+            messages.addAll(getGang().getMessageBoard());
+        }
+        messages.add("");
+        messages.addAll(notices);
+        return StringUtil.colorList(messages);
+    }
+
+    public List<String> getNotices(){
+        List<String> messages = new ArrayList<>();
+        messages.addAll(notices);
+        return StringUtil.colorList(messages);
     }
 }

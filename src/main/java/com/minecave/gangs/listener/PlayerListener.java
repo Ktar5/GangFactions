@@ -45,6 +45,11 @@ public class PlayerListener implements Listener {
         }
         h.updateLastTimes();
         plugin.getHoodlumCoordinator().loadHoodlum(event.getPlayer());
+
+        //NOW FOR THE AUTOMESSAGER THING
+        for(String string : h.getWelcomer()){
+            h.sendMessage(string);
+        }
     }
 
     @EventHandler

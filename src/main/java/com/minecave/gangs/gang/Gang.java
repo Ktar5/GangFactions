@@ -2,6 +2,8 @@ package com.minecave.gangs.gang;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.command.commands.Management;
+import com.minecave.gangs.util.LimitedQueue;
+import com.minecave.gangs.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -10,10 +12,10 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.time.format.TextStyle;
+import java.util.*;
 
 /**
  * Created by Carter on 5/25/2015.
@@ -40,6 +42,9 @@ public class Gang {
     @Getter
     @Setter
     private LocalDateTime lastOnline;
+    @Getter
+    private LimitedQueue<String> messageBoard;
+
 
     public Gang(String name, OfflinePlayer owner, UUID uuid) {
         //not sure but we might decide to use map later if we need key->value pairing
@@ -53,6 +58,7 @@ public class Gang {
         }
         this.name = name;
         this.owner = owner;
+        this.messageBoard = new LimitedQueue<>(5);
     }
 
     public Gang(String name, OfflinePlayer owner){
@@ -190,5 +196,11 @@ public class Gang {
     public void setTotalFarm(int totalFarm) {
         this.totalFarm = totalFarm;
         checkPercentage();
+    }
+
+    public void addMessage(String string) {
+        LocalDate date = LocalDate.now();
+        String timestamp = date.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault()) + " " + date.getDayOfMonth();
+        this.messageBoard.add(timestamp + ": " + StringUtil.colorString(string));
     }
 }
