@@ -39,7 +39,7 @@ public class PledgeCoordinator {
                 }else
                     player.sendMessage(Messages.get("pledge.alreadyInGang", MsgVar.GANG.var(), player.getGang().getName()));
             }else
-                player.sendMessage(Messages.get("pledge.alreadyPledged", MsgVar.GANG.var(), getPledge(player.getPlayerUUID()).getName()));
+                player.sendMessage(Messages.get("pledge.selfAlreadyPledged", MsgVar.GANG.var(), getPledge(player.getPlayerUUID()).getName()));
         }else
             player.sendMessage(Messages.get("pledge.doesntExist", MsgVar.GANG.var(), name));
     }
@@ -57,7 +57,7 @@ public class PledgeCoordinator {
                 } else
                     leader.sendMessage(Messages.get("pledge.gangAlreadyExists", MsgVar.GANG.var(), name));
             } else
-                leader.sendMessage(Messages.get("pledge.alreadyPledged"));
+                leader.sendMessage(Messages.get("pledge.selfAlreadyPledged"));
         } else
             leader.sendMessage(Messages.get("pledge.alreadyExists", MsgVar.GANG.var(), name));
     }
@@ -65,7 +65,8 @@ public class PledgeCoordinator {
     public void unpledge(Hoodlum player){
         Pledge pledge = getPledge(player.getPlayerUUID());
         if(pledge != null){
-
+            player.sendMessage(Messages.get("pledge.unpledged", MsgVar.GANG.var(), pledge.getName()));
+            pledge.leave(player);
         }else
             player.sendMessage(Messages.get("pledge.notPledged"));
     }

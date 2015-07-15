@@ -3,6 +3,7 @@ package com.minecave.gangs.command.commands;
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.gang.GangRole;
 import com.minecave.gangs.gang.Hoodlum;
+import com.minecave.gangs.gang.Pledge;
 import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
 import com.minecave.gangs.util.misc.ChunkOutliner;
@@ -85,5 +86,16 @@ public class User {
         List<Chunk> chunks = new ArrayList<Chunk>();
         chunks.addAll(player.getGang().getClaims());
         new ChunkOutliner(chunks, 20*20, player.getPlayer());
+    }
+
+    public static void createFromPledge(Hoodlum player) {
+        Pledge pledge = Gangs.getInstance().getPledgeCoordinator().getPledge(player.getPlayerUUID());
+        if(pledge != null){
+            if(pledge.getLeader().getPlayerUUID().equals(player.getPlayerUUID())){
+                pledge.create();
+            }else
+                player.sendMessage(Messages.get("pledge.notLeader", MsgVar.PLAYER.var(), pledge.getLeader().getPlayer().getName()));
+        }else
+            player.sendMessage(Messages.get("pledge.notPledged"));
     }
 }

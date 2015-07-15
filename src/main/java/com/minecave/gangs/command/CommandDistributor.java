@@ -70,14 +70,18 @@ public class CommandDistributor implements CommandExecutor {
                         case "help":
                             Misc.showHelp(player, "default");
                             break;
-                        case "invitations":
+                        case "invites":
                             User.showInvitations(player);
                             break;
                         case "map":
                             Gangs.getInstance().getGMap().generateSendClaimMap(player.getPlayer());
                             break;
                         case "unpledge":
-                            Gangs.getInstance().getPledgeCoordinator().
+                            Gangs.getInstance().getPledgeCoordinator().unpledge(player);
+                            break;
+                        case "create":
+                            User.createFromPledge(player);
+                            break;
                         default:
                             Misc.showHelp(player, "default");
                             break;
@@ -127,8 +131,7 @@ public class CommandDistributor implements CommandExecutor {
                                 Admin.join(player, Misc.getGang(args[1].toLowerCase()));
                             break;
                         case "invite":
-                            if (player.hasRole(GangRole.MODERATOR))
-                                Management.invite(player, args[1].toLowerCase());
+                            Management.invite(player, args[1].toLowerCase());
                             break;
                         case "accept":
                             User.acceptInvite(player, args[1].toLowerCase());

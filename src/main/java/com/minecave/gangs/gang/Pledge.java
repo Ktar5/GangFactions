@@ -6,6 +6,7 @@ import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
 import lombok.Getter;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,8 +25,36 @@ public class Pledge {
     private static final int MINIMUM_NEEDED = 5;
 
     public Pledge(Hoodlum leader, String name){
+        members = new HashSet<>();
+        invited = new HashSet<>();
         this.name = name;
         this.leader = leader;
+    }
+
+    public void invite(Hoodlum hoodlum){
+        if(!isInvited(hoodlum.getPlayerUUID())){
+            if(!hoodlum.isInGang()){
+                if(!hoodlum.isPledged()){
+                    invited.add(hoodlum.getPlayerUUID());
+                    hoodlum.sendMessage(Messages.get("pledge.invited",
+                            MsgVar.PLAYER.var(), leader.getPlayer().getName(),
+                            MsgVar.GANG.var(), name));
+                    leader.sendMessage(Messages.get("pledge.inviter",
+                            MsgVar.PLAYER.var(), hoodlum.getPlayer().getName(),
+                            MsgVar.PLEDGES.var(), String.valueOf(members.size()),
+                            MsgVar.PLEDGES_NEEDED.var(), String.valueOf(MINIMUM_NEEDED),
+                            MsgVar.PLEDGES_LEFT.var(), String.valueOf(MINIMUM_NEEDED - members.size() < 0 ? 0 : MINIMUM_NEEDED - members.size())));
+                }else
+                    leader.sendMessage(Messages.get("pledge.invitedAlreadyPledged",
+                            MsgVar.PLAYER.var(), hoodlum.getPlayer().getName(),
+                            MsgVar.GANG.var(), Gangs.getInstance().getPledgeCoordinator().getPledge(hoodlum.getPlayerUUID()).getName()));
+            }else
+                leader.sendMessage(Messages.get("pledge.alreadyInGang",
+                        MsgVar.PLAYER.var(), hoodlum.getPlayer().getName(),
+                        MsgVar.GANG.var(), hoodlum.getGang().getName()));
+        }else
+            leader.sendMessage(Messages.get("pledge.alreadyInvited",
+                    MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
     }
 
     public void join(Hoodlum hoodlum){
@@ -52,18 +81,23 @@ public class Pledge {
         return leader.getPlayerUUID() == uuid;
     }
 
-    private void remove(){
+    public void remove(){
         Gangs.getInstance().getPledgeCoordinator().remove(name.toLowerCase());
-        this.leader.setPledged(false);
-        members.forEach(this::leave);
+        leader.setPledged(false);
+        members.forEach(hoodlum -> hoodlum.setPledged(false));
+        members.clear();
     }
 
-    private void leave(Hoodlum hoodlum){
+    public void leave(Hoodlum hoodlum){
+        if(hoodlum.getPlayerUUID().equals(leader.getPlayerUUID())){
+            remove();
+            return;
+        }
         members.remove(hoodlum);
         hoodlum.setPledged(false);
     }
 
-    private void create(){
+    public void create(){
         if(members.size() >= MINIMUM_NEEDED){
             if(User.create(leader, name)){
                 Gang gang = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(leader.getPlayerUUID()).getGang();

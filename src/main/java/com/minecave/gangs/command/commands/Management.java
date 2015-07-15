@@ -1,10 +1,7 @@
 package com.minecave.gangs.command.commands;
 
 import com.minecave.gangs.Gangs;
-import com.minecave.gangs.gang.Gang;
-import com.minecave.gangs.gang.GangCoordinator;
-import com.minecave.gangs.gang.GangRole;
-import com.minecave.gangs.gang.Hoodlum;
+import com.minecave.gangs.gang.*;
 import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
 import org.bukkit.Chunk;
@@ -71,13 +68,13 @@ public class Management {
         if(hoodlum != null){
             if(hoodlum.getGang() != null){
                 if(hoodlum.getGang().equals(player.getGang())){
-                player.sendMessage(Messages.get("kick.kicker",
-                        MsgVar.GANG.var(), hoodlum.getGang().getName(),
-                        MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
-                hoodlum.sendMessage(Messages.get("kick.kicked",
-                        MsgVar.GANG.var(), hoodlum.getGang().getName(),
-                        MsgVar.PLAYER.var(), player.getPlayer().getName()));
-                hoodlum.getGang().removePlayer(hoodlum);
+                    player.sendMessage(Messages.get("kick.kicker",
+                            MsgVar.GANG.var(), hoodlum.getGang().getName(),
+                            MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                    hoodlum.sendMessage(Messages.get("kick.kicked",
+                            MsgVar.GANG.var(), hoodlum.getGang().getName(),
+                            MsgVar.PLAYER.var(), player.getPlayer().getName()));
+                    hoodlum.getGang().removePlayer(hoodlum);
                 }else
                     player.sendMessage(Messages.get("player.notInGang", MsgVar.PLAYER.var(), playerName));
             }else
@@ -89,17 +86,33 @@ public class Management {
     public static void invite(Hoodlum player, String playerName) {
         Hoodlum hoodlum = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName);
         if(hoodlum != null){
-            if(!hoodlum.isInGang()){
-                if(!hoodlum.hasInvite(player.getGang().getName().toLowerCase())){
-                    hoodlum.sendMessage(Messages.get("gang.invite.inviter",
-                            MsgVar.GANG.var(), player.getGang().getName(),
-                            MsgVar.PLAYER.var(), player.getPlayer().getName()));
-                    player.sendMessage(Messages.get("gang.invite.invited", MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
-                    hoodlum.getInvites().add(player.getGang().getName());
+            if (player.hasRole(GangRole.MODERATOR)) {
+                if(!hoodlum.isInGang()){
+                    if(!hoodlum.hasInvite(player.getGang().getName().toLowerCase())){
+                        hoodlum.sendMessage(Messages.get("gang.invite.invited",
+                                MsgVar.GANG.var(), player.getGang().getName(),
+                                MsgVar.PLAYER.var(), player.getPlayer().getName()));
+                        player.sendMessage(Messages.get("gang.invite.inviter",
+                                MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                        hoodlum.getInvites().add(player.getGang().getName());
+                    }else
+                        player.sendMessage(Messages.get("gang.invite.alreadyInvited"));
                 }else
-                    player.sendMessage(Messages.get("gang.invite.alreadyInvited"));
-            }else
-                player.sendMessage(Messages.get("player.invite.alreadyInGang", MsgVar.GANG.var(), hoodlum.getGang().getName()));
+                    player.sendMessage(Messages.get("player.invite.alreadyInGang", MsgVar.GANG.var(), hoodlum.getGang().getName()));
+            }else{
+                Pledge pledge = Gangs.getInstance().getPledgeCoordinator().getPledge(player.getPlayerUUID());
+                if(pledge != null){
+                    if(pledge.getLeader().getPlayerUUID().equals(player.getPlayerUUID())){
+                        if(hoodlum.isOnline()){
+                            pledge.invite(hoodlum);
+                        }else
+                            player.sendMessage(Messages.get("pledge.playerNotOnline",
+                                    MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                    }else
+                        player.sendMessage(Messages.get("pledge.notLeader",
+                                MsgVar.PLAYER.var(), pledge.getLeader().getPlayer().getName()));
+                }
+            }
         }else
             player.sendMessage(Messages.get("player.noExist", MsgVar.PLAYER.var(), playerName));
     }
