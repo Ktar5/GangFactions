@@ -5,7 +5,7 @@ import com.minecave.gangs.gang.GangRole;
 import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
-import com.minecave.gangs.util.ChunkOutliner.ChunkOutliner;
+import com.minecave.gangs.util.misc.ChunkOutliner;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 
@@ -45,17 +45,19 @@ public class User {
 
     }
 
-    public static void create(Hoodlum player, String gangname) {
+    public static boolean create(Hoodlum player, String gangname) {
         if(player.getGang() == null){
             if(!Gangs.getInstance().getGangCoordinator().gangExists(gangname)){
                 Gangs.getInstance().getGangCoordinator().createGang(gangname, player);
                 Bukkit.getServer().broadcastMessage(Messages.get("gang.create.success",
                         MsgVar.GANG.var(), gangname,
                         MsgVar.PLAYER.var(), player.getPlayer().getName()));
+                return true;
             }else player.sendMessage(Messages.get("gang.create.nameAlreadyExists", MsgVar.GANG.var(), gangname));
         }else player.sendMessage(Messages.get("gang.create.alreadyInGang",
                 MsgVar.GANG.var(), player.getGang().getName(),
                 MsgVar.ROLE.var(), player.getRole().toString()));
+        return false;
     }
 
     public static void acceptInvite(Hoodlum player, String para) {

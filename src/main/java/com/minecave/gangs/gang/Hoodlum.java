@@ -27,6 +27,9 @@ public class Hoodlum {
     private Gang gang;
     @Getter
     @Setter
+    private boolean pledged;
+    @Getter
+    @Setter
     private UUID gangUUID;
     @Getter
     @Setter

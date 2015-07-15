@@ -1,4 +1,4 @@
-package com.minecave.gangs.util.ChunkOutliner;
+package com.minecave.gangs.util.misc;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.util.FakeBlockUtil;

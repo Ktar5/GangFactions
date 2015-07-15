@@ -1,16 +1,13 @@
 package com.minecave.gangs;
 
 import com.minecave.gangs.command.CommandDistributor;
-import com.minecave.gangs.gang.GangCoordinator;
-import com.minecave.gangs.gang.Hoodlum;
-import com.minecave.gangs.gang.HoodlumCoordinator;
+import com.minecave.gangs.gang.*;
 import com.minecave.gangs.listener.ChunkListener;
 import com.minecave.gangs.listener.PlayerListener;
 import com.minecave.gangs.listener.RaidListener;
 import com.minecave.gangs.sign.SignCoordinator;
 import com.minecave.gangs.storage.CustomConfig;
 import com.minecave.gangs.storage.Messages;
-import com.minecave.gangs.gang.GMap;
 import com.minecave.gangs.util.TimeUtil;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -45,6 +42,8 @@ public class Gangs extends JavaPlugin {
     @Getter
     private SignCoordinator signCoordinator;
     @Getter
+    private PledgeCoordinator pledgeCoordinator;
+    @Getter
     private GMap GMap;
 
     @Getter
@@ -70,6 +69,7 @@ public class Gangs extends JavaPlugin {
         hoodlumCoordinator = new HoodlumCoordinator(this);
         gangCoordinator = new GangCoordinator(this);
         signCoordinator = new SignCoordinator(this);
+        pledgeCoordinator = new PledgeCoordinator();
 
         GMap = new GMap();
 
@@ -144,4 +144,5 @@ public class Gangs extends JavaPlugin {
             }
         });
     }
+
 }
