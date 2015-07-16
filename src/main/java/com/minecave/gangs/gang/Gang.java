@@ -203,4 +203,8 @@ public class Gang {
         String timestamp = date.getMonth().getDisplayName(TextStyle.SHORT, Locale.getDefault()) + " " + date.getDayOfMonth();
         this.messageBoard.add(timestamp + ": " + StringUtil.colorString(string));
     }
+
+    protected void loadMessages(List<String> strings){
+        this.messageBoard.addAll(strings);
+    }
 }

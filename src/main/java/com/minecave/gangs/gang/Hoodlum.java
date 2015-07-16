@@ -147,4 +147,8 @@ public class Hoodlum {
         messages.addAll(notices);
         return StringUtil.colorList(messages);
     }
+
+    public void loadNotices(List<String> strings){
+        notices.addAll(strings);
+    }
 }

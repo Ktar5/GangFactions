@@ -87,6 +87,7 @@ public class GangCoordinator {
         CLAIMS,
         TOTAL_FARM,
         HOME,
+        MESSAGES,
         LAST_ONLINE
     }
 
@@ -114,6 +115,11 @@ public class GangCoordinator {
             for(String s : membersList) {
                 gang.addPlayer(Gangs.getInstance().getHoodlumCoordinator().getHoodlum(UUID.fromString(s)));
             }
+
+            if(config.has(uuidString + "." + GangConfig.MESSAGES)) {
+                gang.loadMessages(config.getConfig().getStringList(uuidString + "." + GangConfig.MESSAGES));
+            }
+
             List<String> claimsList = config.getConfig().getStringList(uuidString + "." + GangConfig.CLAIMS);
             for(String s : claimsList) {
                 gang.addChunk(ConfigUtil.deserializeChunk(s));
@@ -142,6 +148,8 @@ public class GangCoordinator {
 
         List<String> membersList = gang.getMembers().stream().map(UUID::toString).collect(Collectors.toList());
         Gangs.getInstance().getGangConfig().set(uuidString + "." + GangConfig.MEMBERS, membersList);
+
+        Gangs.getInstance().getGangConfig().set(uuidString + "." + GangConfig.MESSAGES, gang.getMessageBoard());
 
         List<String> claimsList = gang.getClaims().stream().map(ConfigUtil::serializeChunk).collect(Collectors.toList());
         Gangs.getInstance().getGangConfig().set(uuidString + "." + GangConfig.CLAIMS, claimsList);
