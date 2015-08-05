@@ -35,8 +35,10 @@ public class Misc {
         if(sender.hasRole(role))
             if(Gangs.getInstance().getGangCoordinator().gangExists(gang))
                 return true;
-            else sender.sendMessage(Messages.get("gang.noExist", MsgVar.GANG.var(), gang));
-        else sender.sendMessage(Messages.get("noPermission", MsgVar.ROLE.var()));
+            else sender.sendMessage(Messages.get("gang.error.noExist", MsgVar.GANG.var(), gang));
+        else sender.sendMessage(Messages.get("gang.error.tooLowRanked",
+                MsgVar.ROLE.var(), sender.getRole().toString(),
+                "{ROLE_NEEDED}", role.toString()));
         return false;
     }
 
@@ -45,7 +47,9 @@ public class Misc {
             if(Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName) != null)
                 return true;
             else sender.sendMessage(Messages.get("player.noExist", MsgVar.PLAYER.var(), playerName));
-        else sender.sendMessage(Messages.get("noPermission", MsgVar.ROLE.var()));
+        else sender.sendMessage(Messages.get("gang.error.tooLowRanked",
+                MsgVar.ROLE.var(), sender.getRole().toString(),
+                "{ROLE_NEEDED}", role.toString()));
         return false;
     }
 

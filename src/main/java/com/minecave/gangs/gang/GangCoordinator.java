@@ -74,7 +74,7 @@ public class GangCoordinator {
             });
             Gangs.getInstance().getGangConfig().set(gang.getUuid().toString(), null, true);
             if(!silent){
-                Bukkit.getServer().broadcastMessage(Messages.get("disbandFaction",
+                Bukkit.getServer().broadcastMessage(Messages.get("gang.leave.disband",
                         MsgVar.GANG.var(), gang.getName()));
             }
         }

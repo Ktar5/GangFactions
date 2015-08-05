@@ -37,7 +37,7 @@ public class PledgeCoordinator {
                     }else
                         player.sendMessage(Messages.get("pledge.notInvited", MsgVar.GANG.var(), pledge.getName()));
                 }else
-                    player.sendMessage(Messages.get("pledge.alreadyInGang", MsgVar.GANG.var(), player.getGang().getName()));
+                    player.sendMessage(Messages.get("pledge.youreAlreadyInGang", MsgVar.GANG.var(), player.getGang().getName()));
             }else
                 player.sendMessage(Messages.get("pledge.selfAlreadyPledged", MsgVar.GANG.var(), getPledge(player.getPlayerUUID()).getName()));
         }else
@@ -53,7 +53,7 @@ public class PledgeCoordinator {
                         leader.setPledged(true);
                         pledgeMap.put(name.toLowerCase(), new Pledge(leader, name));
                     } else
-                        leader.sendMessage(Messages.get("pledge.alreadyInGang", MsgVar.GANG.var(), leader.getGang().getName()));
+                        leader.sendMessage(Messages.get("pledge.youreAlreadyInGang", MsgVar.GANG.var(), leader.getGang().getName()));
                 } else
                     leader.sendMessage(Messages.get("pledge.gangAlreadyExists", MsgVar.GANG.var(), name));
             } else

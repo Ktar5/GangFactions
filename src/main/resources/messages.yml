@@ -14,3 +14,106 @@ gmap:
     - '?'
     - '$'
     - '='
+
+noPermission: you have no permissions for this
+notEnoughArguements: not enuf args for this
+helpPageNoExist: "Page {SECTION} doesnt exist lel"
+player:
+  welcome:
+    header: "Welcome back {PLAYER}"
+  noExist: "player {PLAYER} doesnt exist"
+power:
+  self: "You have {POWER} out of {MAX_POWER}"
+  admin: "Power of {PLAYER} is {POWER} and max power is {MAX_POWER}"
+  max:
+    setter: "Youre settin power {POWER} to {PLAYER} who has {MAX_POWER}"
+    set: "You got power set to {POWER} and {MAX_POWER}"
+  take:
+    taker: "Youre taking power {POWER} from {PLAYER} who has {MAX_POWER}"
+    taken: "You got power taken to {POWER} and {MAX_POWER}"
+  add:
+    adder: "Youre adding {POWER} to {PLAYER} who has {MAX_POWER}"
+    added: "You got power boosted {POWER} and {MAX_POWER}"
+gang:
+  enter:
+    your: "Welcome back to {GANG} :) "
+    other: "Youre now entering {GANG} territory"
+  home:
+    noHome: you dont have a home mate
+    success: yay you set your home want a prize
+    welcome: "Welcome home to {GANG}"
+  create:
+    success: "{PLAYER} has created {GANG}"
+    nameAlreadyExists: "{GANG} already exists"
+    alreadyInGang: "{GANG} already in {ROLE}"
+  leave:
+    disband: "The gang {GANG} has been disbanded"
+    leave: "You left {GANG}"
+  claim:
+    alreadyClaimed: this is already claimed by you lol
+    otherHasClaimed: "{GANG} has already claimed this"
+    noPower: "Pfft, you only have {POWER}, you need more to claim this"
+    success: you claimed gg dude
+  unclaim:
+    notClaimed: you dont have this claimed
+    success: yay you did it
+    cantUnclaimHome: why are you trying to unclaim your home
+    successAll: you just unclaimed everything including your house
+  error:
+    tooLowRanked: "youre too low ranked {ROLE} current role, you need {ROLE_NEEDED}"
+    notInGang: youre not in a gang
+    notInYourGang: "{PLAYER} iisnt in your gang"
+    notInAnyGang: "{PLAYER} isnt in any gang"
+    alreadyInGang: "that person is already a part of {GANG}"
+    noExist: "Gang {GANG} doesnt exist"
+  promote:
+    promoter: "Youve promoted {PLAYER} to a {ROLE} of {GANG}"
+    promoted: "Youve been promoted to a {ROLE} of {GANG} by {PLAYER}"
+  invite:
+    list:
+      heading: "Here are your current invites:"
+      none: "You arent invited to anywhere"
+      item: "- {GANG}"
+    alreadyInvited: you already invited that person
+    denied: "Youve declined the invite to {GANG}"
+    accepted: "Youve accepted the invite to {GANG}, welcome"
+    noInvite: "Scrub, youre not invited to {GANG}"
+    invited: "Youve been invited to join {GANG} by {PLAYER}"
+    inviter: "You invited {PLAYER} to yer gang"
+  join:
+    playerJoined: "Player {PLAYER} has joined your gang! welcome them"
+    youJoined: "You joined {GANG}"
+  kick:
+    kicked: "You got kicked from {GANG} by {PLAYER}"
+    kicker: "You kicked {PLAYER} from {GANG}"
+pledge:
+  notPledged: youre not pledged
+  selfAlreadyPledged: youre already pledged
+  playerNotOnline: "scrub, {PLAYER} isnt online"
+  notLeader: "scrub, youre not the leader, {PLAYER} is"
+  gangCreated: "Created gang {GANG}"
+  pledged: "Youve pledged yourself to {GANG}"
+  doesntExist: "Pledge {GANG} doesnt exist"
+  unpledged: "Youve unpledged yourself from {GANG}"
+  notInvited: "You arent invited to peldge to {GANG}"
+  youreAlreadyInGang: "Cant create a pledge because youre in the gang {GANG}"
+  gangAlreadyExists: "You cant create a pledge with the name {GANG} because {GANG} is already taken"
+  selfAlreadyPledged: "Youve already pledged to someone, dork"
+  alreadyExists: "A pledge with the name {GANG} already exists, lets hope they fail"
+  pledgeCreated: "Youve created a pledge for the name {GANG}"
+  invitedAlreadyPledges: "{PLAYER} is already pledged to {GANG}"
+  alreadyInGang: "{PLAYER} cant pledge because theyre already in {GANG}"
+  alreadyInvited: "Youve already invited {PLAYER} please be patient"
+  invited: "Youve been invited to pledge for {PLAYER} creating {GANG}"
+  inviter: "Youve invited {PLAYER}. You have {PLEDGES} pledges. You need {PLEDGES_LEFT} more for a total of {PLEDGES_NEEDED}"
+  notEnoughPledges: "You dont have enough pledges, you have {PLEDGES} you need {PLEDGES_NEEDED} you have {PLEDGES_LEFT} remaining"
+info:
+  header: "{GANG} gang name"
+  home: "{LOCATION} location"
+  power: "power is {POWER} maxpower {MAX_POWER}"
+  claims: "You have {CLAIMS} claims"
+  leader: "{PLAYER} is the leader"
+  farms: "You have {PERCENTAGE} farms and {TOTAL_FARM} things"
+  supermod: "There are the supermods: {PLAYER}"
+  mod: "There are the mods: {PLAYER}"
+  members: "Heres the reg noobs: {PLAYER}"

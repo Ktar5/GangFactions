@@ -23,6 +23,9 @@ public class CommandDistributor implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String something, String[] args) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
+            if(!p.hasPermission("gangs.use")){
+                return false;
+            }
             Hoodlum player = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(p);
             switch (args.length) {
                 case 0:
@@ -33,17 +36,17 @@ public class CommandDistributor implements CommandExecutor {
                         case "leave":
                             if (player.hasRole(GangRole.MEMBER))
                                 User.leave(player);
-                            else player.sendMessage(Messages.get("mustBeInFaction"));
+                            else player.sendMessage(Messages.get("gang.error.notInGang"));
                             break;
                         case "home": //THIS IS THE SINGLE ARGUMENT VERSION
                             if (player.hasRole(GangRole.MEMBER))
                                 User.goHome(player);//done
-                            else player.sendMessage(Messages.get("mustBeInFaction"));
+                            else player.sendMessage(Messages.get("gang.error.notInGang"));
                             break;
                         case "claim":
                             if (player.hasRole(GangRole.SUPER_MODERATOR))
                                 Management.claim(player);
-                            else player.sendMessage(Messages.get("tooLowRanked",
+                            else player.sendMessage(Messages.get("gang.error.tooLowRanked",
                                     MsgVar.ROLE.var(), player.getRole().toString(),
                                     "{ROLE_NEEDED}", GangRole.SUPER_MODERATOR.toString()));
                             break;
@@ -53,31 +56,31 @@ public class CommandDistributor implements CommandExecutor {
                         case "msgboard":
                             if (player.hasRole(GangRole.MEMBER))
                                 player.getGang().getMessageBoard().forEach(player::sendMessage);
-                            else player.sendMessage(Messages.get("mustBeInFaction"));
+                            else player.sendMessage(Messages.get("gang.error.notInGang"));
                             break;
                         case "show":
                             if(player.hasRole(GangRole.MEMBER))
                                 User.showLand(player);
-                            else player.sendMessage(Messages.get("mustBeInFaction"));
+                            else player.sendMessage(Messages.get("gang.error.notInGang"));
                             break;
                         case "disband": //THIS IS THE SINGLE ARGUMENT VERSION
                             if (player.hasRole(GangRole.LEADER))
                                 Management.disband(player);
-                            else player.sendMessage(Messages.get("tooLowRanked",
+                            else player.sendMessage(Messages.get("gang.error.tooLowRanked",
                                     MsgVar.ROLE.var(), player.getRole().toString(),
                                     "{ROLE_NEEDED}", GangRole.LEADER.toString()));
                             break;
                         case "unclaim":
                             if (player.hasRole(GangRole.SUPER_MODERATOR))
                                 Management.unclaim(player);
-                            else player.sendMessage(Messages.get("tooLowRanked",
+                            else player.sendMessage(Messages.get("gang.error.tooLowRanked",
                                     MsgVar.ROLE.var(), player.getRole().toString(),
                                     "{ROLE_NEEDED}", GangRole.SUPER_MODERATOR.toString()));
                             break;
                         case "unclaimall":
                             if (player.hasRole(GangRole.LEADER))
                                 Management.unclaimAll(player);
-                            else player.sendMessage(Messages.get("tooLowRanked",
+                            else player.sendMessage(Messages.get("gang.error.tooLowRanked",
                                     MsgVar.ROLE.var(), player.getRole().toString(),
                                     "{ROLE_NEEDED}", GangRole.LEADER.toString()));
                             break;
@@ -87,12 +90,12 @@ public class CommandDistributor implements CommandExecutor {
                         case "info": //THIS IS THE SINGLE ARGUMENT VERSION
                             if (player.hasRole(GangRole.MEMBER))
                                 User.info(player, player.getGang());
-                            else player.sendMessage(Messages.get("mustBeInFaction"));
+                            else player.sendMessage(Messages.get("gang.error.notInGang"));
                             break;
                         case "sethome":
                             if (player.hasRole(GangRole.SUPER_MODERATOR))
                                 Management.setHome(player);
-                            else player.sendMessage(Messages.get("tooLowRanked",
+                            else player.sendMessage(Messages.get("gang.error.tooLowRanked",
                                     MsgVar.ROLE.var(), player.getRole().toString(),
                                     "{ROLE_NEEDED}", GangRole.SUPER_MODERATOR.toString()));
                             break;
@@ -159,7 +162,7 @@ public class CommandDistributor implements CommandExecutor {
                         case "kick": //Non-admin version
                             if (player.hasRole(GangRole.MODERATOR))
                                 Management.kick(player, args[1].toLowerCase());
-                            else player.sendMessage(Messages.get("tooLowRanked",
+                            else player.sendMessage(Messages.get("gang.error.tooLowRanked",
                                     MsgVar.ROLE.var(), player.getRole().toString(),
                                     "{ROLE_NEEDED}", GangRole.MODERATOR.toString()));
                             break;

@@ -24,7 +24,7 @@ public class User {
         if(player.hasRole(GangRole.LEADER)){
             Management.disband(player);
         }else{
-            player.sendMessage(Messages.get("gang.leave", MsgVar.GANG.var(), player.getGang().getName()));
+            player.sendMessage(Messages.get("gang.leave.leave", MsgVar.GANG.var(), player.getGang().getName()));
             player.getGang().removePlayer(player);
         }
     }
@@ -123,8 +123,13 @@ public class User {
     }
 
     public static void showInvitations(Hoodlum player) {
+        player.sendMessage(Messages.get("gang.invite.list.heading"));
+        if(player.getInvites().size() == 0){
+            player.sendMessage(Messages.get("gang.invite.list.none"));
+            return;
+        }
         for(String string : player.getInvites()){
-            player.sendMessage(Messages.get("gang.invite.list", MsgVar.GANG.var(), string));
+            player.sendMessage(Messages.get("gang.invite.item", MsgVar.GANG.var(), string));
         }
     }
 

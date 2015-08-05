@@ -133,7 +133,7 @@ public class Hoodlum {
 
     public List<String> getWelcomer(){
         List<String> messages = new ArrayList<>();
-        messages.add(Messages.get("welcome.header", MsgVar.PLAYER.var(), getPlayer().getName()));
+        messages.add(Messages.get("player.welcome.header", MsgVar.PLAYER.var(), getPlayer().getName()));
         if(isInGang()){
             messages.addAll(getGang().getMessageBoard());
         }

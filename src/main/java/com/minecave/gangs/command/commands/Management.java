@@ -60,7 +60,7 @@ public class Management {
 
     public static void setHome(Hoodlum player) {
         player.getGang().setHome(player.getPlayer().getLocation());
-        player.sendMessage(Messages.get("gang.home.set"));
+        player.sendMessage(Messages.get("gang.home.success"));
     }
 
     public static void kick(Hoodlum player, String playerName) {
@@ -76,9 +76,9 @@ public class Management {
                             MsgVar.PLAYER.var(), player.getPlayer().getName()));
                     hoodlum.getGang().removePlayer(hoodlum);
                 }else
-                    player.sendMessage(Messages.get("player.notInGang", MsgVar.PLAYER.var(), playerName));
+                    player.sendMessage(Messages.get("gang.error.notInYourGang", MsgVar.PLAYER.var(), playerName));
             }else
-                player.sendMessage(Messages.get("player.notInGang", MsgVar.PLAYER.var(), playerName));
+                player.sendMessage(Messages.get("gang.error.notInAnyGang", MsgVar.PLAYER.var(), playerName));
         }else
             player.sendMessage(Messages.get("player.noExist", MsgVar.PLAYER.var(), playerName));
     }
@@ -98,7 +98,7 @@ public class Management {
                     }else
                         player.sendMessage(Messages.get("gang.invite.alreadyInvited"));
                 }else
-                    player.sendMessage(Messages.get("player.invite.alreadyInGang", MsgVar.GANG.var(), hoodlum.getGang().getName()));
+                    player.sendMessage(Messages.get("gang.error.alreadyInGang", MsgVar.GANG.var(), hoodlum.getGang().getName()));
             }else{
                 Pledge pledge = Gangs.getInstance().getPledgeCoordinator().getPledge(player.getPlayerUUID());
                 if(pledge != null){
@@ -132,9 +132,9 @@ public class Management {
                             MsgVar.PLAYER.var(), player.getPlayer().getName()));
                     hoodlum.setRole(role);
                 }else
-                    player.sendMessage(Messages.get("player.notInGang", MsgVar.PLAYER.var(), playerName));
+                    player.sendMessage(Messages.get("gang.error.notInYourGang", MsgVar.PLAYER.var(), playerName));
             }else
-                player.sendMessage(Messages.get("player.notInGang", MsgVar.PLAYER.var(), playerName));
+                player.sendMessage(Messages.get("gang.error.notInAnyGang", MsgVar.PLAYER.var(), playerName));
         }else
             player.sendMessage(Messages.get("player.noExist", MsgVar.PLAYER.var(), playerName));
     }
