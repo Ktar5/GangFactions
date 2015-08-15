@@ -23,3 +23,7 @@ sign:
   secondLine: "X: {x}"
   thirdLine: "Y: {y}"
   fourthLine: "Z: {z}"
+world:
+  allowed-worlds:
+  - "world"
+  - "gangs"

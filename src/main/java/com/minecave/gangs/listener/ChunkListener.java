@@ -14,6 +14,7 @@ import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -29,8 +30,16 @@ public class ChunkListener implements Listener {
         this.plugin = plugin;
     }
 
+    public boolean isWorldAllowed(World world){
+        return Gangs.getInstance().getAllowedWorlds().contains(world.getName());
+    }
+
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerMove(PlayerMoveEvent event) {
+        if(isWorldAllowed(event.getFrom().getWorld())){
+            return;
+        }
+
         if (!event.getFrom().getChunk().equals(event.getTo().getChunk())) {
             String to = plugin.getGangCoordinator().getGangName(event.getTo());
             String from = plugin.getGangCoordinator().getGangName(event.getFrom());
@@ -47,6 +56,11 @@ public class ChunkListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onBlockBreak(BlockBreakEvent event) {
+        if(isWorldAllowed(event.getBlock().getLocation().getWorld())){
+            return;
+        }
+
+
         if (event.getBlock().getType() != Material.SUGAR_CANE_BLOCK ||
                 event.getBlock().getType() != Material.SUGAR_CANE) {
             return;
@@ -68,6 +82,11 @@ public class ChunkListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onBlockPlace(BlockPlaceEvent event) {
+        if(isWorldAllowed(event.getBlockPlaced().getWorld())){
+            return;
+        }
+
+
         if (event.getBlock().getType() != Material.SUGAR_CANE_BLOCK ||
                 event.getBlock().getType() != Material.SUGAR_CANE) {
             return;

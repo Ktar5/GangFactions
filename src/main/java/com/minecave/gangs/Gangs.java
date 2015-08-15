@@ -18,6 +18,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.UUID;
 
 public class Gangs extends JavaPlugin {
@@ -34,6 +35,9 @@ public class Gangs extends JavaPlugin {
     private CustomConfig signConfig;
     @Getter
     private CustomConfig helpConfig;
+
+    @Getter
+    private List<String> allowedWorlds;
 
     @Getter
     private HoodlumCoordinator hoodlumCoordinator;
@@ -65,6 +69,7 @@ public class Gangs extends JavaPlugin {
         helpConfig = new CustomConfig(getDataFolder(), "help.yml");
         signConfig = new CustomConfig(getDataFolder(), "signs.yml");
 
+        allowedWorlds = configuration.getConfig().getStringList("worlds.allowed-worlds");
 
         hoodlumCoordinator = new HoodlumCoordinator(this);
         gangCoordinator = new GangCoordinator(this);

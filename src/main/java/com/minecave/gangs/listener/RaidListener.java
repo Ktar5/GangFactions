@@ -13,6 +13,7 @@ import com.minecave.gangs.gang.Gang;
 import lombok.Getter;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,8 +33,16 @@ public class RaidListener implements Listener {
         this.plugin = plugin;
     }
 
+    public boolean isWorldAllowed(World world){
+        return Gangs.getInstance().getAllowedWorlds().contains(world.getName());
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
+        if(isWorldAllowed(event.getPlayer().getLocation().getWorld())){
+            return;
+        }
+
         if(event.getBlock().getType() == Material.TNT) {
             return;
         }
@@ -50,6 +59,10 @@ public class RaidListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlace(BlockPlaceEvent event) {
+        if(isWorldAllowed(event.getPlayer().getLocation().getWorld())){
+            return;
+        }
+
         if(event.getBlock().getType() == Material.TNT) {
             return;
         }
@@ -66,6 +79,10 @@ public class RaidListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if(isWorldAllowed(event.getPlayer().getLocation().getWorld())){
+            return;
+        }
+
         if (event.hasBlock()) {
             if (event.getClickedBlock().getType() == Material.TNT) {
                 return;
@@ -84,6 +101,10 @@ public class RaidListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+        if(isWorldAllowed(event.getPlayer().getLocation().getWorld())){
+            return;
+        }
+
         if(event.getRightClicked() instanceof ArmorStand) {
             Player player = event.getPlayer();
             Chunk chunk = player.getLocation().getChunk();

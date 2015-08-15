@@ -26,6 +26,11 @@ public class CommandDistributor implements CommandExecutor {
             if(!p.hasPermission("gangs.use")){
                 return false;
             }
+
+            if(Gangs.getInstance().getAllowedWorlds().contains(p.getLocation().getWorld())){
+                return false;
+            }
+
             Hoodlum player = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(p);
             switch (args.length) {
                 case 0:

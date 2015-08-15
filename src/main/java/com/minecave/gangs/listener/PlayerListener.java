@@ -13,6 +13,7 @@ import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.util.TimeUtil;
 import lombok.Getter;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
@@ -35,6 +36,10 @@ public class PlayerListener implements Listener {
     public PlayerListener(Gangs plugin) {
         this.plugin = plugin;
         plugin.getConfiguration().get("power.onlineTime", Integer.class);
+    }
+
+    public boolean isWorldAllowed(World world){
+        return Gangs.getInstance().getAllowedWorlds().contains(world.getName());
     }
 
     @EventHandler
@@ -68,6 +73,10 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
+        if(isWorldAllowed(event.getEntity().getLocation().getWorld())){
+            return;
+        }
+
         Hoodlum h = plugin.getHoodlumCoordinator().getHoodlum(event.getEntity());
         if(h == null) {
             return;
@@ -77,6 +86,10 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void signEdit(SignChangeEvent event) {
+        if(isWorldAllowed(event.getPlayer().getLocation().getWorld())){
+            return;
+        }
+
         String[] lines = event.getLines();
         boolean isDisplaySign = false;
         for(String s : lines) {
@@ -92,6 +105,10 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void signBreak(BlockBreakEvent event) {
+        if(isWorldAllowed(event.getPlayer().getLocation().getWorld())){
+            return;
+        }
+
         Block block = event.getBlock();
         if(block.getType() == Material.SIGN ||
                 block.getType() == Material.SIGN_POST ||
