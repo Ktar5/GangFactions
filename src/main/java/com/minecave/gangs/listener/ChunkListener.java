@@ -10,6 +10,7 @@ package com.minecave.gangs.listener;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.gang.Gang;
+import com.minecave.gangs.gang.Hoodlum;
 import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
 import org.bukkit.Chunk;
@@ -47,10 +48,13 @@ public class ChunkListener implements Listener {
                 return;
             }
             if (!to.equals(from)) {
-                String gangName = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(event.getPlayer()).getGang().getName();
-                if(gangName.equalsIgnoreCase(to)){
-                    event.getPlayer().sendMessage(Messages.get("gang.enter.your", MsgVar.GANG.var(), to));
-                    return;
+                Hoodlum hood = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(event.getPlayer());
+                if(hood.isInGang()){
+                    String gangName = hood.getGang().getName();
+                    if(gangName.equalsIgnoreCase(to)){
+                        event.getPlayer().sendMessage(Messages.get("gang.enter.your", MsgVar.GANG.var(), to));
+                        return;
+                    }
                 }
                 event.getPlayer().sendMessage(Messages.get("gang.enter.other", MsgVar.GANG.var(), to));
             }
@@ -97,6 +101,7 @@ public class ChunkListener implements Listener {
         if (gang != null) {
             if (gang.isSpawnChunk(chunk)) {
                 event.getPlayer().sendMessage(Messages.get("gang.farm.cantFarmInHome"));
+                event.setCancelled(true);
                 return;
             }
             gang.addToFarmTotal();

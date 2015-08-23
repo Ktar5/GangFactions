@@ -50,9 +50,13 @@ public class User {
         messages.add(Messages.get("info.header",
                 MsgVar.GANG.var(), gang.getName()));
         Location loc = gang.getHome();
-        messages.add(Messages.get("info.home",
-                "{LOCATION}",
-                "x" + loc.getBlockX() + " y" + loc.getBlockY() + " z" + loc.getBlockZ()));
+        if(loc != null){
+            messages.add(Messages.get("info.home",
+                    "{LOCATION}",
+                    "x" + loc.getBlockX() + " y" + loc.getBlockY() + " z" + loc.getBlockZ()));
+        }else{
+            messages.add(Messages.get("info.noHome"));
+        }
         messages.add(Messages.get("info.power",
                 MsgVar.POWER.var(), String.valueOf(gang.getPower()),
                 MsgVar.MAX_POWER.var(), String.valueOf(gang.getMaxPower())));
@@ -69,13 +73,13 @@ public class User {
             if (h != null) {
                 switch (h.getRole()){
                     case MEMBER:
-                        members += " " + h.getPlayer().getName();
+                        members += " " + h.getName();
                         break;
                     case MODERATOR:
-                        mods += " " + h.getPlayer().getName();
+                        mods += " " + h.getName();
                         break;
                     case SUPER_MODERATOR:
-                        supers += " " + h.getPlayer().getName();
+                        supers += " " + h.getName();
                         break;
                 }
             }

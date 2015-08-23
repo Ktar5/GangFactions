@@ -107,9 +107,6 @@ public class GangCoordinator {
             OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(config.get(uuidString + "." + GangConfig.OWNER, String.class)));
             Gang gang = new Gang(name, owner, gangUUID);
             gang.setTotalFarm(config.get(uuidString + "." + GangConfig.TOTAL_FARM, Integer.class));
-            if(config.has(uuidString + "." + GangConfig.HOME)){
-                gang.setHome(ConfigUtil.deserializeLocation(config.get(uuidString + "." + GangConfig.HOME, String.class)));
-            }
             gang.setLastOnline(LocalDateTime.parse(config.get(uuidString + "." + GangConfig.LAST_ONLINE, String.class)));
             List<String> membersList = config.getConfig().getStringList(uuidString + "." + GangConfig.MEMBERS);
             for(String s : membersList) {
@@ -123,6 +120,9 @@ public class GangCoordinator {
             List<String> claimsList = config.getConfig().getStringList(uuidString + "." + GangConfig.CLAIMS);
             for(String s : claimsList) {
                 gang.addChunk(ConfigUtil.deserializeChunk(s));
+            }
+            if(config.has(uuidString + "." + GangConfig.HOME)){
+                gang.setHome(ConfigUtil.deserializeLocation(config.get(uuidString + "." + GangConfig.HOME, String.class)));
             }
             gangMap.put(name.toLowerCase(), gang);
             return gang;

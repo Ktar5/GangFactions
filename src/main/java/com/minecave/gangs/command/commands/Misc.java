@@ -44,9 +44,13 @@ public class Misc {
 
     public static boolean checksAndPlayer(Hoodlum sender, GangRole role, String playerName) {
         if(sender.hasRole(role))
+            if(){
+
+            }
             if(Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName) != null)
                 return true;
-            else sender.sendMessage(Messages.get("player.noExist", MsgVar.PLAYER.var(), playerName));
+            else
+                sender.sendMessage(Messages.get("player.noExist", MsgVar.PLAYER.var(), playerName));
         else sender.sendMessage(Messages.get("gang.error.tooLowRanked",
                 MsgVar.ROLE.var(), sender.getRole().toString(),
                 "{ROLE_NEEDED}", role.toString()));

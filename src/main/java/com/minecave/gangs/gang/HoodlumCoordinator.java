@@ -104,11 +104,15 @@ public class HoodlumCoordinator {
     }
 
     public Hoodlum getHoodlum(UUID playerUUID) {
-        return hoodlumMap.get(playerUUID);
+        if(hoodlumMap.containsKey(playerUUID)){
+            return hoodlumMap.get(playerUUID);
+        }else{
+            return loadHoodlum(playerUUID);
+        }
     }
 
     public Hoodlum getHoodlum(Player player) {
-        return hoodlumMap.get(player.getUniqueId());
+        return getHoodlum(player.getUniqueId());
     }
 
     public Hoodlum getHoodlum(String name) {
