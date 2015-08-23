@@ -43,9 +43,12 @@ public class ChunkListener implements Listener {
         if (!event.getFrom().getChunk().equals(event.getTo().getChunk())) {
             String to = plugin.getGangCoordinator().getGangName(event.getTo());
             String from = plugin.getGangCoordinator().getGangName(event.getFrom());
+            if(to == null || from == null){
+                return;
+            }
             if (!to.equals(from)) {
                 String gangName = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(event.getPlayer()).getGang().getName();
-                if(gangName.equalsIgnoreCase(from)){
+                if(gangName.equalsIgnoreCase(to)){
                     event.getPlayer().sendMessage(Messages.get("gang.enter.your", MsgVar.GANG.var(), to));
                     return;
                 }
@@ -85,16 +88,15 @@ public class ChunkListener implements Listener {
         if(isWorldAllowed(event.getBlockPlaced().getWorld())){
             return;
         }
-
-
-        if (event.getBlock().getType() != Material.SUGAR_CANE_BLOCK ||
-                event.getBlock().getType() != Material.SUGAR_CANE) {
+        if (event.getBlockPlaced().getType() != Material.SUGAR_CANE_BLOCK &&
+                event.getBlockPlaced().getType() != Material.SUGAR_CANE) {
             return;
         }
         Chunk chunk = event.getBlock().getChunk();
         Gang gang = plugin.getGangCoordinator().getGang(chunk);
         if (gang != null) {
             if (gang.isSpawnChunk(chunk)) {
+                event.getPlayer().sendMessage(Messages.get("gang.farm.cantFarmInHome"));
                 return;
             }
             gang.addToFarmTotal();

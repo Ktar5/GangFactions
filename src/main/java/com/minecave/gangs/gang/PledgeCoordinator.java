@@ -33,6 +33,11 @@ public class PledgeCoordinator {
                     if(pledge.isInvited(player.getPlayerUUID())){
                         pledge.join(player);
                         player.setPledged(true);
+                        pledge.getLeader().sendMessage(Messages.get("pledge.personJoined",
+                                MsgVar.PLAYER.var(), player.getPlayer().getName(),
+                                MsgVar.PLEDGES.var(), String.valueOf(pledge.getMemberSize()),
+                                MsgVar.PLEDGES_NEEDED.var(), String.valueOf(Pledge.MINIMUM_NEEDED),
+                                MsgVar.PLEDGES_LEFT.var(), String.valueOf(Pledge.MINIMUM_NEEDED - pledge.getMemberSize() < 0 ? 0 : Pledge.MINIMUM_NEEDED - pledge.getMemberSize())));
                         player.sendMessage(Messages.get("pledge.pledged", MsgVar.GANG.var(), pledge.getName()));
                     }else
                         player.sendMessage(Messages.get("pledge.notInvited", MsgVar.GANG.var(), pledge.getName()));

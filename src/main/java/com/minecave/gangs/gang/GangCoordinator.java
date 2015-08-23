@@ -113,7 +113,7 @@ public class GangCoordinator {
             gang.setLastOnline(LocalDateTime.parse(config.get(uuidString + "." + GangConfig.LAST_ONLINE, String.class)));
             List<String> membersList = config.getConfig().getStringList(uuidString + "." + GangConfig.MEMBERS);
             for(String s : membersList) {
-                gang.addPlayer(Gangs.getInstance().getHoodlumCoordinator().getHoodlum(UUID.fromString(s)));
+                gang.getMembers().add(UUID.fromString(s));
             }
 
             if(config.has(uuidString + "." + GangConfig.MESSAGES)) {

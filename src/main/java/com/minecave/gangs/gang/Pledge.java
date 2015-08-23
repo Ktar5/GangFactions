@@ -22,13 +22,17 @@ public class Pledge {
     private Set<Hoodlum> members;
     private Set<UUID> invited;
 
-    private static final int MINIMUM_NEEDED = 5;
+    public static final int MINIMUM_NEEDED = 1;
 
     public Pledge(Hoodlum leader, String name){
         members = new HashSet<>();
         invited = new HashSet<>();
         this.name = name;
         this.leader = leader;
+    }
+
+    public int getMemberSize(){
+        return members.size();
     }
 
     public void invite(Hoodlum hoodlum){
@@ -39,6 +43,7 @@ public class Pledge {
                     hoodlum.sendMessage(Messages.get("pledge.invited",
                             MsgVar.PLAYER.var(), leader.getPlayer().getName(),
                             MsgVar.GANG.var(), name));
+                    hoodlum.getInvites().add(this.getName());
                     leader.sendMessage(Messages.get("pledge.inviter",
                             MsgVar.PLAYER.var(), hoodlum.getPlayer().getName(),
                             MsgVar.PLEDGES.var(), String.valueOf(members.size()),
@@ -59,6 +64,7 @@ public class Pledge {
 
     public void join(Hoodlum hoodlum){
         members.add(hoodlum);
+        hoodlum.removeInvite(this.getName());
         if(invited.contains(hoodlum.getPlayerUUID())){
             invited.remove(hoodlum.getPlayerUUID());
         }
@@ -83,8 +89,19 @@ public class Pledge {
 
     public void remove(){
         Gangs.getInstance().getPledgeCoordinator().remove(name.toLowerCase());
+
         leader.setPledged(false);
-        members.forEach(hoodlum -> hoodlum.setPledged(false));
+        leader.sendMessage(Messages.get("pledge.disbanded"));
+
+        for(UUID uuid : invited){
+            Gangs.getInstance().getHoodlumCoordinator().getHoodlum(uuid).removeInvite(this.getName());
+        }
+
+        for(Hoodlum hoodlum : members){
+            hoodlum.setPledged(false);
+            hoodlum.sendMessage(Messages.get("pledge.disbanded"));
+        }
+
         members.clear();
     }
 
@@ -93,6 +110,7 @@ public class Pledge {
             remove();
             return;
         }
+        hoodlum.removeInvite(this.getName());
         members.remove(hoodlum);
         hoodlum.setPledged(false);
     }
@@ -104,6 +122,10 @@ public class Pledge {
                 for(Hoodlum hoodlum : members){
                     gang.addPlayer(hoodlum);
                     hoodlum.sendMessage(Messages.get("pledge.gangCreated", MsgVar.GANG.var(), name));
+                }
+                for(UUID uuid : invited){
+                    Gangs.getInstance().getHoodlumCoordinator()
+                            .getHoodlum(uuid).removeInvite(this.getName());
                 }
             }
         }else

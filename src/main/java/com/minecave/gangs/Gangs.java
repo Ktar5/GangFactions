@@ -106,14 +106,11 @@ public class Gangs extends JavaPlugin {
         for(Hoodlum player : this.hoodlumCoordinator.getHoodlumMap().values()){
             player.updateLastTimes();
             this.hoodlumCoordinator.unloadHoodlum(player.getPlayerUUID());
-        } this.hoodlumCoordinator.getHoodlumMap().clear();
+        }
+        this.hoodlumCoordinator.getHoodlumMap().clear();
 
         gangCoordinator.unloadGangs();
         signCoordinator.unload();
-
-        for(Hoodlum player : this.hoodlumCoordinator.getHoodlumMap().values()){
-            //this.hoodlumCoordinator.unloadHoodlum(player.getPlayerUUID());
-        }
 
         offlineTimer.cancel();
         checkOfflinePlayers();

@@ -1,5 +1,6 @@
 package com.minecave.gangs.gang;
 
+import com.minecave.gangs.Gangs;
 import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.storage.MsgVar;
 import com.minecave.gangs.util.LimitedQueue;
@@ -94,6 +95,9 @@ public class Hoodlum {
         if(role.equals(GangRole.SERVER_ADMIN)){
             return this.getPlayer().hasPermission("gangs.admin");
         }else{
+            Bukkit.getServer().broadcastMessage(this.getClass().getName() + "1");
+            Bukkit.getServer().broadcastMessage(this.role.ordinal() + "" + role.ordinal());
+
             return this.role.ordinal() >= role.ordinal();
         }
     }
@@ -131,11 +135,28 @@ public class Hoodlum {
         this.notices.add(timestamp + ": " + StringUtil.colorString(string));
     }
 
+    public void removeInvite(String string){
+        if(invites.contains(string)){
+            invites.remove(string);
+        }
+    }
+
     public List<String> getWelcomer(){
         List<String> messages = new ArrayList<>();
         messages.add(Messages.get("player.welcome.header", MsgVar.PLAYER.var(), getPlayer().getName()));
         if(isInGang()){
             messages.addAll(getGang().getMessageBoard());
+        }
+        if(isPledged()){
+            messages.add(Messages.get("pledge.pledgedWelcomer", MsgVar.GANG.var(),
+                    Gangs.getInstance().getPledgeCoordinator()
+                            .getPledge(getPlayerUUID()).getName()));
+        }
+        if(invites.size() != 0){
+            messages.add(Messages.get("player.welcome.inviteHeader", "{SIZE}", String.valueOf(invites.size())));
+            for(String string : invites){
+                messages.add(Messages.get("player.welcome.invite", MsgVar.GANG.var(), string));
+            }
         }
         messages.add("");
         messages.addAll(notices);

@@ -115,8 +115,15 @@ public class Gang {
         return members.contains(player.getUniqueId());
     }
 
+    public boolean hasPlayer(UUID uuid){
+        return members.contains(uuid);
+    }
+
     public void addPlayer(Hoodlum player) {
-        if (!hasPlayer(player.getPlayer())) {
+        Bukkit.getServer().broadcastMessage(this.getClass().getName() + "1");
+        if (!hasPlayer(player.getPlayerUUID())) {
+            Bukkit.getServer().broadcastMessage(this.getClass().getName() + "2");
+
             player.setRole(GangRole.MEMBER);
             player.setGang(this);
             player.setGangUUID(uuid);
@@ -165,17 +172,17 @@ public class Gang {
                 power += h.getMaxPower();
             }
         }
-        power += Gangs.getInstance().getHoodlumCoordinator().getHoodlum(owner.getUniqueId()).getPower();
+        power += Gangs.getInstance().getHoodlumCoordinator().getHoodlum(owner.getUniqueId()).getMaxPower();
         return power;
     }
 
     public void subtractFromFarmTotal() {
-        this.totalFarm += 1;
+        this.totalFarm -= 1;
         checkPercentage();
     }
 
     public void addToFarmTotal() {
-        this.totalFarm -= 1;
+        this.totalFarm += 1;
         checkPercentage();
     }
 
