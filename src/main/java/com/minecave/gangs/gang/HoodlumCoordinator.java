@@ -116,7 +116,7 @@ public class HoodlumCoordinator {
     }
 
     public Hoodlum getHoodlum(String name) {
-        Player player = Bukkit.getPlayer(name);
+        Player player = Bukkit.getOfflinePlayer(name).getPlayer();
         if (player == null) {
             return null;
         }
