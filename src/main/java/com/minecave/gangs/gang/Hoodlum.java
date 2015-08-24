@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Created by Carter on 5/25/2015.
@@ -161,9 +162,7 @@ public class Hoodlum {
         }
         if(invites.size() != 0){
             messages.add(Messages.get("player.welcome.inviteHeader", "{SIZE}", String.valueOf(invites.size())));
-            for(String string : invites){
-                messages.add(Messages.get("player.welcome.invite", MsgVar.GANG.var(), string));
-            }
+            messages.addAll(invites.stream().map(string -> Messages.get("player.welcome.invite", MsgVar.GANG.var(), string)).collect(Collectors.toList()));
         }
         messages.add("");
         messages.addAll(notices);

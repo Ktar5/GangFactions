@@ -91,9 +91,7 @@ public class User {
         messages.add(Messages.get("info.mod", MsgVar.PLAYER.var(), mods));
         messages.add(Messages.get("info.members", MsgVar.PLAYER.var(), members));
 
-        for(String message : messages){
-            player.sendMessage(message);
-        }
+        messages.forEach(player::sendMessage);
     }
 
     public static boolean create(Hoodlum player, String gangname) {
@@ -138,7 +136,7 @@ public class User {
     }
 
     public static void showLand(Hoodlum player) {
-        List<Chunk> chunks = new ArrayList<Chunk>();
+        List<Chunk> chunks = new ArrayList<>();
         chunks.addAll(player.getGang().getClaims());
         new ChunkOutliner(chunks, 20*20, player.getPlayer());
     }

@@ -53,7 +53,7 @@ public class Messages {
             return "Error while trying to get string " + key + "\n A variable doesn't have a pair";
         }else{
             if(!messages.containsKey(key)) {
-                String s = "Default_for_" + key.replaceAll(Pattern.quote("."), "_");;
+                String s = "Default_for_" + key.replaceAll(Pattern.quote("."), "_");
                 int n = 1;
                 while(n <= values.length){
                     s += "_" + values[n-1];

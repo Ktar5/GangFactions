@@ -27,7 +27,7 @@ public class CommandDistributor implements CommandExecutor {
                 return false;
             }
 
-            if(Gangs.getInstance().getAllowedWorlds().contains(p.getLocation().getWorld())){
+            if(Gangs.getInstance().getAllowedWorlds().contains(p.getLocation().getWorld().getName())){
                 return false;
             }
 

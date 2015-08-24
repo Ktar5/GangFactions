@@ -196,8 +196,7 @@ public class Gang {
 
     public int getPercentage(){
         int percent = Gangs.getInstance().getConfiguration().get("farm.percentFarmablePerChunk", Integer.class);
-        int totalFarmable = (percent / 100) * (claims.size() - 1);
-        return totalFarmable;
+        return (percent / 100) * (claims.size() - 1);
     }
 
     public void setTotalFarm(int totalFarm) {
