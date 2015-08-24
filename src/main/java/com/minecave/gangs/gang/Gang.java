@@ -104,6 +104,9 @@ public class Gang {
         for(UUID uuid : members){
             n += Bukkit.getOfflinePlayer(uuid).isOnline() ? 1 : 0;
         }
+        if(owner.isOnline()){
+            n += 1;
+        }
         return n;
     }
 

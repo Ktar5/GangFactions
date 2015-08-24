@@ -61,7 +61,7 @@ public class User {
                 MsgVar.POWER.var(), String.valueOf(gang.getPower()),
                 MsgVar.MAX_POWER.var(), String.valueOf(gang.getMaxPower())));
         messages.add(Messages.get("info.claims",
-                "{CLAIMS_AMOUNT}", String.valueOf(gang.getClaims().size())));
+                "{CLAIMS}", String.valueOf(gang.getClaims().size())));
         messages.add(Messages.get("info.leader",
                 MsgVar.PLAYER.var(), gang.getOwner().getName()));
 

@@ -57,9 +57,6 @@ public class Misc {
         return false;
     }
 
-    /*
-    is static classes bad? >-< donthurtme
-     */
     static class GangComparator implements Comparator<Gang> {
         @Override
         public int compare(Gang g1, Gang g2){
@@ -72,7 +69,7 @@ public class Misc {
         gangs.addAll(Gangs.getInstance().getGangCoordinator().getGangMap().values());
         gangs.sort(new GangComparator());
         for(Gang gang : gangs){
-            sender.sendMessage(gang.getName() + " (" + gang.onlinePlayers() + "/" + gang.getMembers().size() + ")");
+            sender.sendMessage(gang.getName() + " (" + gang.onlinePlayers() + "/" + gang.getMembers().size() + 1 + ")");
         }
     }
 
