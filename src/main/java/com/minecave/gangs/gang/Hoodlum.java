@@ -45,10 +45,10 @@ public class Hoodlum {
     private GangRole role;
     @Getter
     @Setter
-    private LocalDateTime lastOnline;
+    private LocalDateTime lastLogon;
     @Getter
     @Setter
-    private LocalDateTime lastOffline;
+    private LocalDateTime lastLogoff;
     @Getter
     private List<String> invites;
     @Getter
@@ -60,14 +60,13 @@ public class Hoodlum {
         this.playerUUID = playerUUID;
         this.power = 10;
         this.maxPower = 10;
-        updateLastTimes();
         this.autoClaim = false;
         this.invites = new ArrayList<>();
         this.role = GangRole.GANGLESS;
         this.notices = new LimitedQueue<>(5);
     }
 
-    public void addPower(int amount) {
+    public synchronized void addPower(int amount) {
         addPower(amount, false);
     }
 
@@ -75,7 +74,7 @@ public class Hoodlum {
         power = (power + amount > maxPower ? (force ? amount + power : maxPower) : amount + power);
     }
 
-    public void removePower(int amount) {
+    public synchronized void removePower(int amount) {
         removePower(amount, false);
     }
 
@@ -120,13 +119,15 @@ public class Hoodlum {
             player.sendMessage(message);
     }
 
-    public void updateLastTimes() {
-        setLastOnline(LocalDateTime.now());
+    //useless
+    @Deprecated
+    /*public void updateLastTimes() {
+        setLastLogon(LocalDateTime.now());
         if(role != GangRole.GANGLESS && gang != null) {
             gang.setLastOnline(LocalDateTime.now());
         }
-        setLastOffline(LocalDateTime.now());
-    }
+        setLastLogoff(LocalDateTime.now());
+    }*/
 
     public boolean hasInvite(String gangName){
         return invites.contains(gangName.toLowerCase());

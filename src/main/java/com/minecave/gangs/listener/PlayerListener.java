@@ -10,8 +10,8 @@ package com.minecave.gangs.listener;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.gang.Hoodlum;
-import com.minecave.gangs.util.TimeUtil;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -24,14 +24,12 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDateTime;
 
 public class PlayerListener implements Listener {
 
     @Getter
     private final Gangs plugin;
-    int onlineMinutes;
 
     public PlayerListener(Gangs plugin) {
         this.plugin = plugin;
@@ -48,13 +46,10 @@ public class PlayerListener implements Listener {
         if(h == null) {
             h = plugin.getHoodlumCoordinator().loadHoodlum(event.getPlayer().getUniqueId());
         }
-        h.updateLastTimes();
-        plugin.getHoodlumCoordinator().loadHoodlum(event.getPlayer());
-
+        h.setLastLogon(LocalDateTime.now());
         //NOW FOR THE AUTOMESSAGER THING
-        for(String string : h.getWelcomer()){
-            h.sendMessage(string);
-        }
+        final Hoodlum finalH = h;
+        Bukkit.getScheduler().runTaskLater(plugin, () -> finalH.getWelcomer().forEach(finalH::sendMessage),40L);
     }
 
     @EventHandler
@@ -63,11 +58,7 @@ public class PlayerListener implements Listener {
         if(h == null) {
             return;
         }
-        Instant lastOnline = TimeUtil.localDateTimeToInstant(h.getLastOnline());
-        if (ChronoUnit.MINUTES.between(lastOnline, Instant.now()) > onlineMinutes) {
-            h.addPower(plugin.getConfiguration().get("power.online", Integer.class));
-        }
-        h.updateLastTimes();
+        h.setLastLogoff(LocalDateTime.now());
         plugin.getHoodlumCoordinator().unloadHoodlum(event.getPlayer());
     }
 

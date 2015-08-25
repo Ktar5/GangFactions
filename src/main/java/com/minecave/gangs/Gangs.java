@@ -11,6 +11,7 @@ import com.minecave.gangs.storage.Messages;
 import com.minecave.gangs.util.TimeUtil;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -54,6 +55,7 @@ public class Gangs extends JavaPlugin {
     private static Gangs instance = null;
 
     private BukkitTask offlineTimer;
+    private BukkitTask onlineTimer;
 
     @Override
     public void onLoad() {
@@ -104,7 +106,7 @@ public class Gangs extends JavaPlugin {
     @Override
     public void onDisable() {
         for(Hoodlum player : this.hoodlumCoordinator.getHoodlumMap().values()){
-            player.updateLastTimes();
+            player.setLastLogoff(LocalDateTime.now());
             this.hoodlumCoordinator.unloadHoodlum(player.getPlayerUUID());
         }
         this.hoodlumCoordinator.getHoodlumMap().clear();
@@ -113,6 +115,7 @@ public class Gangs extends JavaPlugin {
         signCoordinator.unload();
 
         offlineTimer.cancel();
+        onlineTimer.cancel();
         checkOfflinePlayers();
 
         hoodlumConfig.saveConfig();
@@ -128,23 +131,42 @@ public class Gangs extends JavaPlugin {
         offlineTimer = this.getServer().getScheduler().runTaskTimerAsynchronously(this,
                 this::checkOfflinePlayers, 0L, 20L * 60L * 60L *
                         configuration.get("power.offlineTimer", Integer.class));
+        onlineTimer = this.getServer().getScheduler().runTaskTimerAsynchronously(this,
+                //                      T     S     M     H
+                this::managePower, 250L, 20L * 60L * 15L);
+    }
+
+    private void managePower(){
+        int powerToAdd = this.getConfiguration().get("power.online", Integer.class);
+        int onlineMinutes = this.getConfiguration().get("power.onlineTime", Integer.class);
+        for(Player player : Bukkit.getOnlinePlayers()){
+            Hoodlum hoodlum = hoodlumCoordinator.getHoodlum(player);
+            if(hoodlum != null){
+                Instant lastOnline = TimeUtil.localDateTimeToInstant(hoodlum.getLastLogon());
+                if (ChronoUnit.MINUTES.between(lastOnline, Instant.now()) > onlineMinutes) {
+                    hoodlum.addPower(powerToAdd);
+                }
+            }
+        }
     }
 
     private void checkOfflinePlayers() {
         int offlineMinutes = configuration.get("power.offlineTime", Integer.class);
-        hoodlumConfig.getConfig().getKeys(false).forEach(s -> {
-            UUID uuid = UUID.fromString(s);
-            hoodlumCoordinator.loadHoodlum(uuid);
-            Hoodlum hoodlum = hoodlumCoordinator.getHoodlum(uuid);
-            Instant lastOffline = TimeUtil.localDateTimeToInstant(hoodlum.getLastOffline());
-            if (ChronoUnit.MINUTES.between(lastOffline, Instant.now()) > offlineMinutes) {
-                hoodlum.removePower(configuration.get("power.offline", Integer.class));
-                hoodlum.setLastOffline(LocalDateTime.now());
-            }
+        for(String key : hoodlumConfig.getConfig().getKeys(false)){
+            UUID uuid = UUID.fromString(key);
+            Hoodlum hoodlum = hoodlumCoordinator.loadHoodlum(uuid);
             if (!hoodlum.isOnline()) {
+                if(hoodlum.getLastLogoff() == null){
+                    continue;
+                }
+                Instant lastOffline = TimeUtil.localDateTimeToInstant(hoodlum.getLastLogoff());
+                if (ChronoUnit.MINUTES.between(lastOffline, Instant.now()) > offlineMinutes) {
+                    hoodlum.removePower(configuration.get("power.offline", Integer.class));
+                    hoodlum.setLastLogoff(LocalDateTime.now());
+                }
                 hoodlumCoordinator.unloadHoodlum(uuid);
             }
-        });
+        }
     }
 
 }

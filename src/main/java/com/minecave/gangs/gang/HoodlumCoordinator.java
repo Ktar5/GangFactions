@@ -69,8 +69,8 @@ public class HoodlumCoordinator {
             }
             hoodlum.setGang(gangs.getGangCoordinator().getGang(hoodlum.getGangUUID()));
             hoodlum.setRole(GangRole.valueOf(config.get(uuidString + "." + HoodlumConfig.GANG_ROLE, String.class)));
-            hoodlum.setLastOnline(LocalDateTime.parse(config.get(uuidString + "." + HoodlumConfig.LAST_ONLINE, String.class)));
-            hoodlum.setLastOffline(LocalDateTime.parse(config.get(uuidString + "." + HoodlumConfig.LAST_OFFLINE, String.class)));
+            hoodlum.setLastLogon(LocalDateTime.parse(config.get(uuidString + "." + HoodlumConfig.LAST_ONLINE, String.class)));
+            hoodlum.setLastLogoff(LocalDateTime.parse(config.get(uuidString + "." + HoodlumConfig.LAST_OFFLINE, String.class)));
 
             if(config.has(uuidString + "." + HoodlumConfig.MESSAGES)) {
                 hoodlum.loadNotices(config.getConfig().getStringList(uuidString + "." + HoodlumConfig.MESSAGES));
@@ -98,8 +98,8 @@ public class HoodlumCoordinator {
             gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.GANG_UUID, hoodlum.getGangUUID().toString());
         }
         gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.GANG_ROLE, hoodlum.getRole().toString());
-        gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.LAST_ONLINE, hoodlum.getLastOnline().toString());
-        gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.LAST_OFFLINE, hoodlum.getLastOffline().toString());
+        gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.LAST_ONLINE, hoodlum.getLastLogon().toString());
+        gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.LAST_OFFLINE, hoodlum.getLastLogoff().toString());
         gangs.getHoodlumConfig().set(uuidString + "." + HoodlumConfig.MESSAGES, hoodlum.getNotices());
     }
 
