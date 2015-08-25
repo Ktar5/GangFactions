@@ -66,14 +66,18 @@ public class Management {
     public static void kick(Hoodlum player, String playerName) {
         Hoodlum hoodlum = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName);
         if(hoodlum != null){
+            if(player.getName().equalsIgnoreCase(hoodlum.getName())){
+                player.sendMessage(Messages.get("gang.error.actionOnSelf", "{ACTION}", "kick"));
+                return;
+            }
             if(hoodlum.getGang() != null){
                 if(hoodlum.getGang().equals(player.getGang())){
                     player.sendMessage(Messages.get("kick.kicker",
                             MsgVar.GANG.var(), hoodlum.getGang().getName(),
-                            MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                            MsgVar.PLAYER.var(), hoodlum.getName()));
                     hoodlum.sendMessage(Messages.get("kick.kicked",
                             MsgVar.GANG.var(), hoodlum.getGang().getName(),
-                            MsgVar.PLAYER.var(), player.getPlayer().getName()));
+                            MsgVar.PLAYER.var(), player.getName()));
                     hoodlum.getGang().removePlayer(hoodlum);
                 }else
                     player.sendMessage(Messages.get("gang.error.notInYourGang", MsgVar.PLAYER.var(), playerName));
@@ -87,13 +91,17 @@ public class Management {
         Hoodlum hoodlum = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName);
         if(hoodlum != null){
             if (player.hasRole(GangRole.MODERATOR)) {
+                if(player.getName().equalsIgnoreCase(hoodlum.getName())){
+                    player.sendMessage(Messages.get("gang.error.actionOnSelf", "{ACTION}", "invite"));
+                    return;
+                }
                 if(!hoodlum.isInGang()){
                     if(!hoodlum.hasInvite(player.getGang().getName().toLowerCase())){
                         hoodlum.sendMessage(Messages.get("gang.invite.invited",
                                 MsgVar.GANG.var(), player.getGang().getName(),
-                                MsgVar.PLAYER.var(), player.getPlayer().getName()));
+                                MsgVar.PLAYER.var(), player.getName()));
                         player.sendMessage(Messages.get("gang.invite.inviter",
-                                MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                                MsgVar.PLAYER.var(), hoodlum.getName()));
                         hoodlum.getInvites().add(player.getGang().getName());
                     }else
                         player.sendMessage(Messages.get("gang.invite.alreadyInvited"));
@@ -107,10 +115,10 @@ public class Management {
                             pledge.invite(hoodlum);
                         }else
                             player.sendMessage(Messages.get("pledge.playerNotOnline",
-                                    MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                                    MsgVar.PLAYER.var(), hoodlum.getName()));
                     }else
                         player.sendMessage(Messages.get("pledge.notLeader",
-                                MsgVar.PLAYER.var(), pledge.getLeader().getPlayer().getName()));
+                                MsgVar.PLAYER.var(), pledge.getLeader().getName()));
                 }
             }
         }else
@@ -121,15 +129,19 @@ public class Management {
         Hoodlum hoodlum = Gangs.getInstance().getHoodlumCoordinator().getHoodlum(playerName);
         if(hoodlum != null){
             if(hoodlum.getGang() != null){
+                if(player.getName().equalsIgnoreCase(hoodlum.getName())){
+                    player.sendMessage(Messages.get("gang.error.actionOnSelf", "{ACTION}", "promote"));
+                    return;
+                }
                 if(hoodlum.getGang().equals(player.getGang())){
                     player.sendMessage(Messages.get("gang.promote.promoter",
                             MsgVar.ROLE.var(), hoodlum.getGang().getName(),
                             MsgVar.GANG.var(), hoodlum.getGang().getName(),
-                            MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                            MsgVar.PLAYER.var(), hoodlum.getName()));
                     hoodlum.sendMessage(Messages.get("gang.promote.promoted",
                             MsgVar.GANG.var(), hoodlum.getGang().getName(),
                             MsgVar.ROLE.var(), hoodlum.getGang().getName(),
-                            MsgVar.PLAYER.var(), player.getPlayer().getName()));
+                            MsgVar.PLAYER.var(), player.getName()));
                     hoodlum.setRole(role);
                 }else
                     player.sendMessage(Messages.get("gang.error.notInYourGang", MsgVar.PLAYER.var(), playerName));

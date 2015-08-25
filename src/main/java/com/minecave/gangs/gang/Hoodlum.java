@@ -8,6 +8,7 @@ import com.minecave.gangs.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDate;
@@ -114,13 +115,14 @@ public class Hoodlum {
     }
 
     public void sendMessage(String message) {
-        Player player = Bukkit.getPlayer(playerUUID);
+        OfflinePlayer player = Bukkit.getOfflinePlayer(playerUUID);
         if(player.isOnline())
-            player.sendMessage(message);
+            player.getPlayer().sendMessage(message);
+        else
+            this.addNotice(message);
     }
 
     //useless
-    @Deprecated
     /*public void updateLastTimes() {
         setLastLogon(LocalDateTime.now());
         if(role != GangRole.GANGLESS && gang != null) {

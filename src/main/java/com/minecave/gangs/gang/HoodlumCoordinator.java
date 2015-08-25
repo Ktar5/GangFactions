@@ -10,8 +10,8 @@ package com.minecave.gangs.gang;
 
 import com.minecave.gangs.Gangs;
 import com.minecave.gangs.storage.CustomConfig;
+import com.minecave.gangs.util.UUIDFetcher;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
@@ -116,10 +116,12 @@ public class HoodlumCoordinator {
     }
 
     public Hoodlum getHoodlum(String name) {
-        Player player = Bukkit.getOfflinePlayer(name).getPlayer();
-        if (player == null) {
-            return null;
+        try {
+            UUID uuid = UUIDFetcher.getUUIDOf(name.toLowerCase());
+            return getHoodlum(uuid);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return hoodlumMap.get(player.getUniqueId());
+        return null;
     }
 }

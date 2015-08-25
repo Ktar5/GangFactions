@@ -41,25 +41,25 @@ public class Pledge {
                 if(!hoodlum.isPledged()){
                     invited.add(hoodlum.getPlayerUUID());
                     hoodlum.sendMessage(Messages.get("pledge.invited",
-                            MsgVar.PLAYER.var(), leader.getPlayer().getName(),
+                            MsgVar.PLAYER.var(), leader.getName(),
                             MsgVar.GANG.var(), name));
                     hoodlum.getInvites().add(this.getName());
                     leader.sendMessage(Messages.get("pledge.inviter",
-                            MsgVar.PLAYER.var(), hoodlum.getPlayer().getName(),
+                            MsgVar.PLAYER.var(), hoodlum.getName(),
                             MsgVar.PLEDGES.var(), String.valueOf(members.size()),
                             MsgVar.PLEDGES_NEEDED.var(), String.valueOf(MINIMUM_NEEDED),
                             MsgVar.PLEDGES_LEFT.var(), String.valueOf(MINIMUM_NEEDED - members.size() < 0 ? 0 : MINIMUM_NEEDED - members.size())));
                 }else
                     leader.sendMessage(Messages.get("pledge.invitedAlreadyPledged",
-                            MsgVar.PLAYER.var(), hoodlum.getPlayer().getName(),
+                            MsgVar.PLAYER.var(), hoodlum.getName(),
                             MsgVar.GANG.var(), Gangs.getInstance().getPledgeCoordinator().getPledge(hoodlum.getPlayerUUID()).getName()));
             }else
                 leader.sendMessage(Messages.get("pledge.alreadyInGang",
-                        MsgVar.PLAYER.var(), hoodlum.getPlayer().getName(),
+                        MsgVar.PLAYER.var(), hoodlum.getName(),
                         MsgVar.GANG.var(), hoodlum.getGang().getName()));
         }else
             leader.sendMessage(Messages.get("pledge.alreadyInvited",
-                    MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                    MsgVar.PLAYER.var(), hoodlum.getName()));
     }
 
     public void join(Hoodlum hoodlum){

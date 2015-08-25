@@ -34,7 +34,7 @@ public class PledgeCoordinator {
                         pledge.join(player);
                         player.setPledged(true);
                         pledge.getLeader().sendMessage(Messages.get("pledge.personJoined",
-                                MsgVar.PLAYER.var(), player.getPlayer().getName(),
+                                MsgVar.PLAYER.var(), player.getName(),
                                 MsgVar.PLEDGES.var(), String.valueOf(pledge.getMemberSize()),
                                 MsgVar.PLEDGES_NEEDED.var(), String.valueOf(Pledge.MINIMUM_NEEDED),
                                 MsgVar.PLEDGES_LEFT.var(), String.valueOf(Pledge.MINIMUM_NEEDED - pledge.getMemberSize() < 0 ? 0 : Pledge.MINIMUM_NEEDED - pledge.getMemberSize())));
@@ -50,21 +50,21 @@ public class PledgeCoordinator {
     }
 
     public void create(Hoodlum leader, String name){
-        if(!pledgeMap.containsKey(name.toLowerCase())){
+        if(!leader.isInGang()){
             if(!leader.isPledged()){
-                if(!Gangs.getInstance().getGangCoordinator().gangExists(name)){
-                    if(!leader.isInGang()){
+                if(!pledgeMap.containsKey(name.toLowerCase())){
+                    if(!Gangs.getInstance().getGangCoordinator().gangExists(name)){
                         leader.sendMessage(Messages.get("pledge.pledgeCreated", MsgVar.GANG.var(), name));
                         leader.setPledged(true);
                         pledgeMap.put(name.toLowerCase(), new Pledge(leader, name));
                     } else
-                        leader.sendMessage(Messages.get("pledge.youreAlreadyInGang", MsgVar.GANG.var(), leader.getGang().getName()));
+                        leader.sendMessage(Messages.get("pledge.gangAlreadyExists", MsgVar.GANG.var(), name));
                 } else
-                    leader.sendMessage(Messages.get("pledge.gangAlreadyExists", MsgVar.GANG.var(), name));
+                    leader.sendMessage(Messages.get("pledge.alreadyExists", MsgVar.GANG.var(), name));
             } else
                 leader.sendMessage(Messages.get("pledge.selfAlreadyPledged"));
         } else
-            leader.sendMessage(Messages.get("pledge.alreadyExists", MsgVar.GANG.var(), name));
+            leader.sendMessage(Messages.get("pledge.youreAlreadyInGang", MsgVar.GANG.var(), leader.getGang().getName()));
     }
 
     public void unpledge(Hoodlum player){
@@ -82,9 +82,9 @@ public class PledgeCoordinator {
 
     public Pledge getPledge(UUID playerUUID){
         for(Pledge pledge : pledgeMap.values()){
-           if(pledge.isPledged(playerUUID)){
-               return pledge;
-           }
+            if(pledge.isPledged(playerUUID)){
+                return pledge;
+            }
         }
         return null;
     }

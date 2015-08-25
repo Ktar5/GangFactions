@@ -41,8 +41,14 @@ public class Admin {
     }
 
     public static void join(Hoodlum player, Gang gang) {
+        if(player.isInGang()){
+            player.sendMessage(Messages.get("gang.create.alreadyInGang",
+                    MsgVar.GANG.var(), player.getGang().getName(),
+                    MsgVar.ROLE.var(), player.getRole().toString()));
+            return;
+        }
         gang.addPlayer(player);
-        String message = Messages.get("gang.join.playerJoined", MsgVar.PLAYER.var(), player.getPlayer().getName());
+        String message = Messages.get("gang.join.playerJoined", MsgVar.PLAYER.var(), player.getName());
         for(UUID uuid : gang.getMembers()){
             Player p = Bukkit.getPlayer(uuid);
             if(p.isOnline()){
@@ -58,10 +64,10 @@ public class Admin {
             if(hoodlum.getGang() != null) {
                 player.sendMessage(Messages.get("gang.kick.kicker",
                         MsgVar.GANG.var(), hoodlum.getGang().getName(),
-                        MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                        MsgVar.PLAYER.var(), hoodlum.getName()));
                 hoodlum.sendMessage(Messages.get("gang.kick.kicked",
                         MsgVar.GANG.var(), hoodlum.getGang().getName(),
-                        MsgVar.PLAYER.var(), player.getPlayer().getName()));
+                        MsgVar.PLAYER.var(), player.getName()));
                 hoodlum.getGang().removePlayer(hoodlum);
             }else{
                 player.sendMessage(Messages.get("gang.error.notInGang", MsgVar.PLAYER.var(), playerName));
@@ -81,7 +87,7 @@ public class Admin {
             player.sendMessage(Messages.get("power.max.setter",
                     MsgVar.POWER.var(), String.valueOf(hoodlum.getPower()),
                     MsgVar.MAX_POWER.var(), String.valueOf(hoodlum.getMaxPower()),
-                    MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                    MsgVar.PLAYER.var(), hoodlum.getName()));
         }else{
             player.sendMessage(Messages.get("player.noExist", MsgVar.PLAYER.var(), playerName));
         }
@@ -97,7 +103,7 @@ public class Admin {
             player.sendMessage(Messages.get("power.take.taker",
                     MsgVar.POWER.var(), String.valueOf(hoodlum.getPower()),
                     MsgVar.MAX_POWER.var(), String.valueOf(hoodlum.getMaxPower()),
-                    MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                    MsgVar.PLAYER.var(), hoodlum.getName()));
         }else{
             player.sendMessage(Messages.get("player.noExist", MsgVar.PLAYER.var(), playerName));
         }
@@ -113,7 +119,7 @@ public class Admin {
             player.sendMessage(Messages.get("power.add.adder",
                     MsgVar.POWER.var(), String.valueOf(hoodlum.getPower()),
                     MsgVar.MAX_POWER.var(), String.valueOf(hoodlum.getMaxPower()),
-                    MsgVar.PLAYER.var(), hoodlum.getPlayer().getName()));
+                    MsgVar.PLAYER.var(), hoodlum.getName()));
         }else{
             player.sendMessage(Messages.get("player.noExist", MsgVar.PLAYER.var(), playerName));
         }

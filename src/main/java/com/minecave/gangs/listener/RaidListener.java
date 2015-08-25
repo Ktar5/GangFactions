@@ -50,7 +50,7 @@ public class RaidListener implements Listener {
         Player player = event.getPlayer();
         Gang gang = plugin.getGangCoordinator().getGang(chunk);
         if(gang != null) {
-            if(!gang.isRaidable() && (!gang.hasPlayer(player)
+            if(!gang.isRaidable() && (!gang.hasPlayer(player.getUniqueId())
                             && !gang.getOwner().getUniqueId().equals(player.getUniqueId()))){
                 event.setCancelled(true);
             }
@@ -70,7 +70,7 @@ public class RaidListener implements Listener {
         Chunk chunk = event.getBlock().getChunk();
         Gang gang = plugin.getGangCoordinator().getGang(chunk);
         if(gang != null) {
-            if(!gang.isRaidable() && !gang.hasPlayer(player)
+            if(!gang.isRaidable() && !gang.hasPlayer(player.getUniqueId())
                     && !gang.getOwner().getUniqueId().equals(player.getUniqueId())) {
                 event.setCancelled(true);
             }
@@ -91,7 +91,7 @@ public class RaidListener implements Listener {
             Chunk chunk = player.getLocation().getChunk();
             Gang gang = plugin.getGangCoordinator().getGang(chunk);
             if (gang != null) {
-                if(!gang.isRaidable() && !gang.hasPlayer(player)
+                if(!gang.isRaidable() && !gang.hasPlayer(player.getUniqueId())
                         && !gang.getOwner().getUniqueId().equals(player.getUniqueId())) {
                     event.setCancelled(true);
                 }
@@ -110,7 +110,7 @@ public class RaidListener implements Listener {
             Chunk chunk = player.getLocation().getChunk();
             Gang gang = plugin.getGangCoordinator().getGang(chunk);
             if(gang != null) {
-                if(!gang.isRaidable() && !gang.hasPlayer(player)
+                if(!gang.isRaidable() && !gang.hasPlayer(player.getUniqueId())
                         && !gang.getOwner().getUniqueId().equals(player.getUniqueId())) {
                     event.setCancelled(true);
                 }

@@ -100,7 +100,7 @@ public class User {
                 Gangs.getInstance().getGangCoordinator().createGang(gangname, player);
                 Bukkit.getServer().broadcastMessage(Messages.get("gang.create.success",
                         MsgVar.GANG.var(), gangname,
-                        MsgVar.PLAYER.var(), player.getPlayer().getName()));
+                        MsgVar.PLAYER.var(), player.getName()));
                 return true;
             }else player.sendMessage(Messages.get("gang.create.nameAlreadyExists", MsgVar.GANG.var(), gangname));
         }else player.sendMessage(Messages.get("gang.create.alreadyInGang",
@@ -147,7 +147,7 @@ public class User {
             if(pledge.getLeader().getPlayerUUID().equals(player.getPlayerUUID())){
                 pledge.create();
             }else
-                player.sendMessage(Messages.get("pledge.notLeader", MsgVar.PLAYER.var(), pledge.getLeader().getPlayer().getName()));
+                player.sendMessage(Messages.get("pledge.notLeader", MsgVar.PLAYER.var(), pledge.getLeader().getName()));
         }else
             player.sendMessage(Messages.get("pledge.notPledged"));
     }

@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -114,9 +113,9 @@ public class Gang {
         new HashSet<>(claims).forEach(this::unclaimChunk);
     }
 
-    public boolean hasPlayer(Player player) {
+    /*public boolean hasPlayer(Player player) {
         return members.contains(player.getUniqueId());
-    }
+    }*/
 
     public boolean hasPlayer(UUID uuid){
         return members.contains(uuid);
@@ -135,14 +134,13 @@ public class Gang {
     }
 
     public void removePlayer(Hoodlum player) {
-        if (hasPlayer(player.getPlayer())) {
+        if (hasPlayer(player.getPlayerUUID())) {
+            members.remove(player.getPlayerUUID());
+            player.setGang(null);
+            player.setGangUUID(null);
             player.setRole(GangRole.GANGLESS);
-            if (player.hasRole(GangRole.LEADER)) {
-                Management.disband(player);
-                player.setGang(null);
-                player.setGangUUID(null);
-                members.remove(player.getPlayerUUID());
-            }
+        }else if(player.getPlayerUUID().equals(owner.getUniqueId())){
+            Management.disband(player);
         }
     }
 
