@@ -227,6 +227,9 @@ public class CommandDistributor implements CommandExecutor {
                                 Admin.setMaxPower(player, args[1].toLowerCase(), Integer.valueOf(args[2]));
                             else player.sendMessage(Messages.get("noPermission"));
                             break;
+                        default:
+                            Misc.showHelp(player, "default");
+                            break;
                     }
                 default:
                     switch(args[0].toLowerCase()){

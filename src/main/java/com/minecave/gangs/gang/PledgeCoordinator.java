@@ -27,9 +27,9 @@ public class PledgeCoordinator {
 
     public void join(Hoodlum player, String name){
         Pledge pledge = getPledge(name);
-        if(pledge != null){
+        if(!player.isInGang()){
             if(!player.isPledged()){
-                if(!player.isInGang()){
+                if(pledge != null){
                     if(pledge.isInvited(player.getPlayerUUID())){
                         pledge.join(player);
                         player.setPledged(true);
@@ -42,11 +42,11 @@ public class PledgeCoordinator {
                     }else
                         player.sendMessage(Messages.get("pledge.notInvited", MsgVar.GANG.var(), pledge.getName()));
                 }else
-                    player.sendMessage(Messages.get("pledge.youreAlreadyInGang", MsgVar.GANG.var(), player.getGang().getName()));
+                    player.sendMessage(Messages.get("pledge.doesntExist", MsgVar.GANG.var(), name));
             }else
                 player.sendMessage(Messages.get("pledge.selfAlreadyPledged", MsgVar.GANG.var(), getPledge(player.getPlayerUUID()).getName()));
         }else
-            player.sendMessage(Messages.get("pledge.doesntExist", MsgVar.GANG.var(), name));
+            player.sendMessage(Messages.get("pledge.youreAlreadyInGang", MsgVar.GANG.var(), player.getGang().getName()));
     }
 
     public void create(Hoodlum leader, String name){
