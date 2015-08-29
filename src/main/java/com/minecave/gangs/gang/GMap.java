@@ -129,15 +129,15 @@ public class GMap {
             rotation += 360;
         }
         if (0 <= rotation && rotation < 45) {
-            return Direction.N;
-        } else if (45 <= rotation && rotation < 135) {
-            return Direction.E;
-        } else if (135 <= rotation && rotation < 225) {
-            return Direction.S;
-        } else if (225 <= rotation && rotation < 315) {
             return Direction.W;
-        } else {
+        } else if (45 <= rotation && rotation < 135) {
             return Direction.N;
+        } else if (135 <= rotation && rotation < 225) {
+            return Direction.E;
+        } else if (225 <= rotation && rotation < 315) {
+            return Direction.S;
+        } else {
+            return Direction.W;
         }
     }
 
